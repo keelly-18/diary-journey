@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário de Aprendizado</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="rose-decoration">🌹</div>
+    <div class="rose-decoration">🌹</div>
+    <div class="rose-decoration">🌹</div>
+    <div class="rose-decoration">🌹</div>
+
+    <div class="container">
+        <div class="bats">
+            <span class="bat">🦇</span>
+            <span class="bat">🦇</span>
+        </div>
+
+        <nav class="navbar">
+            <div class="navbar-content">
+                <h1 class="logo">Diário</h1>
+                <div class="nav-pages">
+                    <button class="nav-btn active" data-page="home">Home</button>
+                    <button class="nav-btn" data-page="activities">Atividades</button>
+                    <button class="nav-btn" data-page="languages">Habilidades</button>
+                    <button class="nav-btn" data-page="projects">Projetos</button>
+                    <button class="nav-btn" data-page="contact">Contato</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="pages-container">
+
+            <!-- HOME -->
+            <div class="page active" data-page="home">
+                <section class="home-section">
+                    <div class="home-hero">
+                        <h1>Bem-vinda ao seu Diário</h1>
+                        <p class="home-subtitle">Um registro pessoal da sua jornada como estagiária e estudante</p>
+                    </div>
+
+                    <div class="home-content">
+                        <div class="gamification-section">
+
+                            <div class="top-row">
+                                <div class="emotional-widget">
+                                    <div class="emotion-emoji" id="emotionEmoji">🦇</div>
+                                    <div class="emotion-content">
+                                        <p class="emotion-status" id="emotionStatus">Avaliando...</p>
+                                        <p class="emotion-message" id="emotionMessage">Comece registrando o que aprendeu hoje.</p>
+                                    </div>
+                                    <div class="emotion-insights">
+                                        <div class="emotion-insight">
+                                            <div class="insight-text">
+                                                <p class="insight-label">Próximo nível</p>
+                                                <p class="insight-value" id="xpToNextLevel">500 XP</p>
+                                            </div>
+                                        </div>
+                                        <div class="emotion-insight">
+                                            <div class="insight-text">
+                                                <p class="insight-label">Sequência</p>
+                                                <p class="insight-value" id="streakDays">0 dias</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="stats-panel">
+                                    <h2 class="stats-title">Desempenho</h2>
+                                    <div class="quick-stats">
+                                        <div class="quick-stat stat-streak">
+                                            <span class="stat-label">Streak</span>
+                                            <span class="quick-value" id="currentStreak">0</span>
+                                        </div>
+                                        <div class="quick-stat stat-xp">
+                                            <span class="stat-label">XP Total</span>
+                                            <span class="quick-value" id="totalXP">0</span>
+                                        </div>
+                                        <div class="quick-stat stat-level">
+                                            <span class="stat-label">Nível</span>
+                                            <span class="quick-value" id="currentLevel">1</span>
+                                        </div>
+                                    </div>
+                                    <div class="performance-insights">
+                                        <div class="insight-card">
+                                            <div class="insight-header">Esta semana</div>
+                                            <div class="insight-big" id="weekDays">0</div>
+                                            <div class="insight-sub">dias ativos</div>
+                                            <div class="insight-xp" id="weekXP">0 XP</div>
+                                        </div>
+                                        <div class="insight-card">
+                                            <div class="insight-header">Este mês</div>
+                                            <div class="insight-big" id="monthDays">0</div>
+                                            <div class="insight-sub">dias ativos</div>
+                                            <div class="insight-xp" id="monthXP">0 XP</div>
+                                        </div>
+                                        <div class="insight-card">
+                                            <div class="insight-header">Melhor dia</div>
+                                            <div class="insight-big" id="bestDay">--</div>
+                                            <div class="insight-sub">XP máximo</div>
+                                            <div class="insight-xp" id="bestDayValue">0 XP</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="heartbeat-section">
+                                <div class="heartbeat-header">
+                                    <span class="heartbeat-title">Monitor de Atividade</span>
+                                    <span class="heartbeat-status" id="heartbeatStatus">Aguardando...</span>
+                                </div>
+                                <canvas id="heartbeatCanvas" class="heartbeat-canvas"></canvas>
+                            </div>
+
+                            <div class="daily-reminder">
+                                <div class="logs-header">
+                                    <h3>Logs de Hoje</h3>
+                                    <div class="last-log-badge">
+                                        <span class="last-log-text" id="lastLogText">Nenhum registro ainda</span>
+                                    </div>
+                                </div>
+
+                                <!-- Configuração GitHub Gist -->
+                                <div class="gist-config" id="gistConfig">
+                                    <p class="gist-info">
+                                        Para salvar seus logs no GitHub (acessível de qualquer computador), configure seu token abaixo.
+                                        <a href="https://github.com/settings/tokens/new?scopes=gist&description=Diario+Aprendizado" target="_blank" class="gist-link">Criar token aqui →</a>
+                                    </p>
+                                    <div class="gist-inputs">
+                                        <input type="password" id="githubToken" placeholder="Token do GitHub (ghp_...)" class="gist-input">
+                                        <button class="btn-secondary" id="saveTokenBtn">Conectar</button>
+                                    </div>
+                                    <div class="gist-status" id="gistStatus"></div>
+                                </div>
+
+                                <button class="btn-primary" id="addLogBtn">+ Registrar o que aprendi hoje</button>
+                                <div id="todayLogs" class="logs-list"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="about-me">
+                            <h2>Por que este diário existe</h2>
+                            <p>Estou no estágio trabalhando com <strong>workflow e automação de processos</strong>, e na faculdade estudando <strong>UX e design de experiência</strong>. São duas frentes ao mesmo tempo — e é fácil perder a noção do quanto já aprendi.</p>
+                            <p style="margin-top: 1rem;">Este diário é para registrar o que estou aprendendo em cada lugar, acompanhar minha evolução e ter uma prova concreta do meu progresso. Cada log aqui é um passo documentado.</p>
+                        </div>
+
+                        <div class="motivation-box">
+                            <h2>O que registro aqui</h2>
+                            <ul>
+                                <li><strong>Estágio</strong> — Workflows criados, processos mapeados, ferramentas aprendidas</li>
+                                <li><strong>Faculdade</strong> — Conceitos de UX, pesquisas, projetos, feedbacks recebidos</li>
+                                <li><strong>Estudos extras</strong> — Cursos, leituras, tutoriais que fiz por conta</li>
+                                <li><strong>Desafios</strong> — Problemas que encontrei e como resolvi</li>
+                                <li><strong>Conquistas</strong> — Momentos de avanço que merecem ser lembrados</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Modal -->
+            <div id="logModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Registrar aprendizado</h2>
+                    <form id="logForm">
+                        <div class="form-group">
+                            <label for="logArea">Área</label>
+                            <select id="logArea">
+                                <option value="estagio">Estágio — Workflow</option>
+                                <option value="faculdade">Faculdade — UX</option>
+                                <option value="estudo">Estudo extra</option>
+                                <option value="desafio">Desafio superado</option>
+                                <option value="conquista">Conquista</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="logTitle">O que você aprendeu ou fez?</label>
+                            <input type="text" id="logTitle" placeholder="Ex: Mapeei o processo de onboarding no estágio" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="logDescription">Detalhes (opcional)</label>
+                            <textarea id="logDescription" placeholder="Descreva o que aconteceu, o que entendeu, o que foi difícil..." rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="logDifficulty">Dificuldade</label>
+                            <select id="logDifficulty">
+                                <option value="easy">Tranquilo (10 XP)</option>
+                                <option value="medium" selected>Moderado (25 XP)</option>
+                                <option value="hard">Desafiador (50 XP)</option>
+                            </select>
+                        </div>
+                        <p class="sync-status" id="syncStatus" style="display:none;"></p>
+                        <button type="submit" class="btn-primary" id="submitLogBtn">Salvar log</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ATIVIDADES -->
+            <div class="page" data-page="activities">
+                <section class="activities-section">
+                    <div class="activities-header">
+                        <h2>Atividades registradas</h2>
+                        <div class="activities-filters">
+                            <button class="filter-btn active" data-filter="all">Todas</button>
+                            <button class="filter-btn" data-filter="estagio">Estágio</button>
+                            <button class="filter-btn" data-filter="faculdade">Faculdade</button>
+                            <button class="filter-btn" data-filter="estudo">Estudos</button>
+                            <button class="filter-btn" data-filter="desafio">Desafios</button>
+                            <button class="filter-btn" data-filter="conquista">Conquistas</button>
+                        </div>
+                    </div>
+                    <div id="activitiesTimeline" class="activities-timeline">
+                        <p class="empty-state">Nenhuma atividade ainda. Registre algo na Home para aparecer aqui.</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- HABILIDADES -->
+            <div class="page" data-page="languages">
+                <section class="languages-section">
+                    <h2>Habilidades em desenvolvimento</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-area-badge">Estágio</div>
+                            <h3>Workflow & Automação</h3>
+                            <p>Mapeamento de processos, criação de fluxos, identificação de gargalos e automação de tarefas repetitivas.</p>
+                            <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
+                            <span class="progress-label">Em desenvolvimento</span>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-area-badge">Faculdade</div>
+                            <h3>UX Design</h3>
+                            <p>Pesquisa com usuários, wireframes, prototipagem, testes de usabilidade e fundamentos de design de experiência.</p>
+                            <div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div>
+                            <span class="progress-label">Em desenvolvimento</span>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-area-badge">Ambos</div>
+                            <h3>Documentação</h3>
+                            <p>Registro de processos, criação de guias, estruturação de informações de forma clara e acessível.</p>
+                            <div class="progress-bar"><div class="progress-fill" style="width:30%"></div></div>
+                            <span class="progress-label">Em desenvolvimento</span>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-area-badge">Extra</div>
+                            <h3>Ferramentas digitais</h3>
+                            <p>Figma, Notion, ferramentas de automação e outros softwares que aparecem no caminho.</p>
+                            <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+                            <span class="progress-label">Aprendendo</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PROJETOS -->
+            <div class="page" data-page="projects">
+                <section class="projects-section">
+                    <h2>Projetos & Trabalhos</h2>
+                    <p class="section-intro">Projetos da faculdade, trabalhos do estágio e iniciativas pessoais que valem registrar.</p>
+                    <div id="projectsGrid" class="projects-grid">
+                        <div class="empty-project">
+                            <p>Nenhum projeto registrado ainda.</p>
+                            <p class="empty-sub">Em breve você poderá adicionar seus projetos aqui.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- CONTATO -->
+            <div class="page" data-page="contact">
+                <section class="contact-section">
+                    <h2>Links</h2>
+                    <div class="contact-content">
+                        <p>Onde você pode ser encontrada.</p>
+                        <div class="contact-links">
+                            <a href="https://github.com" class="contact-link" target="_blank">GitHub</a>
+                            <a href="https://linkedin.com" class="contact-link" target="_blank">LinkedIn</a>
+                            <a href="mailto:seu-email@email.com" class="contact-link">E-mail</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+
+        <footer class="footer">
+            <p>Diário de aprendizado — estagiária em Workflow, estudante de UX · 2026</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="animations.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

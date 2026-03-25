@@ -1,0 +1,94 @@
+<!-- Decorações de rosas e ornamentos para adicionar ao body -->
+<style>
+/* Rosas decorativas flutuantes */
+.rose-decoration {
+    position: fixed;
+    font-size: 2.5rem;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+    animation: roseFloat 15s ease-in-out infinite;
+}
+
+.rose-decoration:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+.rose-decoration:nth-child(2) { top: 20%; right: 8%; animation-delay: 2s; }
+.rose-decoration:nth-child(3) { top: 40%; left: 3%; animation-delay: 4s; }
+.rose-decoration:nth-child(4) { top: 60%; right: 5%; animation-delay: 6s; }
+.rose-decoration:nth-child(5) { top: 75%; left: 8%; animation-delay: 8s; }
+.rose-decoration:nth-child(6) { bottom: 10%; right: 10%; animation-delay: 10s; }
+
+@keyframes roseFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.06; }
+    50% { transform: translateY(-40px) rotate(15deg); opacity: 0.12; }
+}
+
+/* Moldura ornamentada - apenas CSS */
+.ornate-frame {
+    border: 3px solid rgba(239, 68, 68, 0.4);
+    border-radius: 0.5rem;
+    box-shadow: 
+        inset 0 0 0 1px rgba(239, 68, 68, 0.2),
+        inset 0 0 20px rgba(239, 68, 68, 0.05),
+        0 0 30px rgba(239, 68, 68, 0.15);
+    position: relative;
+}
+
+.ornate-frame::before,
+.ornate-frame::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: 0.5rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ornate-frame::before {
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+}
+
+.ornate-frame::after {
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+}
+
+/* Padrão de rosas para background */
+.roses-pattern {
+    background-image: 
+        radial-gradient(circle 1px at 10% 20%, rgba(239, 68, 68, 0.1) 0%, transparent 1px),
+        radial-gradient(circle 1px at 80% 80%, rgba(239, 68, 68, 0.08) 0%, transparent 1px),
+        radial-gradient(circle 1px at 40% 40%, rgba(239, 68, 68, 0.08) 0%, transparent 1px),
+        radial-gradient(circle 1px at 90% 10%, rgba(239, 68, 68, 0.06) 0%, transparent 1px);
+    background-size: 200px 200px;
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+    animation: patternFlow 30s linear infinite;
+}
+
+@keyframes patternFlow {
+    0% { background-position: 0 0, 40px 60px, 130px 270px, 70px 100px; }
+    100% { background-position: 200px 200px, 240px 260px, 330px 470px, 270px 300px; }
+}
+</style>
+
+<!-- Adicionar ao HTML dentro do body, logo após a abertura -->
+<svg width="0" height="0">
+    <defs>
+        <pattern id="rosesPattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="0.5" fill="rgba(239, 68, 68, 0.1)"/>
+            <circle cx="40" cy="40" r="0.5" fill="rgba(239, 68, 68, 0.08)"/>
+            <circle cx="25" cy="25" r="0.3" fill="rgba(239, 68, 68, 0.06)"/>
+        </pattern>
+    </defs>
+</svg>
+
+<!-- Rosas decorativas flutuantes -->
+<div class="rose-decoration">🌹</div>
+<div class="rose-decoration">🌹</div>
+<div class="rose-decoration">🌹</div>
+<div class="rose-decoration">🌹</div>
+<div class="rose-decoration">🌹</div>
+<div class="rose-decoration">🌹</div>
