@@ -9,11 +9,6 @@
 </head>
 <body>
 
-    <div class="rose-decoration">🌹</div>
-    <div class="rose-decoration">🌹</div>
-    <div class="rose-decoration">🌹</div>
-    <div class="rose-decoration">🌹</div>
-
     <div class="container">
         <div class="bats">
             <span class="bat">🦇</span>
@@ -22,7 +17,7 @@
 
         <nav class="navbar">
             <div class="navbar-content">
-                <h1 class="logo">Diário</h1>
+                <h1 class="logo">Diary</h1>
                 <div class="nav-pages">
                     <button class="nav-btn active" data-page="home">Home</button>
                     <button class="nav-btn" data-page="activities">Atividades</button>
@@ -145,23 +140,20 @@
 
                         <div class="about-me">
                             <h2>Por que este diário existe</h2>
-                            <p>Estou no estágio trabalhando com <strong>workflow e automação de processos</strong>, e na faculdade estudando <strong>UX e design de experiência</strong>. São duas frentes ao mesmo tempo — e é fácil perder a noção do quanto já aprendi.</p>
-                            <p style="margin-top: 1rem;">Este diário é para registrar o que estou aprendendo em cada lugar, acompanhar minha evolução e ter uma prova concreta do meu progresso. Cada log aqui é um passo documentado.</p>
+                            <p>Dividir o tempo entre o <strong>estágio</strong>, a <strong>faculdade</strong> e os <strong>estudos por fora</strong> faz com que muita informação passe rápido demais. É muito fácil perder a noção de tudo o que eu já pesquisei, resolvi e aprendi.</p>
+                            <p style="margin-top: 1rem;">Este espaço serve exatamente para isso: ser o meu repositório pessoal de evolução. É aqui que documento cada passo, centralizo meu progresso e construo uma prova concreta da minha jornada no dia a dia.</p>
                         </div>
 
                         <div class="motivation-box">
                             <h2>O que registro aqui</h2>
                             <ul>
-                                <li><strong>Estágio</strong> — Workflows criados, processos mapeados, ferramentas aprendidas</li>
-                                <li><strong>Faculdade</strong> — Conceitos de UX, pesquisas, projetos, feedbacks recebidos</li>
-                                <li><strong>Estudos extras</strong> — Cursos, leituras, tutoriais que fiz por conta</li>
-                                <li><strong>Desafios</strong> — Problemas que encontrei e como resolvi</li>
-                                <li><strong>Conquistas</strong> — Momentos de avanço que merecem ser lembrados</li>
+                                <li><strong>Estágio</strong> — O que aprendi na prática, rotinas do trabalho e vivência do dia a dia.</li>
+                                <li><strong>Faculdade</strong> — Projetos, novos conceitos estudados e entregas importantes.</li>
+                                <li><strong>Estudos extras</strong> — Explorações próprias, documentações que li e testes que fiz por conta.</li>
+                                <li><strong>Desafios</strong> — Erros que enfrentei, problemas difíceis e como cheguei na solução.</li>
+                                <li><strong>Conquistas</strong> — Metas batidas e pequenos (ou grandes) momentos de orgulho na jornada.</li>
                             </ul>
                         </div>
-                    </div>
-                </section>
-            </div>
 
             <!-- Modal -->
             <div id="logModal" class="modal">
@@ -169,35 +161,28 @@
                     <span class="close">&times;</span>
                     <h2>Registrar aprendizado</h2>
                     <form id="logForm">
-                        <div class="form-group">
-                            <label for="logArea">Área</label>
-                            <select id="logArea">
-                                <option value="estagio">Estágio — Workflow</option>
-                                <option value="faculdade">Faculdade — UX</option>
-                                <option value="estudo">Estudo extra</option>
-                                <option value="desafio">Desafio superado</option>
-                                <option value="conquista">Conquista</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="logTitle">O que você aprendeu ou fez?</label>
-                            <input type="text" id="logTitle" placeholder="Ex: Mapeei o processo de onboarding no estágio" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="logDescription">Detalhes (opcional)</label>
-                            <textarea id="logDescription" placeholder="Descreva o que aconteceu, o que entendeu, o que foi difícil..." rows="4"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="logDifficulty">Dificuldade</label>
-                            <select id="logDifficulty">
-                                <option value="easy">Tranquilo (10 XP)</option>
-                                <option value="medium" selected>Moderado (25 XP)</option>
-                                <option value="hard">Desafiador (50 XP)</option>
-                            </select>
-                        </div>
-                        <p class="sync-status" id="syncStatus" style="display:none;"></p>
-                        <button type="submit" class="btn-primary" id="submitLogBtn">Salvar log</button>
-                    </form>
+    <div class="form-group">
+        <label for="logArea">Área</label>
+        <select id="logArea">
+            <option value="estagio">Estágio (20 XP)</option>
+            <option value="faculdade">Faculdade (20 XP)</option>
+            <option value="estudo">Estudo extra (35 XP)</option>
+            <option value="desafio">Desafio superado (45 XP)</option>
+            <option value="conquista">Conquista (60 XP)</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="logTitle">O que você aprendeu ou fez?</label>
+        <input type="text" id="logTitle" placeholder="Ex: Mapeei o processo de onboarding no estágio" required>
+    </div>
+    <div class="form-group">
+        <label for="logDescription">Detalhes (opcional)</label>
+        <textarea id="logDescription" placeholder="Descreva o que aconteceu, o que entendeu, o que foi difícil..." rows="4"></textarea>
+    </div>
+    
+    <p class="sync-status" id="syncStatus" style="display:none;"></p>
+    <button type="submit" class="btn-primary" id="submitLogBtn">Salvar log</button>
+</form>
                 </div>
             </div>
 

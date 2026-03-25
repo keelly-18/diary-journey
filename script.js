@@ -144,12 +144,21 @@ class DailyLog {
 
     getToday() { return new Date().toISOString().split('T')[0]; }
 
-    async addLog(title, description, difficulty, area) {
-        const xpMap = { easy: 10, medium: 25, hard: 50 };
+    async addLog(title, description, area) { // Removi o parâmetro difficulty
+        
+        // --- NOVA REGRA DE XP POR TEMA ---
+        const xpMap = { 
+            estagio: 20,    // Rotina normal
+            faculdade: 20,  // Rotina normal
+            estudo: 35,     // Esforço extra (estudo por fora)
+            desafio: 45,    // Superou um problema
+            conquista: 60   // Algo muito especial
+        };
+
         const log = {
             id: Date.now(),
-            title, description, difficulty, area,
-            xp: xpMap[difficulty] || 25,
+            title, description, area,
+            xp: xpMap[area] || 20, // Usa o XP do mapa, padrão é 20
             timestamp: new Date().toISOString()
         };
 
@@ -496,7 +505,6 @@ function setupLogModal() {
         e.preventDefault();
         const title       = document.getElementById('logTitle')?.value?.trim();
         const description = document.getElementById('logDescription')?.value?.trim();
-        const difficulty  = document.getElementById('logDifficulty')?.value;
         const area        = document.getElementById('logArea')?.value;
 
         if (!title) return;
@@ -505,7 +513,8 @@ function setupLogModal() {
         submitBtn.textContent = 'Salvando...';
         if (syncEl) { syncEl.style.display = 'block'; syncEl.textContent = getToken() ? 'Sincronizando com GitHub...' : 'Salvando localmente...'; }
 
-        const { log, synced } = await dailyLog.addLog(title, description, difficulty, area);
+        // Chama o addLog sem a difficulty
+        const { log, synced } = await dailyLog.addLog(title, description, area);
 
         submitBtn.disabled = false;
         submitBtn.textContent = 'Salvar log';
@@ -514,9 +523,10 @@ function setupLogModal() {
         updateGameification();
         renderActivities();
 
+        // Faz o batimento cardíaco disparar mais forte dependendo da área
         if (heartbeat) {
-            const i = { easy:0.7, medium:1.1, hard:1.6 }[difficulty] || 1;
-            heartbeat.triggerPulse(i);
+            const intensidadeMonitor = { estagio:1.0, faculdade:1.0, estudo:1.3, desafio:1.5, conquista:1.8 }[area] || 1;
+            heartbeat.triggerPulse(intensidadeMonitor);
         }
 
         const syncMsg = synced ? ' · sincronizado no GitHub' : (getToken() ? ' · erro ao sincronizar' : '');
