@@ -15,27 +15,41 @@
             <span class="bat">🦇</span>
         </div>
 
-        <nav class="navbar">
-            <div class="navbar-content">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-content">
                 <h1 class="logo">Diary</h1>
                 <div class="nav-pages">
-                    <button class="nav-btn active" data-page="home">Home</button>
-                    <button class="nav-btn" data-page="activities">Atividades</button>
-                    <button class="nav-btn" data-page="languages">Habilidades</button>
-                    <button class="nav-btn" data-page="projects">Projetos</button>
-                    <button class="nav-btn" data-page="contact">Contato</button>
+                    <button class="nav-btn active" data-page="home">
+                        <img src="img/haunted-house_5421742.png" alt="Home" class="nav-icon">
+                        <span class="nav-text">Home</span>
+                    </button>
+                    <button class="nav-btn" data-page="activities">
+                        <img src="img/spider-web_3488225.png" alt="Atividades" class="nav-icon">
+                        <span class="nav-text">Atividades</span>
+                    </button>
+                    <button class="nav-btn" data-page="languages">
+                        <img src="img/hat_5842505.png" alt="Habilidades" class="nav-icon">
+                        <span class="nav-text">Habilidades</span>
+                    </button>
+                    <button class="nav-btn" data-page="projects">
+                        <img src="img/halloween_15839910.png" alt="Projetos" class="nav-icon">
+                        <span class="nav-text">Projetos</span>
+                    </button>
+                    <button class="nav-btn" data-page="contact">
+                        <img src="img/bats_17994574.png" alt="Contato" class="nav-icon">
+                        <span class="nav-text">Contato</span>
+                    </button>
                 </div>
             </div>
         </nav>
 
         <div class="pages-container">
 
-            <!-- HOME -->
             <div class="page active" data-page="home">
                 <section class="home-section">
                     <div class="home-hero">
-                        <h1>Bem-vinda ao seu Diário</h1>
-                        <p class="home-subtitle">Um registro pessoal da sua jornada como estagiária e estudante</p>
+                        <h1>Bem-vinda ao seu Diário Gótico</h1>
+                        <p class="home-subtitle">Um registro sombrio da sua jornada como estagiária e estudante</p>
                     </div>
 
                     <div class="home-content">
@@ -43,10 +57,12 @@
 
                             <div class="top-row">
                                 <div class="emotional-widget">
-                                    <div class="emotion-emoji" id="emotionEmoji">🦇</div>
+                                    <div class="emotion-icon-container">
+                                        <img src="img/dracula_8534615.png" alt="Humor do Vampiro" class="emotion-icon" id="emotionIcon">
+                                    </div>
                                     <div class="emotion-content">
-                                        <p class="emotion-status" id="emotionStatus">Avaliando...</p>
-                                        <p class="emotion-message" id="emotionMessage">Comece registrando o que aprendeu hoje.</p>
+                                        <p class="emotion-status" id="emotionStatus">Avaliando sua noite...</p>
+                                        <p class="emotion-message" id="emotionMessage">Registre seu primeiro aprendizado para começar.</p>
                                     </div>
                                     <div class="emotion-insights">
                                         <div class="emotion-insight">
@@ -119,7 +135,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Configuração GitHub Gist -->
                                 <div class="gist-config" id="gistConfig">
                                     <p class="gist-info">
                                         Para salvar seus logs no GitHub (acessível de qualquer computador), configure seu token abaixo.
@@ -154,39 +169,47 @@
                                 <li><strong>Conquistas</strong> — Metas batidas e pequenos (ou grandes) momentos de orgulho na jornada.</li>
                             </ul>
                         </div>
-
-            <!-- Modal -->
-            <div id="logModal" class="modal">
+                    </div> </section> </div> <div id="logModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h2>Registrar aprendizado</h2>
                     <form id="logForm">
-    <div class="form-group">
-        <label for="logArea">Área</label>
-        <select id="logArea">
-            <option value="estagio">Estágio (20 XP)</option>
-            <option value="faculdade">Faculdade (20 XP)</option>
-            <option value="estudo">Estudo extra (35 XP)</option>
-            <option value="desafio">Desafio superado (45 XP)</option>
-            <option value="conquista">Conquista (60 XP)</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="logTitle">O que você aprendeu ou fez?</label>
-        <input type="text" id="logTitle" placeholder="Ex: Mapeei o processo de onboarding no estágio" required>
-    </div>
-    <div class="form-group">
-        <label for="logDescription">Detalhes (opcional)</label>
-        <textarea id="logDescription" placeholder="Descreva o que aconteceu, o que entendeu, o que foi difícil..." rows="4"></textarea>
-    </div>
-    
-    <p class="sync-status" id="syncStatus" style="display:none;"></p>
-    <button type="submit" class="btn-primary" id="submitLogBtn">Salvar log</button>
-</form>
+                        <div class="form-group">
+                            <label for="logArea">Área</label>
+                            <select id="logArea">
+                                <option value="estagio">Estágio (20 XP)</option>
+                                <option value="faculdade">Faculdade (20 XP)</option>
+                                <option value="estudo">Estudo extra (35 XP)</option>
+                                <option value="desafio">Desafio superado (45 XP)</option>
+                                <option value="conquista">Conquista (60 XP)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="logTitle">O que você aprendeu ou fez?</label>
+                            <input type="text" id="logTitle" placeholder="Ex: Mapeei o processo de onboarding" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="logDescription">Detalhes (opcional)</label>
+                            <textarea id="logDescription" placeholder="Descreva o que aconteceu..." rows="4"></textarea>
+                        </div>
+                        
+                        <p class="sync-status" id="syncStatus" style="display:none;"></p>
+                        <button type="submit" class="btn-primary" id="submitLogBtn">Salvar log</button>
+                    </form>
                 </div>
             </div>
 
-            <!-- ATIVIDADES -->
+            <div id="deleteConfirmModal" class="modal">
+                <div class="modal-content" style="max-width: 400px; text-align: center;">
+                    <h2 style="color: #ef4444; margin-bottom: 1rem;">Excluir Registro?</h2>
+                    <p style="color: #c8c8c8; margin-bottom: 2rem; font-size: var(--fs-base);">Tem certeza que deseja apagar este log? Seus pontos de XP serão recalculados.</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button class="btn-secondary" id="cancelDeleteBtn" style="flex: 1;">Cancelar</button>
+                        <button class="btn-primary" id="confirmDeleteBtn" style="flex: 1; background: rgba(220,38,38,0.8);">Sim, excluir</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="page" data-page="activities">
                 <section class="activities-section">
                     <div class="activities-header">
@@ -201,63 +224,59 @@
                         </div>
                     </div>
                     <div id="activitiesTimeline" class="activities-timeline">
-                        <p class="empty-state">Nenhuma atividade ainda. Registre algo na Home para aparecer aqui.</p>
+                        <p class="empty-state">Nenhuma atividade ainda.</p>
                     </div>
                 </section>
             </div>
 
-            <!-- HABILIDADES -->
             <div class="page" data-page="languages">
                 <section class="languages-section">
-                    <h2>Habilidades em desenvolvimento</h2>
+                    <h2>Habilidades em Foco</h2>
                     <div class="skills-grid">
                         <div class="skill-card">
-                            <div class="skill-area-badge">Estágio</div>
-                            <h3>Workflow & Automação</h3>
-                            <p>Mapeamento de processos, criação de fluxos, identificação de gargalos e automação de tarefas repetitivas.</p>
+                            <div class="skill-area-badge">Técnica</div>
+                            <h3>Linguagens & Código</h3>
+                            <p>Tecnologias, linguagens de programação e lógicas que estou aprendendo no momento.</p>
                             <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
-                            <span class="progress-label">Em desenvolvimento</span>
+                            <span class="progress-label">Em evolução</span>
                         </div>
                         <div class="skill-card">
-                            <div class="skill-area-badge">Faculdade</div>
-                            <h3>UX Design</h3>
-                            <p>Pesquisa com usuários, wireframes, prototipagem, testes de usabilidade e fundamentos de design de experiência.</p>
+                            <div class="skill-area-badge">Processos</div>
+                            <h3>Metodologias & Fluxos</h3>
+                            <p>Pesquisa, mapeamento de processos, design de experiência (UX) e formas de otimizar o trabalho.</p>
                             <div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div>
-                            <span class="progress-label">Em desenvolvimento</span>
+                            <span class="progress-label">Em evolução</span>
                         </div>
                         <div class="skill-card">
-                            <div class="skill-area-badge">Ambos</div>
-                            <h3>Documentação</h3>
-                            <p>Registro de processos, criação de guias, estruturação de informações de forma clara e acessível.</p>
+                            <div class="skill-area-badge">Prática</div>
+                            <h3>Ferramentas Digitais</h3>
+                            <p>Domínio dos softwares que uso para desenhar interfaces, programar, documentar e me organizar.</p>
                             <div class="progress-bar"><div class="progress-fill" style="width:30%"></div></div>
-                            <span class="progress-label">Em desenvolvimento</span>
+                            <span class="progress-label">Ganhando fluência</span>
                         </div>
                         <div class="skill-card">
-                            <div class="skill-area-badge">Extra</div>
-                            <h3>Ferramentas digitais</h3>
-                            <p>Figma, Notion, ferramentas de automação e outros softwares que aparecem no caminho.</p>
-                            <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
-                            <span class="progress-label">Aprendendo</span>
+                            <div class="skill-area-badge">Comportamento</div>
+                            <h3>Soft Skills</h3>
+                            <p>Resolução de problemas, adaptabilidade, comunicação clara e organização de tempo.</p>
+                            <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+                            <span class="progress-label">Em desenvolvimento</span>
                         </div>
                     </div>
                 </section>
             </div>
 
-            <!-- PROJETOS -->
             <div class="page" data-page="projects">
                 <section class="projects-section">
                     <h2>Projetos & Trabalhos</h2>
-                    <p class="section-intro">Projetos da faculdade, trabalhos do estágio e iniciativas pessoais que valem registrar.</p>
+                    <p class="section-intro">Projetos da faculdade, trabalhos do estágio e iniciativas pessoais.</p>
                     <div id="projectsGrid" class="projects-grid">
                         <div class="empty-project">
                             <p>Nenhum projeto registrado ainda.</p>
-                            <p class="empty-sub">Em breve você poderá adicionar seus projetos aqui.</p>
                         </div>
                     </div>
                 </section>
             </div>
 
-            <!-- CONTATO -->
             <div class="page" data-page="contact">
                 <section class="contact-section">
                     <h2>Links</h2>
@@ -275,7 +294,10 @@
         </div>
 
         <footer class="footer">
-            <p>Diário de aprendizado — estagiária em Workflow, estudante de UX · 2026</p>
+            <p>Diário de aprendizado sombrio · 2026</p>
+            <div class="credits" style="font-size: 0.7rem; margin-top: 1rem; opacity: 0.6;">
+                Ícones por <a href="https://www.flaticon.com/br/autores/freepik" target="_blank" style="color: #fca5a5;">Freepik</a>, <a href="https://www.flaticon.com/br/autores/umeicon" target="_blank" style="color: #fca5a5;">Umeicon</a>, <a href="https://www.flaticon.com/br/autores/darius-dan" target="_blank" style="color: #fca5a5;">Darius Dan</a> e <a href="https://www.flaticon.com/br/autores/rina-agustina" target="_blank" style="color: #fca5a5;">Rina agustina</a> no Flaticon.
+            </div>
         </footer>
     </div>
 
