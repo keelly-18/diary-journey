@@ -552,3 +552,34 @@ button, .btn-primary, .btn-secondary {
     .container { padding:0 1rem; }
     .skills-grid { grid-template-columns:1fr; }
 }
+
+/* ── ORÁCULO DIÁRIO ── */
+.oracle-box {
+    background: linear-gradient(135deg, rgba(20,5,5,0.9), rgba(10,2,2,0.95));
+    border: 1px solid rgba(168, 85, 247, 0.3); 
+    border-radius: 0.6rem; padding: 1.5rem;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+    margin-bottom: 1.5rem; position: relative; overflow: hidden;
+}
+.oracle-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+.oracle-icon { width: 28px; height: 28px; filter: invert(61%) sepia(56%) saturate(3474%) hue-rotate(236deg) brightness(98%) contrast(96%); }
+.oracle-box h3 { color: #c084fc; font-size: var(--fs-md); margin: 0; font-family: 'Cinzel', serif; }
+#dailyQuestText { font-size: var(--fs-base); color: #e5e7eb; font-style: italic; line-height: 1.6; border-left: 2px solid #c084fc; padding-left: 1rem; }
+
+/* ── MOTIVAÇÃO BRUTAL ── */
+.brutal-motivation {
+    background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(239, 68, 68, 0.1);
+    border-radius: 0.6rem; padding: 2rem; margin-bottom: 2rem;
+}
+.brutal-motivation h2 { color: #ef4444; font-size: var(--fs-lg); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; font-family: 'Cinzel', serif;}
+.brutal-motivation p { font-size: var(--fs-base); color: #b8b8b8; line-height: 1.7; margin-bottom: 1rem; }
+.brutal-highlight {
+    margin-top: 1.5rem; padding: 1rem; background: rgba(239, 68, 68, 0.1);
+    border-left: 4px solid #ef4444; color: #fca5a5; font-weight: bold; font-family: 'Cinzel', serif; font-size: var(--fs-md);
+}
+
+/* Garante que o botão modificado pelo Claude também pulse! */
+@keyframes pulseButton {
+    0% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4); }
+    100% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.7), inset 0 0 10px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.9); }
+}
