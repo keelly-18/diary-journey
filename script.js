@@ -9,6 +9,30 @@ const AREA_LABELS = {
     conquista: 'Conquista'
 };
 
+// --- ORÁCULO: MISSÕES DIÁRIAS ---
+function updateDailyQuest() {
+    const quests = [
+        "Foco no código: Suje as mãos. Escreva ou corrija algum script hoje, por menor que seja.",
+        "Dia de absorver: Assista a uma aula da faculdade ou leia uma documentação sem pressa.",
+        "Ajuste de rota: Revise aquele conceito de Infra/Cloud que ainda está confuso na sua cabeça.",
+        "Limpeza mental: Organize suas anotações, feche abas abertas e planeje o próximo ataque.",
+        "Desafio prático: Tente aplicar algo que você viu no estágio em um cenário só seu.",
+        "Explore o desconhecido: Pesquise sobre uma ferramenta ou termo que você ouviu e não sabe o que é.",
+        "Descanso estratégico: O ócio também forja guerreiros. Apenas leia algo leve ou descanse."
+    ];
+    
+    // Escolhe uma missão baseada no dia do mês (sempre a mesma missão no mesmo dia)
+    const diaDoMes = new Date().getDate();
+    const indexQuest = diaDoMes % quests.length;
+    
+    const questEl = document.getElementById('dailyQuestText');
+    if (questEl) {
+        questEl.textContent = `"${quests[indexQuest]}"`;
+    }
+}
+
+// Chame a função updateDailyQuest() dentro do seu document.addEventListener('DOMContentLoaded', ...)
+
 // Funções para gerenciar o Toast (notificação simples)
 function showToast(message, duration = 3000) {
     let toast = document.getElementById('diary-toast');
