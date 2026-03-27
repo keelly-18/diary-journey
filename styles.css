@@ -583,3 +583,89 @@ button, .btn-primary, .btn-secondary {
     0% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4); }
     100% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.7), inset 0 0 10px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.9); }
 }
+/* ── CARTAS MÁGICAS (PÁGINA DE REGISTROS) ── */
+.activities-cards-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 1.5rem; 
+}
+
+/* A CARTA MÁGICA */
+.magic-card {
+    background: linear-gradient(145deg, rgba(20,5,5,0.9), rgba(5,0,0,0.95));
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: 0.8rem;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.magic-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(239, 68, 68, 0.5);
+    box-shadow: 0 15px 30px rgba(239, 68, 68, 0.2), inset 0 0 20px rgba(239, 68, 68, 0.05);
+    z-index: 2;
+}
+
+/* O Brilho no topo da carta baseado na área */
+.magic-card-glow {
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: #444; opacity: 0.8;
+}
+.magic-card.area-estagio .magic-card-glow { background: #c084fc; box-shadow: 0 0 15px #c084fc; }
+.magic-card.area-faculdade .magic-card-glow { background: #7dd3fc; box-shadow: 0 0 15px #7dd3fc; }
+.magic-card.area-estudo .magic-card-glow { background: #5eead4; box-shadow: 0 0 15px #5eead4; }
+.magic-card.area-desafio .magic-card-glow { background: #fcd34d; box-shadow: 0 0 15px #fcd34d; }
+.magic-card.area-conquista .magic-card-glow { background: #fca5a5; box-shadow: 0 0 15px #fca5a5; }
+
+/* Conteúdo da Carta */
+.magic-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.magic-card-emotion { font-size: 1.5rem; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+.magic-card-date { font-size: var(--fs-xs); color: var(--text-soft); font-family: 'Cinzel', serif; letter-spacing: 1px; }
+.magic-card-title { font-size: var(--fs-md); color: var(--text-accent); font-family: 'Cinzel', serif; margin-bottom: 0.8rem; line-height: 1.3; }
+.magic-card-desc { font-size: var(--fs-sm); color: #a0a0a0; font-style: italic; flex-grow: 1; margin-bottom: 1.5rem; border-left: 2px solid rgba(239,68,68,0.3); padding-left: 0.8rem; }
+
+.magic-card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(239, 68, 68, 0.2); padding-top: 1rem; }
+.magic-card-actions { display: flex; align-items: center; gap: 0.8rem; }
+.magic-card-xp { font-size: var(--fs-sm); color: #daa520; font-weight: bold; font-family: 'Cinzel', serif; text-shadow: 0 0 8px rgba(218, 165, 32, 0.3); }
+
+/* ── BOTÃO DE MISSÃO DO ORÁCULO ── */
+.quest-btn {
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: #c084fc;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 1.2rem;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.quest-btn:hover {
+    background: rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+    transform: scale(1.15);
+}
+
+/* Quando a missão está concluída (Fica verde/esmeralda) */
+.quest-btn.completed {
+    background: rgba(52, 211, 153, 0.2);
+    border-color: #34d399;
+    color: #34d399;
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.4);
+    cursor: default;
+    transform: none;
+}
+
+/* Risca o texto da missão */
+.quest-completed-text {
+    text-decoration: line-through;
+    opacity: 0.5;
+    transition: all 0.5s ease;
+}

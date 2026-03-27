@@ -10,28 +10,89 @@ const AREA_LABELS = {
 };
 
 // --- ORÁCULO: MISSÕES DIÁRIAS ---
+// --- ORÁCULO: MISSÕES DIÁRIAS ---
+let currentQuestText = ""; // Guarda o texto da missão do dia
+
 function updateDailyQuest() {
+    // O Grande Tomo de Missões (Adiciona quantas quiseres aqui!)
     const quests = [
+        /* ── CÓDIGO E PRÁTICA ── */
         "Foco no código: Suje as mãos. Escreva ou corrija algum script hoje, por menor que seja.",
-        "Dia de absorver: Assista a uma aula da faculdade ou leia uma documentação sem pressa.",
-        "Ajuste de rota: Revise aquele conceito de Infra/Cloud que ainda está confuso na sua cabeça.",
-        "Limpeza mental: Organize suas anotações, feche abas abertas e planeje o próximo ataque.",
-        "Desafio prático: Tente aplicar algo que você viu no estágio em um cenário só seu.",
-        "Explore o desconhecido: Pesquise sobre uma ferramenta ou termo que você ouviu e não sabe o que é.",
-        "Descanso estratégico: O ócio também forja guerreiros. Apenas leia algo leve ou descanse."
+        "Arquitetura das Trevas: Revise a estrutura de um projeto, infraestrutura ou código. Entenda como as peças se conectam.",
+        "Caça aos Bugs: Enfrente aquele erro ou aviso que você tem ignorado. Resolva ou entenda por que ele acontece.",
+        "Sussurros da Máquina: Leia uma documentação oficial. Não um tutorial, mas o texto sagrado original da tecnologia.",
+        "Feitiço Novo: Teste um comando, atalho ou função que você nunca usou antes. Incorpore-o ao seu arsenal.",
+        "Desafio prático: Tente aplicar algo que você viu no estágio num cenário só seu.",
+        "Refatoração Sombria: Pegue num código antigo ou anotação sua e melhore-o. Deixe-o mais limpo e eficiente.",
+        "Segurança das Trevas: Pense como um invasor. Revise algum projeto ou conceito focado em falhas de segurança.",
+        "Automação: O que você faz repetidamente? Pesquise uma forma de automatizar essa dor.",
+        "Mestre da Nuvem: Dedique 20 minutos para explorar um serviço da AWS ou conceito de Cloud que você ainda não domina.",
+        
+        /* ── FACULDADE E TEORIA ── */
+        "Dia de absorver: Assista a uma aula da faculdade ou leia a matéria sem pressa, apenas para entender o conceito.",
+        "Conexões Ocultas: Tente ligar o que você está a aprender na faculdade com o que você faz no estágio.",
+        "De volta às bases: Revise um conceito fundamental de redes, banco de dados ou lógica que pode estar esquecido.",
+        "Além do óbvio: Pesquise sobre uma ferramenta ou termo que você ouviu os seniores falarem e não sabe o que é.",
+        "O Poder da Escrita: Resuma um conceito complexo que aprendeu recentemente em apenas um parágrafo. Se não conseguir, estude mais.",
+        "Expandindo Horizontes: Leia um artigo ou assista a um vídeo sobre uma área da tecnologia diferente da sua.",
+        "Ajuste de rota: Revise aquele conceito de Infra/Terraform que ainda está confuso na sua cabeça.",
+        
+        /* ── CARREIRA E SOFT SKILLS ── */
+        "Visão de Mestre: Como o seu trabalho no estágio impacta o negócio da empresa? Entenda o valor do que você faz.",
+        "Marca nas Sombras: Atualize o seu LinkedIn, currículo ou GitHub. A sua vitrine precisa estar impecável.",
+        "Comunicação Clara: Pratique explicar um problema técnico de forma que uma pessoa leiga entenda.",
+        "Mapeamento de Território: Observe como os processos funcionam na sua empresa. O que poderia ser melhorado?",
+        "Alianças: Troque uma ideia ou tire uma dúvida com alguém mais experiente hoje. Absorva o conhecimento deles.",
+        
+        /* ── ORGANIZAÇÃO E DESCANSO ── */
+        "Limpeza mental: Organize as suas anotações, feche as abas abertas e planeie o próximo ataque.",
+        "Descanso estratégico: O ócio também forja guerreiros. Apenas consuma um conteúdo leve ou descanse a mente.",
+        "Afiando a Lâmina: Organize o seu ambiente de estudo/trabalho físico e digital. O caos externo gera caos interno.",
+        "Retrospectiva Sombria: Leia os seus logs das últimas semanas neste grimório. Veja o quanto você já evoluiu.",
+        "Planeamento de Batalha: Escreva quais são os seus 3 maiores objetivos para os próximos 30 dias.",
+        "Purificação: Exclua ficheiros inúteis, limpe o seu desktop e organize as pastas do seu computador.",
+        "O Silêncio Ensina: Fique 15 minutos longe de ecrãs. Deixe o cérebro processar a informação que sugou durante o dia.",
+        "Ritual de Foco: Hoje, estude ou code usando a técnica Pomodoro. Foco total, zero distrações.",
+        "Oferenda ao Grimório: Não faça nada de novo hoje além de documentar tudo o que está pendente na sua mente."
     ];
     
-    // Escolhe uma missão baseada no dia do mês (sempre a mesma missão no mesmo dia)
-    const diaDoMes = new Date().getDate();
-    const indexQuest = diaDoMes % quests.length;
+    // MAGIA DE TEMPO: Calcula qual é o dia do ano (1 a 365)
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diff = now - start;
+    const oneDay = 1000 * 60 * 60 * 24;
+    const dayOfYear = Math.floor(diff / oneDay);
+    
+    // Escolhe a missão baseada no dia do ano
+    const indexQuest = dayOfYear % quests.length;
+    currentQuestText = quests[indexQuest]; 
     
     const questEl = document.getElementById('dailyQuestText');
+    const btnEl = document.getElementById('completeQuestBtn');
+    
     if (questEl) {
-        questEl.textContent = `"${quests[indexQuest]}"`;
+        questEl.textContent = `"${currentQuestText}"`;
+    }
+
+    const todayStr = now.toISOString().split('T')[0];
+    const questFeitaEm = localStorage.getItem('gothic_diary_quest_date');
+
+    if (questFeitaEm === todayStr) {
+        marcarMissaoComoFeita(questEl, btnEl, false);
+    } else if (btnEl) {
+        btnEl.classList.remove('completed');
+        btnEl.innerHTML = '✓';
+        if (questEl) questEl.classList.remove('quest-completed-text');
+        
+        btnEl.onclick = () => {
+            const questModal = document.getElementById('questModal');
+            const modalText = document.getElementById('questModalText');
+            if (modalText) modalText.textContent = `"${currentQuestText}"`;
+            if (questModal) questModal.classList.add('show');
+        };
     }
 }
-
-// Chame a função updateDailyQuest() dentro do seu document.addEventListener('DOMContentLoaded', ...)
+// ----------------------------------------------------
 
 // Funções para gerenciar o Toast (notificação simples)
 function showToast(message, duration = 3000) {
@@ -44,7 +105,6 @@ function showToast(message, duration = 3000) {
     toast.textContent = message;
     toast.style.opacity = '1';
     
-    // Limpa o timeout anterior se houver
     if (toast.timeoutId) clearTimeout(toast.timeoutId);
     
     toast.timeoutId = setTimeout(() => {
@@ -63,45 +123,34 @@ class DailyLog {
         this.logs = this.loadLocal();
     }
 
-    // --- Gestão Local (localStorage) ---
     loadLocal() {
         const saved = localStorage.getItem(this.STORAGE_KEY);
-        try {
-            return saved ? JSON.parse(saved) : {};
-        } catch (e) {
-            console.error('Erro ao ler localStorage:', e);
-            return {};
-        }
+        try { return saved ? JSON.parse(saved) : {}; } 
+        catch (e) { return {}; }
     }
 
     saveLocal() {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.logs));
     }
 
-    // --- Utilitários de Data ---
     getToday() { return new Date().toISOString().split('T')[0]; }
-    
     getTodayLogs() { return this.logs[this.getToday()] || []; }
 
     getAllLogsFlat() {
         return Object.values(this.logs).flat().sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
     }
 
-    // --- Adicionar Log (Gamificação Gótica) ---
-    async addLog(title, description, area) {
-        const xpMap = { 
-            estagio: 20,
-            faculdade: 20,
-            estudo: 35,
-            desafio: 45,
-            conquista: 60
-        };
+    // --- Adicionar Log Atualizado (Com Emoções e Propósito) ---
+    async addLog(title, description, area, emotion, reason) {
+        const xpMap = { estagio: 20, faculdade: 20, estudo: 35, desafio: 45, conquista: 60 };
 
         const log = {
             id: Date.now(),
             title,
             description,
             area,
+            emotion: emotion || 'focada',
+            reason: reason || '',
             xp: xpMap[area] || 20,
             timestamp: new Date().toISOString()
         };
@@ -119,52 +168,38 @@ class DailyLog {
         return { log, synced: false };
     }
 
-    // --- Apagar Log ---
     async deleteLog(idLog) {
         let logDeletado = false;
-        
         for (const data in this.logs) {
             const tamanhoOriginal = this.logs[data].length;
             this.logs[data] = this.logs[data].filter(log => log.id !== idLog);
-            
             if (this.logs[data].length < tamanhoOriginal) {
                 logDeletado = true;
-                if (this.logs[data].length === 0) {
-                    delete this.logs[data];
-                }
+                if (this.logs[data].length === 0) delete this.logs[data];
                 break;
             }
         }
-
         if (logDeletado) {
             this.saveLocal();
-            if (getToken() && getGistId()) {
-                await saveLogsToGist({ logs: this.logs });
-            }
+            if (getToken() && getGistId()) await saveLogsToGist({ logs: this.logs });
         }
         return logDeletado;
     }
 
-    // --- Cálculos de Gamificação ---
-    getTotalXP() {
-        return Object.values(this.logs).flat().reduce((sum, log) => sum + (log.xp || 0), 0);
-    }
+    getTotalXP() { return Object.values(this.logs).flat().reduce((sum, log) => sum + (log.xp || 0), 0); }
 
     getLevel() {
         const totalXP = this.getTotalXP();
         const level = Math.floor(totalXP / 500) + 1;
         const xpInCurrentLevel = totalXP % 500;
         const xpToNextLevel = 500 - xpInCurrentLevel;
-        const progressPercentage = (xpInCurrentLevel / 500) * 100;
-        return { level, progressPercentage, xpToNextLevel };
+        return { level, progressPercentage: (xpInCurrentLevel / 500) * 100, xpToNextLevel };
     }
 
     getStreak() {
         let streak = 0;
         let currentDate = new Date();
-        
         if (this.getTodayLogs().length > 0) streak = 1;
-        
         currentDate.setDate(currentDate.getDate() - (streak === 1 ? 1 : 0));
         
         while (true) {
@@ -191,8 +226,7 @@ class DailyLog {
 
         const uniqueDays = (logs) => new Set(logs.map(l => l.timestamp.split('T')[0])).size;
 
-        let bestDayXP = 0;
-        let bestDayDate = '--';
+        let bestDayXP = 0; let bestDayDate = '--';
         for (const data in this.logs) {
             const dayXP = this.logs[data].reduce((sum, l) => sum + (l.xp || 0), 0);
             if (dayXP > bestDayXP) {
@@ -202,12 +236,9 @@ class DailyLog {
         }
 
         return {
-            weekDays: uniqueDays(logsWeek),
-            weekXP: logsWeek.reduce((sum, l) => sum + (l.xp || 0), 0),
-            monthDays: uniqueDays(logsMonth),
-            monthXP: logsMonth.reduce((sum, l) => sum + (l.xp || 0), 0),
-            bestDay: bestDayDate,
-            bestDayXP: bestDayXP
+            weekDays: uniqueDays(logsWeek), weekXP: logsWeek.reduce((sum, l) => sum + (l.xp || 0), 0),
+            monthDays: uniqueDays(logsMonth), monthXP: logsMonth.reduce((sum, l) => sum + (l.xp || 0), 0),
+            bestDay: bestDayDate, bestDayXP: bestDayXP
         };
     }
 }
@@ -218,7 +249,6 @@ const dailyLog = new DailyLog();
 // GESTÃO DE UI & RENDERIZAÇÃO
 // ============================================================
 
-// --- Lógica de Navegação entre Páginas ---
 function setupPageNavigation() {
     const navBtns = document.querySelectorAll('.nav-btn');
     const pages   = document.querySelectorAll('.page');
@@ -237,7 +267,6 @@ function setupPageNavigation() {
             
             if (target === 'home') updateGameification();
             if (target === 'activities') renderActivities(currentFilter);
-            if (target === 'languages') animateSkillBars();
             
             if (window.innerWidth <= 768 && sidebar) {
                 sidebar.style.width = '75px';
@@ -247,20 +276,16 @@ function setupPageNavigation() {
     });
 }
 
-// --- Atualização da Home ---
 function updateGameification() {
-    // Stats Básicos
     document.getElementById('totalXP').textContent = dailyLog.getTotalXP();
     const streak = dailyLog.getStreak();
     document.getElementById('currentStreak').textContent = streak;
     document.getElementById('streakDays').textContent = `${streak} dias`;
 
-    // Nível
     const { level, xpToNextLevel } = dailyLog.getLevel();
     document.getElementById('currentLevel').textContent = level;
     document.getElementById('xpToNextLevel').textContent = `${xpToNextLevel} XP`;
 
-    // Painel de Desempenho
     const stats = dailyLog.getStats();
     document.getElementById('weekDays').textContent = stats.weekDays;
     document.getElementById('weekXP').textContent = `${stats.weekXP} XP`;
@@ -274,10 +299,9 @@ function updateGameification() {
     updateHeartbeatText();
 }
 
-// --- ATUALIZA O TEXTO DO MONITOR ESPIRITUAL E ESTATÍSTICAS ---
 function updateHeartbeatText() {
     const logsHoje = dailyLog.getTodayLogs().length;
-    window.heartbeatBeats = logsHoje; // Salva o número para a linha animada usar
+    window.heartbeatBeats = logsHoje; 
     
     const statusEl = document.getElementById('heartbeatStatus');
     const syncEl = document.getElementById('hbSync');
@@ -286,31 +310,23 @@ function updateHeartbeatText() {
 
     if (statusEl) {
         if (logsHoje === 0) {
-            // MÁQUINA DESLIGADA
             statusEl.textContent = 'Sem Sinais Vitais...';
             statusEl.style.color = 'var(--text-soft)';
             statusEl.style.textShadow = 'none';
-            
             if(syncEl) { syncEl.textContent = 'Nula'; syncEl.style.color = 'var(--text-soft)'; }
             if(freqEl) { freqEl.textContent = '0.0Hz'; freqEl.style.color = 'var(--text-soft)'; }
             if(powerEl) { powerEl.textContent = '0%'; powerEl.style.color = 'var(--text-soft)'; }
-            
         } else if (logsHoje <= 2) {
-            // MÁQUINA ACORDANDO
             statusEl.textContent = 'Ressuscitando...';
             statusEl.style.color = '#fca5a5';
             statusEl.style.textShadow = 'none';
-            
             if(syncEl) { syncEl.textContent = 'Fraca'; syncEl.style.color = '#fca5a5'; }
             if(freqEl) { freqEl.textContent = (logsHoje * 2.4).toFixed(1) + 'Hz'; freqEl.style.color = '#fca5a5'; }
             if(powerEl) { powerEl.textContent = (logsHoje * 25) + '%'; powerEl.style.color = '#fca5a5'; }
-            
         } else {
-            // FRENESI TOTAL (Máximo de 100%)
             statusEl.textContent = 'Frenesi Sombrio!';
             statusEl.style.color = '#ef4444'; 
             statusEl.style.textShadow = '0 0 8px rgba(239,68,68,0.6)'; 
-            
             if(syncEl) { syncEl.textContent = 'Máxima!'; syncEl.style.color = '#ef4444'; }
             if(freqEl) { freqEl.textContent = (logsHoje * 3.8).toFixed(1) + 'Hz'; freqEl.style.color = '#ef4444'; }
             if(powerEl) { powerEl.textContent = Math.min(logsHoje * 30, 100) + '%'; powerEl.style.color = '#ef4444'; }
@@ -318,61 +334,32 @@ function updateHeartbeatText() {
     }
 }
 
-// --- MONITOR EMOCIONAL (O FANTASMA DRAMÁTICO) ---
 function updateGhostMood() {
     const iconEl = document.getElementById('emotionIcon');
     const statusEl = document.getElementById('emotionStatus');
     const messageEl = document.getElementById('emotionMessage');
-
     if (!iconEl) return;
 
     const streak = dailyLog.getStreak();
-    const logsHoje = dailyLog.getTodayLogs();
-    const xpHojes = logsHoje.reduce((sum, log) => sum + (log.xp || 0), 0);
+    const xpHojes = dailyLog.getTodayLogs().reduce((sum, log) => sum + (log.xp || 0), 0);
     const nivel = dailyLog.getLevel().level;
 
-    let mood = {
-        icon: 'img/ghost_8493864.png', 
-        status: 'Materializando...',
-        message: 'Traga alguma energia vital para este diário. Estou sumindo aqui.'
-    };
-
+    let mood = {};
     if (xpHojes === 0) {
-        mood = {
-            icon: 'img/teia-de-aranha.png',
-            status: 'Morto por dentro.',
-            message: 'Nem eu que sou um fantasma estou tão parado. As aranhas já tomaram conta. Vá estudar!'
-        };
+        mood = { icon: 'img/teia-de-aranha.png', status: 'Morto por dentro.', message: 'Nem eu que sou um fantasma estou tão parado. Vá estudar!' };
     } else if (xpHojes > 120 || streak > 7) {
-        mood = {
-            icon: 'img/haunted-house_5421742.png',
-            status: 'Poltergeist!',
-            message: 'Quanta energia! Quase consigo sentir meu coração bater de novo... quase.'
-        };
+        mood = { icon: 'img/haunted-house_5421742.png', status: 'Poltergeist!', message: 'Quanta energia! Quase consigo sentir meu coração bater de novo.' };
     } else if (nivel > 5 && xpHojes > 40) {
-        mood = {
-            icon: 'img/moon_4139153.png',
-            status: 'Espírito Ancião',
-            message: 'Sua aura brilha mais que a lua cheia. Uma assombração de respeito.'
-        };
+        mood = { icon: 'img/moon_4139153.png', status: 'Espírito Ancião', message: 'Sua aura brilha mais que a lua cheia. Uma assombração de respeito.' };
     } else {
-        mood = {
-            icon: 'img/ghost_8493864.png',
-            status: 'Alma Penada.',
-            message: 'Um progresso fantasmagórico. Continue assim e talvez você evolua para algo maior.'
-        };
+        mood = { icon: 'img/ghost_8493864.png', status: 'Alma Penada.', message: 'Um progresso fantasmagórico. Continue assim.' };
     }
 
     iconEl.src = mood.icon;
     statusEl.textContent = mood.status;
     messageEl.textContent = mood.message;
-    
-    if (typeof gsap !== 'undefined') {
-        gsap.fromTo(iconEl, { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" });
-    }
 }
 
-// --- Renderizar Logs de Hoje ---
 function updateTodayLogs() {
     const container = document.getElementById('todayLogs');
     const lastLogTextEl = document.getElementById('lastLogText');
@@ -386,10 +373,7 @@ function updateTodayLogs() {
         return;
     }
 
-    if (lastLogTextEl) {
-        const last = logs[logs.length - 1];
-        lastLogTextEl.textContent = `Último: ${last.title}`;
-    }
+    if (lastLogTextEl) lastLogTextEl.textContent = `Último: ${logs[logs.length - 1].title}`;
 
     container.innerHTML = logs.slice().reverse().map(log => {
         const time  = new Date(log.timestamp).toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
@@ -409,7 +393,6 @@ function updateTodayLogs() {
     }).join('');
 }
 
-// --- Renderizar Página de Atividades ---
 let currentFilter = 'all';
 
 function setupActivitiesFilters() {
@@ -424,112 +407,138 @@ function setupActivitiesFilters() {
     });
 }
 
+// --- RENDERIZAÇÃO DAS CARTAS MÁGICAS ---
 function renderActivities(filter = 'all') {
     const container = document.getElementById('activitiesTimeline');
     if (!container) return;
     
     let logs = dailyLog.getAllLogsFlat();
-
-    if (filter !== 'all') {
-        logs = logs.filter(log => log.area === filter);
-    }
+    if (filter !== 'all') logs = logs.filter(log => log.area === filter);
 
     if (logs.length === 0) {
-        container.innerHTML = '<p class="empty-state">Nenhuma atividade encontrada neste filtro.</p>';
+        container.innerHTML = '<p class="empty-state">Nenhum feitiço registrado neste grimório ainda.</p>';
         return;
     }
 
+    const emotionIcons = { 'empolgada': '🔥', 'frustrada': '💀', 'exausta': '🦇', 'focada': '👁️' };
+
     container.innerHTML = logs.map(log => {
-        const d    = new Date(log.timestamp);
-        const date = d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
-        const time = d.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+        const d = new Date(log.timestamp);
+        const date = d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit' });
         const area = log.area || 'estudo';
         const areaLabel = AREA_LABELS[area] || area;
-        const desc = log.description ? `<p class="ac-desc">${log.description}</p>` : '';
+        const emotion = log.emotion || 'focada';
+        const emoIcon = emotionIcons[emotion] || '🔮';
+        
+        let descHtml = '';
+        if (log.description) descHtml += `<p class="magic-card-desc">"${log.description}"</p>`;
+        if (log.reason) descHtml += `<p class="magic-card-desc" style="color:#fca5a5; font-size:0.8rem; border-color: #fca5a5;">Propósito: ${log.reason}</p>`;
+
         return `
-            <div class="activity-card area-${area}">
-                <div class="ac-header">
-                    <span class="ac-title">${log.title}</span>
-                    <div class="ac-meta">
-                        <span class="area-tag area-${area}">${areaLabel}</span>
-                        <span class="ac-date">${date} ${time}</span>
+            <div class="magic-card area-${area}">
+                <div class="magic-card-glow"></div>
+                <div class="magic-card-header">
+                    <span class="magic-card-emotion" title="${emotion}">${emoIcon}</span>
+                    <span class="magic-card-date">${date}</span>
+                </div>
+                <h3 class="magic-card-title">${log.title}</h3>
+                ${descHtml}
+                <div class="magic-card-footer">
+                    <span class="area-tag area-${area}">${areaLabel}</span>
+                    <div class="magic-card-actions">
+                        <span class="magic-card-xp">+${log.xp} XP</span>
                         <button class="delete-log-btn" data-id="${log.id}" title="Excluir este log">×</button>
                     </div>
-                </div>
-                ${desc}
-                <div class="ac-footer">
-                    <span class="ac-xp">+${log.xp} XP</span>
                 </div>
             </div>
         `;
     }).join('');
 }
 
-// --- Animação das Barras de Habilidade ---
-function animateSkillBars() {
-    const bars = document.querySelectorAll('.progress-fill');
-    bars.forEach(bar => {
-        const width = bar.style.width;
-        bar.style.width = '0%'; 
-        setTimeout(() => bar.style.width = width, 100);
-    });
-}
-
 // ============================================================
 // MODAIS E FORMULÁRIOS
 // ============================================================
 
-// --- Gestão do Modal de Adicionar Log ---
+// --- Gestão do Novo Modal de 2 Passos ---
 function setupLogModal() {
     const modal    = document.getElementById('logModal');
     const btn      = document.getElementById('addLogBtn');
-    const close    = modal?.querySelector('.close');
-    const form     = document.getElementById('logForm');
-    const submitBtn = document.getElementById('submitLogBtn');
-    const syncEl   = document.getElementById('syncStatus');
+    const closeBtn = document.getElementById('closeLogModal');
+    
+    const step1 = document.querySelector('.modal-step[data-step="1"]');
+    const step2 = document.querySelector('.modal-step[data-step="2"]');
+    const btnStep1Next = document.getElementById('btnStep1Next');
+    const btnStep2Back = document.getElementById('btnStep2Back');
+    const submitBtnFinal = document.getElementById('submitLogBtnFinal');
 
-    if (!modal || !btn || !form) return;
+    if (!modal || !btn) return;
 
+    // Abrir Modal e resetar campos
     btn.onclick = () => {
-        form.reset();
+        document.getElementById('logTitle').value = '';
+        document.getElementById('logDescription').value = '';
+        document.getElementById('logReason').value = '';
+        if(step1 && step2) {
+            step1.style.display = 'block';
+            step2.style.display = 'none';
+        }
         modal.classList.add('show');
     };
     
-    if (close) close.onclick = () => modal.classList.remove('show');
+    if (closeBtn) closeBtn.onclick = () => modal.classList.remove('show');
+    window.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
 
-    window.addEventListener('click', e => {
-        if (e.target === modal) modal.classList.remove('show');
-    });
+    // Avançar para Passo 2
+    if(btnStep1Next) {
+        btnStep1Next.addEventListener('click', (e) => {
+            e.preventDefault(); // Impede de recarregar a tela
+            if(document.getElementById('logTitle').value.trim() !== '') {
+                step1.style.display = 'none';
+                step2.style.display = 'block';
+            } else {
+                showToast("O grimório exige um título para o evento!");
+            }
+        });
+    }
 
-    form.addEventListener('submit', async e => {
-        e.preventDefault();
-        const title       = document.getElementById('logTitle')?.value?.trim();
-        const description = document.getElementById('logDescription')?.value?.trim();
-        const area        = document.getElementById('logArea')?.value;
+    // Voltar para Passo 1
+    if(btnStep2Back) {
+        btnStep2Back.addEventListener('click', (e) => {
+            e.preventDefault();
+            step2.style.display = 'none';
+            step1.style.display = 'block';
+        });
+    }
 
-        if (!title) return;
+    // Selar Registro (Finalizar)
+    if(submitBtnFinal) {
+        submitBtnFinal.addEventListener('click', async e => {
+            e.preventDefault();
+            const title       = document.getElementById('logTitle')?.value?.trim();
+            const description = document.getElementById('logDescription')?.value?.trim();
+            const area        = document.getElementById('logArea')?.value;
+            const emotion     = document.getElementById('logEmotion')?.value || 'focada';
+            const reason      = document.getElementById('logReason')?.value?.trim();
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Materializando...';
-        if (syncEl) { syncEl.style.display = 'block'; syncEl.textContent = getToken() ? 'Sincronizando com GitHub Gist...' : 'Salvando localmente...'; }
+            if (!title) return;
 
-        const { log, synced } = await dailyLog.addLog(title, description, area);
+            submitBtnFinal.disabled = true;
+            submitBtnFinal.textContent = 'Materializando...';
 
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Salvar log';
-        if (syncEl) syncEl.style.display = 'none';
+            const { log, synced } = await dailyLog.addLog(title, description, area, emotion, reason);
 
-        updateGameification(); // Atualiza toda a tela!
+            submitBtnFinal.disabled = false;
+            submitBtnFinal.textContent = '⛧ Selar no Grimório';
 
-        const syncMsg = synced ? ' · sincronizado no GitHub' : (getToken() ? ' · erro ao sincronizar' : '');
-        showToast(`+${log.xp} XP registrado sombriamente${syncMsg}`);
+            updateGameification(); 
+            const syncMsg = synced ? ' · sincronizado no GitHub' : (getToken() ? ' · erro ao sincronizar' : '');
+            showToast(`+${log.xp} XP registrado sombriamente${syncMsg}`);
 
-        form.reset();
-        modal.classList.remove('show');
-    });
+            modal.classList.remove('show');
+        });
+    }
 }
 
-// --- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO CUSTOMIZADO ---
 function setupDeleteModal() {
     const deleteModal = document.getElementById('deleteConfirmModal');
     const confirmBtn = document.getElementById('confirmDeleteBtn');
@@ -545,30 +554,24 @@ function setupDeleteModal() {
         }
     });
 
-    cancelBtn.addEventListener('click', () => {
-        deleteModal.classList.remove('show');
-        logIdToDelete = null;
-    });
+    cancelBtn.addEventListener('click', () => { deleteModal.classList.remove('show'); logIdToDelete = null; });
 
     confirmBtn.addEventListener('click', async () => {
         if (logIdToDelete === null) return;
-
         const textoOriginal = confirmBtn.textContent;
         confirmBtn.textContent = 'Expurgando...';
         confirmBtn.disabled = true;
         
-        // ACHA O LOG NA TELA E FAZ A ANIMAÇÃO
         const botaoDelete = document.querySelector(`.delete-log-btn[data-id="${logIdToDelete}"]`);
         if (botaoDelete) {
-            const caixaLog = botaoDelete.closest('.log-item') || botaoDelete.closest('.activity-card');
+            const caixaLog = botaoDelete.closest('.log-item') || botaoDelete.closest('.magic-card');
             if (caixaLog) {
                 caixaLog.classList.add('expurgando'); 
-                await new Promise(resolve => setTimeout(resolve, 450)); // Espera a animação rodar
+                await new Promise(resolve => setTimeout(resolve, 450)); 
             }
         }
 
         const apagou = await dailyLog.deleteLog(logIdToDelete);
-        
         if (apagou) {
             showToast('Log expurgado para o além.');
             updateGameification();
@@ -584,10 +587,7 @@ function setupDeleteModal() {
     });
 
     window.addEventListener('click', (e) => {
-        if (e.target === deleteModal) {
-            deleteModal.classList.remove('show');
-            logIdToDelete = null;
-        }
+        if (e.target === deleteModal) { deleteModal.classList.remove('show'); logIdToDelete = null; }
     });
 }
 
@@ -606,7 +606,7 @@ function setupGistConfig() {
     if (!tokenInput || !saveBtn) return;
 
     if (getToken()) {
-        gistLinkEl.innerHTML = `<p class="gist-info" style="color: #6ee7b7; border-color: #065f46;">✓ Sincronizado com GitHub Gist (ID: ${getGistId() || '...'})<br><button class="btn-secondary" style="padding: 0.3rem 0.8rem; font-size: 10px; margin-top: 0.5rem;" onclick="localStorage.removeItem(dailyLog.TOKEN_KEY); location.reload();">Desconectar</button></p>`;
+        gistLinkEl.innerHTML = `<p class="gist-info" style="color: #6ee7b7; border-color: #065f46;">✓ Sincronizado com GitHub Gist<br><button class="btn-secondary" style="padding: 0.3rem 0.8rem; font-size: 10px; margin-top: 0.5rem;" onclick="localStorage.removeItem('${dailyLog.TOKEN_KEY}'); location.reload();">Desconectar</button></p>`;
     }
 
     saveBtn.onclick = async () => {
@@ -615,21 +615,17 @@ function setupGistConfig() {
 
         saveBtn.disabled = true;
         saveBtn.textContent = 'Conectando...';
-        statusEl.textContent = 'Validando token e criando/buscando Gist...';
-        statusEl.style.color = 'var(--text-muted)';
-
+        statusEl.textContent = 'Validando token...';
+        
         const gistId = await initializeGist(token);
 
         if (gistId) {
             localStorage.setItem(dailyLog.TOKEN_KEY, token);
             localStorage.setItem(dailyLog.GIST_ID_KEY, gistId);
-            statusEl.textContent = 'Conectado com sucesso!';
-            statusEl.style.color = '#6ee7b7';
             showToast('Conectado ao GitHub Gist!');
             setTimeout(() => location.reload(), 1500); 
         } else {
-            statusEl.textContent = 'Erro ao conectar ao GitHub. Verifique o token e as permissões (gist).';
-            statusEl.style.color = '#fca5a5';
+            statusEl.textContent = 'Erro de permissões (gist).';
             saveBtn.disabled = false;
             saveBtn.textContent = 'Conectar';
         }
@@ -647,27 +643,21 @@ async function initializeGist(token) {
         if (existingGist) return existingGist.id;
 
         const createResponse = await fetch('https://api.github.com/gists', {
-            method: 'POST',
-            headers,
+            method: 'POST', headers,
             body: JSON.stringify({
                 description: 'Logs do Diário de Aprendizado Gótico (Vampiro Theme)',
                 public: false,
                 files: { 'gothic_diary.json': { content: JSON.stringify(dailyLog.logs) } }
             })
         });
-
         if (!createResponse.ok) return null;
-        const newGist = await createResponse.json();
-        return newGist.id;
-
-    } catch (e) { console.error('Erro na API:', e); return null; }
+        return (await createResponse.json()).id;
+    } catch (e) { return null; }
 }
 
 async function saveLogsToGist(dataToSave) {
-    const token = getToken();
-    const gistId = getGistId();
+    const token = getToken(); const gistId = getGistId();
     if (!token || !gistId) return false;
-
     try {
         const response = await fetch(`https://api.github.com/gists/${gistId}`, {
             method: 'PATCH',
@@ -675,36 +665,27 @@ async function saveLogsToGist(dataToSave) {
             body: JSON.stringify({ files: { 'gothic_diary.json': { content: JSON.stringify(dataToSave.logs) } } })
         });
         return response.ok;
-    } catch (e) { console.error('Erro ao salvar no Gist:', e); return false; }
+    } catch (e) { return false; }
 }
 
 async function downloadLogsFromGist() {
-    const token = getToken();
-    const gistId = getGistId();
+    const token = getToken(); const gistId = getGistId();
     if (!token || !gistId) return;
-
     try {
-        const response = await fetch(`https://api.github.com/gists/${gistId}`, {
-            headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
-        });
+        const response = await fetch(`https://api.github.com/gists/${gistId}`, { headers: { 'Authorization': `token ${token}` } });
         if (!response.ok) return;
-        const gist = await response.json();
-        const content = gist.files['gothic_diary.json']?.content;
-        
+        const content = (await response.json()).files['gothic_diary.json']?.content;
         if (content) {
             const gistLogs = JSON.parse(content);
-            const localLogs = dailyLog.loadLocal();
-            dailyLog.logs = { ...localLogs, ...gistLogs }; 
+            dailyLog.logs = { ...dailyLog.loadLocal(), ...gistLogs }; 
             dailyLog.saveLocal();
         }
-    } catch (e) { console.error('Erro ao baixar logs:', e); }
+    } catch (e) {}
 }
 
 // ============================================================
 // ANIMAÇÕES & ESTÉTICA GÓTICA (GSAP & Canvas)
 // ============================================================
-
-// --- Monitor de Atividade (Heartbeat Canvas Inteligente) ---
 function setupActivityHeartbeat() {
     const canvas = document.getElementById('heartbeatCanvas');
     if (!canvas) return;
@@ -723,10 +704,7 @@ function setupActivityHeartbeat() {
     function getHeartbeatY(x) {
         const midY = height / 2;
         let y = midY + Math.sin(x * 0.05) * 2; 
-
-        // Lê a variável global leve atualizada pela função updateHeartbeatText()
         const logsHoje = window.heartbeatBeats || 0;
-
         if (logsHoje === 0) return y; 
 
         const beats = Math.min(logsHoje, 6); 
@@ -734,10 +712,8 @@ function setupActivityHeartbeat() {
         
         for (let i = 0; i < beats; i++) {
             const pulseStart = 20 + (i * 15); 
-            
             if (xPulse > pulseStart && xPulse < pulseStart + 10) {
-                const p = (xPulse - pulseStart) / 10;
-                y = midY + 5 - Math.sin(p * Math.PI) * 35; 
+                y = midY + 5 - Math.sin(((xPulse - pulseStart) / 10) * Math.PI) * 35; 
             } else if (xPulse > pulseStart + 5 && xPulse < pulseStart + 8) {
                  y += 10; 
             }
@@ -745,18 +721,12 @@ function setupActivityHeartbeat() {
         return y;
     }
 
-    for (let i = 0; i < maxPoints; i++) {
-        points.push({ x: i * (width / maxPoints), y: height / 2 });
-    }
+    for (let i = 0; i < maxPoints; i++) points.push({ x: i * (width / maxPoints), y: height / 2 });
 
     function draw() {
         ctx.clearRect(0, 0, width, height);
-        
         ctx.beginPath();
-        ctx.lineWidth = 1.8;
-        ctx.strokeStyle = '#ef4444'; // Cor da linha (Mude para #2dd4bf se quiser Ciano)
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
+        ctx.lineWidth = 1.8; ctx.strokeStyle = '#ef4444'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
 
         for (let i = 0; i < points.length; i++) {
             if (i === 0) ctx.moveTo(points[i].x, points[i].y);
@@ -764,34 +734,21 @@ function setupActivityHeartbeat() {
         }
         ctx.stroke();
 
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = 'rgba(239, 68, 68, 0.7)'; // Brilho (Mude para rgba(45, 212, 191, 0.7) se for Ciano)
-        
+        ctx.shadowBlur = 10; ctx.shadowColor = 'rgba(239, 68, 68, 0.7)';
         const last = points[points.length - 1];
-        ctx.beginPath();
-        ctx.arc(last.x, last.y, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#fff';
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = '#fff';
-        ctx.fill();
-        ctx.shadowBlur = 0; 
+        ctx.beginPath(); ctx.arc(last.x, last.y, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff'; ctx.shadowBlur = 15; ctx.shadowColor = '#fff'; ctx.fill(); ctx.shadowBlur = 0; 
     }
 
     let frameCount = 0;
     function animate() {
         frameCount++;
-        
         points.shift();
-        const newX = (points.length) * (width / maxPoints);
-        const newY = getHeartbeatY(frameCount);
-        points.push({ x: newX, y: newY });
-        
+        points.push({ x: (points.length) * (width / maxPoints), y: getHeartbeatY(frameCount) });
         points.forEach((p, i) => p.x = i * (width / maxPoints));
-
         draw();
         requestAnimationFrame(animate);
     }
-
     animate();
 }
 
@@ -799,27 +756,28 @@ function setupActivityHeartbeat() {
 // INIT ────────────────────────────────────────────────────────
 // ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
-    
-    // 1. Tenta baixar logs do GitHub (Fusão)
-    if (getToken()) {
-        await downloadLogsFromGist();
-    }
+    updateDailyQuest(); // Inicia o Oráculo
 
-    // 2. Setup dos Componentes da UI
+    if (getToken()) await downloadLogsFromGist();
+
     setupPageNavigation();
     setupLogModal();
     setupDeleteModal(); 
+    
+    // A MAGIA ESTAVA A FALHAR AQUI! O setupQuestModal tem que ser chamado.
+    if (typeof setupQuestModal === "function") {
+        setupQuestModal(); 
+    }
+    
     setupActivitiesFilters();
     setupGistConfig();
     
-    // 3. Renderização Inicial
     updateGameification(); 
-    
-    // 4. Setup Estético Gótico
     setupActivityHeartbeat();
 
-    // Feedback visual inicial suave (GSAP)
-    gsap.from('.sidebar', { x: -100, opacity: 0, duration: 0.8, ease: 'power2.out' });
-    gsap.from('.home-hero', { y: 30, opacity: 0, duration: 1, delay: 0.3, ease: 'power2.out' });
-    gsap.from('.gamification-section', { opacity: 0, duration: 1, delay: 0.5 });
+    if(typeof gsap !== 'undefined') {
+        gsap.from('.sidebar', { x: -100, opacity: 0, duration: 0.8, ease: 'power2.out' });
+        gsap.from('.home-hero', { y: 30, opacity: 0, duration: 1, delay: 0.3, ease: 'power2.out' });
+        gsap.from('.gamification-section', { opacity: 0, duration: 1, delay: 0.5 });
+    }
 });

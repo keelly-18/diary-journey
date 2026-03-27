@@ -54,22 +54,18 @@
                     <p class="home-subtitle">Registros, códigos e feitiços da minha jornada na tecnologia</p>
                 </div>
 
-                <div class="brutal-motivation">
-                    <h2>O tempo vai passar de qualquer jeito.</h2>
-                    <p>A diferença é onde você estará quando ele passar. Este grimório não é um enfeite para aliviar a culpa. É a prova em sangue e código de que você não está parada.</p>
-                    <p>É o preço pago nas horas vagas entre a faculdade e o estágio para não ser engolida pelo mercado. É aqui que você constrói o seu futuro de verdade.</p>
-                    <div class="brutal-highlight">Seja intencional. Todo dia é uma chance de evoluir ou de ficar para trás.</div>
-                </div>
-
                 <div class="home-content">
                     <div class="gamification-section">
 
                         <div class="oracle-box">
-                            <div class="oracle-header">
-                                <img src="img/moon_4139153.png" alt="Oráculo" class="oracle-icon">
-                                <h3>Sussurro do Oráculo</h3>
+                            <div class="oracle-header" style="justify-content: space-between;">
+                                <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                    <img src="img/moon_4139153.png" alt="Oráculo" class="oracle-icon">
+                                    <h3 style="margin: 0;">Sussurro do Oráculo</h3>
+                                </div>
+                                <button id="completeQuestBtn" class="quest-btn" title="Cumprir Missão">✓</button>
                             </div>
-                            <p id="dailyQuestText">As cartas estão sendo embaralhadas...</p>
+                            <p id="dailyQuestText">As cartas estão a ser baralhadas...</p>
                         </div>
 
                         <div class="top-row">
@@ -208,7 +204,12 @@
                     </div>
                 </section>
             </div>
-
+<div class="brutal-motivation">
+                    <h2>O tempo vai passar de qualquer jeito.</h2>
+                    <p>A diferença é onde você estará quando ele passar. Este grimório não é um enfeite para aliviar a culpa. É a prova em sangue e código de que você não está parada.</p>
+                    <p>É o preço pago nas horas vagas entre a faculdade e o estágio para não ser engolida pelo mercado. É aqui que você constrói o seu futuro de verdade.</p>
+                    <div class="brutal-highlight">Seja intencional. Todo dia é uma chance de evoluir ou de ficar para trás.</div>
+                </div>
             <div class="page" data-page="activities">
                 <section class="activities-section">
                     <div class="activities-header">
@@ -280,9 +281,9 @@
                 <div class="modal-steps" id="modalSteps">
 
                     <div class="modal-step active" data-step="1">
-                        <div class="step-header">
-                            <span class="step-rune" style="color: #ef4444; font-family: 'Cinzel', serif; font-size: 1.5rem;">I</span>
-                            <h2 style="color: #ff6b9d; font-family: 'Cinzel', serif;">O que aconteceu hoje?</h2>
+                        <div class="step-header" style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(239,68,68,0.2); padding-bottom: 0.8rem;">
+                            <img src="img/feather-pen_6584407.png" alt="Passo 1" style="width: 24px; filter: invert(42%) sepia(93%) saturate(3012%) hue-rotate(336deg) brightness(101%) contrast(96%);">
+                            <h2 style="color: #ff6b9d; font-family: 'Cinzel', serif; font-size: 1.3rem; margin: 0;">O que aconteceu hoje?</h2>
                         </div>
                         <div class="form-group" style="margin-top: 1rem;">
                             <label for="logArea">Qual frente da jornada?</label>
@@ -306,9 +307,9 @@
                     </div>
 
                     <div class="modal-step" data-step="2" style="display: none;">
-                        <div class="step-header">
-                            <span class="step-rune" style="color: #ef4444; font-family: 'Cinzel', serif; font-size: 1.5rem;">II</span>
-                            <h2 style="color: #ff6b9d; font-family: 'Cinzel', serif;">Aprofunde a experiência</h2>
+                        <div class="step-header" style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(239,68,68,0.2); padding-bottom: 0.8rem;">
+                            <img src="img/magic-ball_3929961.png" alt="Passo 2" style="width: 24px; filter: invert(42%) sepia(93%) saturate(3012%) hue-rotate(336deg) brightness(101%) contrast(96%);">
+                            <h2 style="color: #ff6b9d; font-family: 'Cinzel', serif; font-size: 1.3rem; margin: 0;">Aprofunde a experiência</h2>
                         </div>
                         <div class="form-group" style="margin-top: 1rem;">
                             <label for="logEmotion">Como você se sentiu?</label>
@@ -400,15 +401,28 @@
                 </div>
             </div>
         </div>
+<div id="questModal" class="modal">
+        <div class="modal-content" style="border-color: rgba(168, 85, 247, 0.4); box-shadow: 0 12px 50px rgba(0,0,0,.8), 0 0 35px rgba(168, 85, 247, 0.2);">
+            <button class="modal-close-btn" id="closeQuestModal" style="float: right; background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer; position: relative; z-index: 10;">✕</button>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem;">
+                <img src="img/moon_4139153.png" alt="Oráculo" style="width: 28px; filter: invert(61%) sepia(56%) saturate(3474%) hue-rotate(236deg) brightness(98%) contrast(96%);">
+                <h2 style="color: #c084fc; font-family: 'Cinzel', serif; margin: 0;">Completar Missão Mística</h2>
+            </div>
+            
+            <p id="questModalText" style="margin-bottom: 1.5rem; font-style: italic; color: #e5e7eb; border-left: 2px solid #c084fc; padding-left: 1rem; line-height: 1.6;"></p>
+            
+            <div class="form-group">
+                <label style="color: #d8b4fe;">Como cumpriu o sussurro do oráculo hoje?</label>
+                <textarea id="questAnswer" placeholder="Descreva sua jornada..." rows="4" style="width: 100%; padding: 0.8rem; background: rgba(10,2,2,0.9); color: var(--text-accent); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 0.4rem; resize: vertical; position: relative; z-index: 10;"></textarea>
+            </div>
+            
+            <button class="btn-primary" id="saveQuestBtn" style="width: 100%; margin-top: 1rem; background: linear-gradient(135deg, #4c1d95, #7e22ce); border-color: #a855f7; box-shadow: 0 0 15px rgba(168,85,247,0.3); color: #fff; position: relative; z-index: 10;">
+                Reivindicar Recompensa (60 XP)
+            </button>
+        </div>
+    </div>
 
-    </div> 
-
-    <footer class="footer">
-        <p>Diário de aprendizado sombrio · 2026</p>
-    </footer>
-</div>
-
-<script src="script.js"></script>
-<script src="animations.js"></script>
+    <script src="script.js"></script>
+    <script src="animations.js"></script>
 </body>
 </html>
