@@ -81,7 +81,8 @@ function updateDailyQuest() {
         marcarMissaoComoFeita(questEl, btnEl, false);
     } else if (btnEl) {
         btnEl.classList.remove('completed');
-        btnEl.innerHTML = '✓';
+        // A LINHA NOVA É ESTA:
+        btnEl.innerHTML = '<span class="quest-btn-text">Atender</span><span class="quest-btn-icon">✦</span>';
         if (questEl) questEl.classList.remove('quest-completed-text');
         
         btnEl.onclick = () => {
@@ -591,6 +592,67 @@ function setupDeleteModal() {
     });
 }
 
+// --- CONTROLE DO MODAL DA MISSÃO (O CÉREBRO QUE FALTAVA) ---
+function setupQuestModal() {
+    const modal = document.getElementById('questModal');
+    const closeBtn = document.getElementById('closeQuestModal');
+    const saveBtn = document.getElementById('saveQuestBtn');
+    const input = document.getElementById('questAnswer');
+
+    if (!modal) return;
+
+    // Fechar o modal ao clicar no X ou fora da caixa
+    if (closeBtn) closeBtn.onclick = () => modal.classList.remove('show');
+    window.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+
+    // Salvar e reivindicar os pontos
+    if (saveBtn) {
+        saveBtn.onclick = async () => {
+            const answer = input.value.trim();
+            if (!answer) {
+                showToast('O Oráculo exige um relato do seu feito!');
+                return;
+            }
+
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Transmutando energia...';
+
+            // Registra a missão como uma "Conquista" valendo 60 XP
+            const title = "🔮 Missão do Oráculo Cumprida";
+            const fullDesc = `Sussurro: ${currentQuestText}\n\nMeu relato: ${answer}`;
+            
+            await dailyLog.addLog(title, fullDesc, 'conquista', 'empolgada', 'Sussurro do Oráculo atendido');
+
+            // Marca a missão do dia como concluída no localStorage
+            const todayStr = new Date().toISOString().split('T')[0];
+            localStorage.setItem('gothic_diary_quest_date', todayStr);
+            
+            // Muda o botão principal para o brilho verde
+            const questEl = document.getElementById('dailyQuestText');
+            const btnEl = document.getElementById('completeQuestBtn');
+            if (btnEl) {
+                btnEl.classList.add('completed');
+                btnEl.innerHTML = '✨'; 
+                btnEl.onclick = null;   
+            }
+            if (questEl) {
+                questEl.classList.add('quest-completed-text');
+            }
+            showToast("O Oráculo sorri para si. Missão cumprida!");
+
+            // Limpa o formulário e fecha o modal
+            input.value = '';
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Reivindicar Recompensa (60 XP)';
+            modal.classList.remove('show');
+            
+            // Atualiza os painéis para mostrar o XP ganho
+            updateGameification();
+            renderActivities(currentFilter); 
+        };
+    }
+}
+
 // ============================================================
 // SISTEMA DE SINCRONIZAÇÃO GITHUB GIST (API)
 // ============================================================
@@ -781,3 +843,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         gsap.from('.gamification-section', { opacity: 0, duration: 1, delay: 0.5 });
     }
 });
+
+// --- FUNÇÃO PARA MARCAR A MISSÃO COMO CONCLUÍDA VISUALMENTE ---
+function marcarMissaoComoFeita(questEl, btnEl, mostrarAviso) {
+    if (btnEl) {
+        btnEl.classList.add('completed');
+        btnEl.innerHTML = '✨'; 
+        btnEl.onclick = null;   
+    }
+    if (questEl) {
+        questEl.classList.add('quest-completed-text');
+    }
+    if (mostrarAviso) {
+        showToast("O Oráculo sorri para você. Missão cumprida!");
+    }
+}
