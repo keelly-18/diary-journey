@@ -664,10 +664,7 @@ button, .btn-primary, .btn-secondary {
     animation: none; 
 }
 
-/* Quando desaparece */
+/* Quando a missão está concluída, apaga o botão da existência */
 .quest-btn.completed {
-    transform: scale(0.8) translateY(-10px) !important;
-    opacity: 0 !important;
-    pointer-events: none;
-    animation: none !important;
+    display: none !important;
 }

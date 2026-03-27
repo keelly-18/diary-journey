@@ -858,3 +858,80 @@ function marcarMissaoComoFeita(questEl, btnEl, mostrarAviso) {
         showToast("O Oráculo sorri para você. Missão cumprida!");
     }
 }
+
+// ============================================================
+// ORÁCULO: MODAL E CONTROLE VISUAL 
+// ============================================================
+
+// 1. O feitiço que risca o texto e muda o botão
+function marcarMissaoComoFeita(questEl, btnEl, mostrarAviso) {
+    if (btnEl) {
+        btnEl.classList.add('completed');
+        btnEl.innerHTML = '✨'; 
+        btnEl.onclick = null;   
+    }
+    if (questEl) {
+        questEl.classList.add('quest-completed-text');
+    }
+    if (mostrarAviso) {
+        showToast("O Oráculo sorri para você. Missão cumprida!");
+    }
+}
+
+// 2. O feitiço que controla o pergaminho roxo e dá XP
+function setupQuestModal() {
+    const modal = document.getElementById('questModal');
+    const closeBtn = document.getElementById('closeQuestModal');
+    const saveBtn = document.getElementById('saveQuestBtn');
+    const input = document.getElementById('questAnswer');
+
+    if (!modal) return;
+
+    if (closeBtn) closeBtn.onclick = () => modal.classList.remove('show');
+    window.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+
+    if (saveBtn) {
+        saveBtn.onclick = async () => {
+            const answer = input.value.trim();
+            if (!answer) {
+                showToast('O Oráculo exige um relato do seu feito!');
+                return;
+            }
+
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Transmutando energia...';
+
+            // Salva a conquista
+            const title = "🔮 Missão do Oráculo Cumprida";
+            const fullDesc = `Sussurro: ${currentQuestText}\n\nMeu relato: ${answer}`;
+            await dailyLog.addLog(title, fullDesc, 'conquista', 'empolgada', 'Sussurro do Oráculo atendido');
+
+            // Marca a missão do dia como concluída na memória
+            const todayStr = new Date().toISOString().split('T')[0];
+            localStorage.setItem('gothic_diary_quest_date', todayStr);
+            
+            // Ativa o visual de riscado na hora!
+            const questEl = document.getElementById('dailyQuestText');
+            const btnEl = document.getElementById('completeQuestBtn');
+            marcarMissaoComoFeita(questEl, btnEl, true);
+
+            // Limpa e fecha
+            input.value = '';
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Reivindicar Recompensa (60 XP)';
+            modal.classList.remove('show');
+            
+            updateGameification();
+            renderActivities(currentFilter); 
+        };
+    }
+}
+
+// --- ATALHO MÍSTICO PARA RESETAR MISSÃO (Shift + R) ---
+document.addEventListener('keydown', (e) => {
+    if (e.shiftKey && e.key === 'R') {
+        localStorage.removeItem('gothic_diary_quest_date');
+        showToast("Memória purificada... O tempo volta atrás.");
+        setTimeout(() => location.reload(), 1000);
+    }
+});
