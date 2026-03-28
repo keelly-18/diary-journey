@@ -6,17 +6,12 @@
     <title>Grimório de Evolução</title>
     <link rel="icon" type="image/png" href="img/spell-book_12405234.png">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Spectral:ital,wght@0,200;0,400;0,700;1,400&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
 </head>
 <body>
 
 <div class="container">
-    <div class="bats">
-        <span class="bat">🦇</span>
-        <span class="bat">🦇</span>
-    </div>
-
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-content">
             <h1 class="logo">Diary</h1>
@@ -46,40 +41,32 @@
     </nav>
 
     <div class="pages-container">
-
         <div class="page active" data-page="home">
             <section class="home-section">
                 <div class="home-hero">
-                    <h1>Grimório de Evolução</h1>
-                    <p class="home-subtitle">Registros, códigos e feitiços da minha jornada na tecnologia</p>
-                </div>
+    <h1>Códice das Sombras Binárias</h1>
+    <p class="home-subtitle">Inscrições, algoritmos e rituais na arquitetura do vazio.</p>
+</div>
 
                 <div class="home-content">
                     <div class="gamification-section">
-
                         <div class="oracle-box">
                             <div class="oracle-header" style="justify-content: space-between;">
                                 <div style="display: flex; align-items: center; gap: 0.8rem;">
-                                    <img src="img/moon_4139153.png" alt="Oráculo" class="oracle-icon">
                                     <h3 style="margin: 0;">Sussurro do Oráculo</h3>
                                 </div>
-                                <button id="completeQuestBtn" class="quest-btn" title="Atender ao Chamado">
-                                    <span class="quest-btn-text">Atender</span>
-                                    <span class="quest-btn-icon">✦</span>
-                                </button>
+                                <button id="completeQuestBtn" class="quest-btn" title="Atender ao Chamado">Atender</button>
+                                <div id="questDoneBadge" class="quest-done-badge">Selado ⛧</div>
                             </div>
                             <p id="dailyQuestText">As cartas estão a ser baralhadas...</p>
                         </div>
 
                         <div class="top-row">
                             <div class="emotional-widget">
-                                <div class="emotion-icon-container">
-                                    <img src="img/ghost_8493864.png" alt="Humor" class="emotion-icon" id="emotionIcon">
-                                </div>
-                                <div class="emotion-content">
-                                    <p class="emotion-status" id="emotionStatus">Materializando...</p>
-                                    <p class="emotion-message" id="emotionMessage">Traga alguma energia vital para este diário.</p>
-                                </div>
+    <div class="emotion-content">
+        <p class="emotion-status" id="emotionStatus" style="font-size: 1.5rem; margin-bottom: 0.5rem;">👻</p> 
+        <p class="emotion-message" id="emotionMessage">Aguardando invocação...</p>
+    </div>
                                 <div class="emotion-insights">
                                     <div class="emotion-insight">
                                         <img src="img/onibi.png" alt="Evolução" class="insight-icon color-spirit">
@@ -206,13 +193,14 @@
                         </div>
                     </div>
                 </section>
-            </div>
-<div class="brutal-motivation">
+                <div class="brutal-motivation">
                     <h2>O tempo vai passar de qualquer jeito.</h2>
                     <p>A diferença é onde você estará quando ele passar. Este grimório não é um enfeite para aliviar a culpa. É a prova em sangue e código de que você não está parada.</p>
                     <p>É o preço pago nas horas vagas entre a faculdade e o estágio para não ser engolida pelo mercado. É aqui que você constrói o seu futuro de verdade.</p>
                     <div class="brutal-highlight">Seja intencional. Todo dia é uma chance de evoluir ou de ficar para trás.</div>
                 </div>
+            </div>
+
             <div class="page" data-page="activities">
                 <section class="activities-section">
                     <div class="activities-header">
@@ -242,7 +230,6 @@
                     <div id="skillsGrid" class="skills-display-grid">
                         <div class="empty-skill-state">
                             <p>🔮 Nenhuma habilidade registrada ainda.</p>
-                            <p style="font-size:0.85rem; opacity:0.6; margin-top:0.5rem;">Clique em "Adicionar Habilidade" para começar.</p>
                         </div>
                     </div>
                 </section>
@@ -252,7 +239,6 @@
                 <section class="projects-page-section">
                     <div class="projects-page-header">
                         <h2>Obras & Artefatos</h2>
-                        <p class="section-intro">Projetos da faculdade, trabalhos do estágio e iniciativas pessoais — cada um com sua história.</p>
                         <button class="btn-secondary" id="addProjectBtn">+ Registrar Projeto</button>
                     </div>
                     <div id="projectsGrid" class="projects-display-grid">
@@ -266,162 +252,74 @@
             <div class="page" data-page="credits">
                 <section class="about-me" style="margin-top: 2rem;">
                     <h2>Pergaminho de Reconhecimento</h2>
-                    <p style="margin-bottom: 1.5rem;">As artes, ícones e feitiços visuais que adornam este grimório foram conjurados pelos seguintes mestres:</p>
                     <ul style="list-style: none; padding: 0;">
-                        <li style="padding: 0.8rem 0; border-bottom: 1px solid rgba(220,38,38,.08);">🦇 Ícones principais por <a href="https://www.flaticon.com/br/autores/freepik" target="_blank" class="gist-link">Freepik</a> no Flaticon.</li>
-                        <li style="padding: 0.8rem 0; border-bottom: 1px solid rgba(220,38,38,.08);">🦇 Artes místicas por <a href="https://www.flaticon.com/br/autores/umeicon" target="_blank" class="gist-link">Umeicon</a> no Flaticon.</li>
-                        <li style="padding: 0.8rem 0; border-bottom: 1px solid rgba(220,38,38,.08);">🦇 Elementos góticos por <a href="https://www.flaticon.com/br/autores/darius-dan" target="_blank" class="gist-link">Darius Dan</a> no Flaticon.</li>
-                        <li style="padding: 0.8rem 0;">🦇 Ilustrações sombrias por <a href="https://www.flaticon.com/br/autores/rina-agustina" target="_blank" class="gist-link">Rina agustina</a> no Flaticon.</li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid rgba(220,38,38,.08);">🦇 Ícones principais por Freepik no Flaticon.</li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid rgba(220,38,38,.08);">🦇 Artes místicas por Umeicon no Flaticon.</li>
                     </ul>
                 </section>
             </div>
-
-        </div>
-
-        <div id="logModal" class="modal">
-            <div class="modal-content modal-grimoire">
-                <button class="modal-close-btn" id="closeLogModal" style="float: right; background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;">✕</button>
-                <div class="modal-steps" id="modalSteps">
-
-                    <div class="modal-step active" data-step="1">
-                        <div class="step-header" style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(239,68,68,0.2); padding-bottom: 0.8rem;">
-                            <img src="img/feather-pen_6584407.png" alt="Passo 1" style="width: 24px; filter: invert(42%) sepia(93%) saturate(3012%) hue-rotate(336deg) brightness(101%) contrast(96%);">
-                            <h2 style="color: #ff6b9d; font-family: 'Cinzel', serif; font-size: 1.3rem; margin: 0;">O que aconteceu hoje?</h2>
-                        </div>
-                        <div class="form-group" style="margin-top: 1rem;">
-                            <label for="logArea">Qual frente da jornada?</label>
-                            <select id="logArea" style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem;">
-                                <option value="estagio">💼 Estágio (20 XP)</option>
-                                <option value="faculdade">🎓 Faculdade (20 XP)</option>
-                                <option value="estudo">📚 Estudo Extra (35 XP)</option>
-                                <option value="desafio">⚔️ Desafio Superado (45 XP)</option>
-                                <option value="conquista">🏆 Conquista (60 XP)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="logTitle">O que você fez ou aprendeu?</label>
-                            <input type="text" id="logTitle" placeholder="Ex: Mapeei o processo de onboarding do estágio" required style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem;">
-                        </div>
-                        <div class="form-group">
-                            <label for="logDescription">Descreva com mais detalhe (opcional)</label>
-                            <textarea id="logDescription" placeholder="O que aconteceu? Como foi?" rows="3" style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem; resize: vertical;"></textarea>
-                        </div>
-                        <button class="btn-primary" id="btnStep1Next" style="margin-top: 1rem; width: 100%;">Continuar →</button>
+        </div> </div> <div id="logModal" class="modal">
+        <div class="modal-content modal-grimoire">
+            <button class="modal-close-btn" id="closeLogModal">✕</button>
+            <div class="modal-steps" id="modalSteps">
+                <div class="modal-step active" data-step="1">
+                    <h2 style="color: #ff6b9d; font-family: 'Cinzel', serif;">O que aconteceu hoje?</h2>
+                    <div class="form-group">
+                        <label for="logArea">Qual frente da jornada?</label>
+                        <select id="logArea">
+                            <option value="estagio">💼 Estágio (20 XP)</option>
+                            <option value="faculdade">🎓 Faculdade (20 XP)</option>
+                            <option value="estudo">📚 Estudo Extra (35 XP)</option>
+                            <option value="desafio">⚔️ Desafio Superado (45 XP)</option>
+                            <option value="conquista">🏆 Conquista (60 XP)</option>
+                        </select>
                     </div>
-
-                    <div class="modal-step" data-step="2" style="display: none;">
-                        <div class="step-header" style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(239,68,68,0.2); padding-bottom: 0.8rem;">
-                            <img src="img/magic-ball_3929961.png" alt="Passo 2" style="width: 24px; filter: invert(42%) sepia(93%) saturate(3012%) hue-rotate(336deg) brightness(101%) contrast(96%);">
-                            <h2 style="color: #ff6b9d; font-family: 'Cinzel', serif; font-size: 1.3rem; margin: 0;">Aprofunde a experiência</h2>
-                        </div>
-                        <div class="form-group" style="margin-top: 1rem;">
-                            <label for="logEmotion">Como você se sentiu?</label>
-                            <select id="logEmotion" style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem;">
-                                <option value="empolgada">🔥 Empolgada / Fez sentido!</option>
-                                <option value="frustrada">💀 Frustrada, mas não derrotada</option>
-                                <option value="exausta">🦇 Exausta... sugou minha alma</option>
-                                <option value="focada">👁️ Focada / Em estado de flow</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="logReason">Por que isso é importante para o seu futuro?</label>
-                            <textarea id="logReason" placeholder="Reflita por 1 minuto. O que isso muda?" rows="3" style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem; resize: vertical;"></textarea>
-                        </div>
-                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                            <button class="btn-secondary" id="btnStep2Back" style="flex: 1;">← Voltar</button>
-                            <button class="btn-primary" id="submitLogBtnFinal" style="flex: 2; background: linear-gradient(135deg, #450a0a, #7f1d1d);">⛧ Selar no Grimório</button>
-                        </div>
+                    <div class="form-group">
+                        <label for="logTitle">Título do feito</label>
+                        <input type="text" id="logTitle" placeholder="Ex: Mapeei o processo de onboarding">
                     </div>
-
+                    <div class="form-group">
+                        <label for="logDescription">Descrição (opcional)</label>
+                        <textarea id="logDescription" rows="3"></textarea>
+                    </div>
+                    <button class="btn-primary" id="btnStep1Next">Continuar →</button>
+                </div>
+                <div class="modal-step" data-step="2" style="display: none;">
+                    <h2 style="color: #ff6b9d; font-family: 'Cinzel', serif;">Aprofunde a experiência</h2>
+                    <div class="form-group">
+                        <label for="logEmotion">Humor</label>
+                        <select id="logEmotion">
+                            <option value="empolgada">🔥 Empolgada</option>
+                            <option value="frustrada">💀 Frustrada</option>
+                            <option value="exausta">🦇 Exausta</option>
+                            <option value="focada">👁️ Focada</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="logReason">Propósito</label>
+                        <textarea id="logReason" rows="3"></textarea>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn-secondary" id="btnStep2Back">← Voltar</button>
+                        <button class="btn-primary" id="submitLogBtnFinal">⛧ Selar no Grimório</button>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="skillModal" class="modal">
-            <div class="modal-content">
-                <button class="modal-close-btn" id="closeSkillModal" style="float: right; background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;">✕</button>
-                <h2 style="color: #ff6b9d; font-family: 'Cinzel', serif; margin-bottom: 1.5rem;">Registrar Habilidade</h2>
-                <div class="form-group">
-                    <label>Nome da habilidade</label>
-                    <input type="text" id="skillName" placeholder="Ex: JavaScript, Figma, SQL..." style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem;">
-                </div>
-                <div class="form-group">
-                    <label>Categoria</label>
-                    <select id="skillCategory" style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem;">
-                        <option value="tecnica">💻 Técnica (Linguagens/Código)</option>
-                        <option value="processo">📐 Processo & Metodologia</option>
-                        <option value="ferramenta">🔧 Ferramenta Digital</option>
-                        <option value="comportamento">🤝 Comportamento (Soft Skill)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Nível atual: <span id="skillLevelLabel" style="color: #fca5a5;">Iniciante (20%)</span></label>
-                    <input type="range" id="skillLevel" min="5" max="100" value="20" style="width: 100%; margin-top: 0.5rem;">
-                </div>
-                <div class="form-group">
-                    <label>Descrição curta (opcional)</label>
-                    <input type="text" id="skillDesc" placeholder="O que você sabe fazer com isso?" style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem;">
-                </div>
-                <button class="btn-primary" id="saveSkillBtn" style="width: 100%; margin-top: 1rem;">Inscrever no Tomo</button>
-            </div>
-        </div>
-
-        <div id="projectModal" class="modal">
-            <div class="modal-content">
-                <button class="modal-close-btn" id="closeProjectModal" style="float: right; background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;">✕</button>
-                <h2 style="color: #ff6b9d; font-family: 'Cinzel', serif; margin-bottom: 1.5rem;">Registrar Projeto</h2>
-                <div class="form-group">
-                    <label>Nome do projeto</label>
-                    <input type="text" id="projectName" placeholder="Ex: Sistema de Onboarding" style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem;">
-                </div>
-                <div class="form-group">
-                    <label>Tipo</label>
-                    <select id="projectType" style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem;">
-                        <option value="pessoal">🌙 Pessoal</option>
-                        <option value="faculdade">🎓 Faculdade</option>
-                        <option value="estagio">💼 Estágio</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>O que você fez neste projeto?</label>
-                    <textarea id="projectWhat" placeholder="Descreva o que foi feito..." rows="3" style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem; resize: vertical;"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>O que você aprendeu?</label>
-                    <textarea id="projectLearned" placeholder="Quais habilidades ou conhecimentos ganhou?" rows="3" style="width: 100%; padding: 0.8rem; background: var(--surface); color: var(--text-accent); border: 1px solid var(--border); border-radius: 0.4rem; resize: vertical;"></textarea>
-                </div>
-                <button class="btn-primary" id="saveProjectBtn" style="width: 100%; margin-top: 1rem;">Conjurar Projeto</button>
-            </div>
-        </div>
-
-        <div id="deleteConfirmModal" class="modal">
-            <div class="modal-content" style="max-width: 400px; text-align: center;">
-                <h2 style="color: #ef4444; margin-bottom: 1rem; font-family: 'Cinzel', serif;">Expurgar Registro?</h2>
-                <p style="color: #c8c8c8; margin-bottom: 2rem;">Seus pontos de XP serão recalculados.</p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <button class="btn-secondary" id="cancelDeleteBtn" style="flex: 1;">Cancelar</button>
-                    <button class="btn-primary" id="confirmDeleteBtn" style="flex: 1; background: rgba(220,38,38,0.8);">Sim, expurgar</button>
-                </div>
-            </div>
-        </div>
-<div id="questModal" class="modal">
-        <div class="modal-content" style="border-color: rgba(168, 85, 247, 0.4); box-shadow: 0 12px 50px rgba(0,0,0,.8), 0 0 35px rgba(168, 85, 247, 0.2);">
-            <button class="modal-close-btn" id="closeQuestModal" style="float: right; background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer; position: relative; z-index: 10;">✕</button>
+    <div id="questModal" class="modal">
+        <div class="modal-content" style="border-color: rgba(168, 85, 247, 0.4); box-shadow: 0 12px 50px rgba(0,0,0,.9), 0 0 35px rgba(168, 85, 247, 0.15); padding: 2rem;">
+            <button class="modal-close-btn" id="closeQuestModal">✕</button>
             <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem;">
-                <img src="img/moon_4139153.png" alt="Oráculo" style="width: 28px; filter: invert(61%) sepia(56%) saturate(3474%) hue-rotate(236deg) brightness(98%) contrast(96%);">
-                <h2 style="color: #c084fc; font-family: 'Cinzel', serif; margin: 0;">Completar Missão Mística</h2>
+                <h2 style="color: #c084fc; font-family: 'Cinzel', serif; margin: 0; font-size: 1.4rem; letter-spacing: 1px;">O Ritual de Consagração</h2>
             </div>
-            
-            <p id="questModalText" style="margin-bottom: 1.5rem; font-style: italic; color: #e5e7eb; border-left: 2px solid #c084fc; padding-left: 1rem; line-height: 1.6;"></p>
-            
-            <div class="form-group">
-                <label style="color: #d8b4fe;">Como cumpriu o sussurro do oráculo hoje?</label>
-                <textarea id="questAnswer" placeholder="Descreva sua jornada..." rows="4" style="width: 100%; padding: 0.8rem; background: rgba(10,2,2,0.9); color: var(--text-accent); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 0.4rem; resize: vertical; position: relative; z-index: 10;"></textarea>
+            <p id="questModalText" style="margin-bottom: 1.8rem; font-style: italic; color: #e5e7eb; border-left: 2px solid #c084fc; padding-left: 1.2rem; line-height: 1.6; font-size: 0.95rem; opacity: 0.9;"></p>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label style="color: #d8b4fe; font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 1px;">Inscreva seu relato no pergaminho das sombras:</label>
+                <textarea id="questAnswer" placeholder="O caos foi ordenado da seguinte forma..." rows="4"></textarea>
             </div>
-            
-            <button class="btn-primary" id="saveQuestBtn" style="width: 100%; margin-top: 1rem; background: linear-gradient(135deg, #4c1d95, #7e22ce); border-color: #a855f7; box-shadow: 0 0 15px rgba(168,85,247,0.3); color: #fff; position: relative; z-index: 10;">
-                Reivindicar Recompensa (60 XP)
-            </button>
+            <button id="saveQuestBtn" class="modal-quest-btn">Transmutar Energia (60 XP)</button>
         </div>
     </div>
 

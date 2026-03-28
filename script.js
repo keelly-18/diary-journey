@@ -10,7 +10,6 @@ const AREA_LABELS = {
 };
 
 // --- ORÁCULO: MISSÕES DIÁRIAS ---
-// --- ORÁCULO: MISSÕES DIÁRIAS ---
 let currentQuestText = ""; // Guarda o texto da missão do dia
 
 function updateDailyQuest() {
@@ -81,18 +80,24 @@ function updateDailyQuest() {
         marcarMissaoComoFeita(questEl, btnEl, false);
     } else if (btnEl) {
         btnEl.classList.remove('completed');
-        // A LINHA NOVA É ESTA:
-        btnEl.innerHTML = '<span class="quest-btn-text">Atender</span><span class="quest-btn-icon">✦</span>';
+        btnEl.innerHTML = 'Atender'; /* Apenas a palavra limpa */
         if (questEl) questEl.classList.remove('quest-completed-text');
         
         btnEl.onclick = () => {
-            const questModal = document.getElementById('questModal');
-            const modalText = document.getElementById('questModalText');
-            if (modalText) modalText.textContent = `"${currentQuestText}"`;
-            if (questModal) questModal.classList.add('show');
+            // 1. Inicia a animação de fumaça na palavra!
+            btnEl.classList.add('smoke-away');
+            
+            // 2. Espera a fumaça subir (600ms) e só então abre o pergaminho
+            setTimeout(() => {
+                const questModal = document.getElementById('questModal');
+                const modalText = document.getElementById('questModalText');
+                if (modalText) modalText.textContent = `"${currentQuestText}"`;
+                if (questModal) questModal.classList.add('show');
+            }, 600);
         };
     }
-}
+} // <-- A CHAVE QUE FALTAVA ESTÁ AQUI!
+
 // ----------------------------------------------------
 
 // Funções para gerenciar o Toast (notificação simples)
@@ -335,30 +340,174 @@ function updateHeartbeatText() {
     }
 }
 
+// Variável global para evitar que a animação reinicie sem necessidade
+let lastGhostMood = "";
+let ghostTalkTimeout = null; // Guardião do ciclo de fala
+
 function updateGhostMood() {
-    const iconEl = document.getElementById('emotionIcon');
     const statusEl = document.getElementById('emotionStatus');
     const messageEl = document.getElementById('emotionMessage');
-    if (!iconEl) return;
+    if (!statusEl || !messageEl) return;
 
     const streak = dailyLog.getStreak();
     const xpHojes = dailyLog.getTodayLogs().reduce((sum, log) => sum + (log.xp || 0), 0);
     const nivel = dailyLog.getLevel().level;
 
-    let mood = {};
+    let moodKey = "";
+    let statusText = "";
+    let phrases = [];
+
+    // --- LÓGICA DE HUMOR E FRASES (Falas Dinâmicas) ---
     if (xpHojes === 0) {
-        mood = { icon: 'img/teia-de-aranha.png', status: 'Morto por dentro.', message: 'Nem eu que sou um fantasma estou tão parado. Vá estudar!' };
+        moodKey = "morto";
+        statusText = "Ecos do Vazio";
+        phrases = [
+            "O silêncio aqui é mortal... literalmente.",
+            "Teias de aranha binárias estão crescendo nos seus logs.",
+            "Procrastinar é o primeiro rito para o limbo absoluto.",
+            "Vá codar! Minha paciência é eterna, mas a sua vida não.",
+            "O abismo está bocejando para você hoje."
+        ];
     } else if (xpHojes > 120 || streak > 7) {
-        mood = { icon: 'img/haunted-house_5421742.png', status: 'Poltergeist!', message: 'Quanta energia! Quase consigo sentir meu coração bater de novo.' };
+        moodKey = "frenesi";
+        statusText = "Frenesi Sombrio!";
+        phrases = [
+            "Sinto o poder fervendo! O ritual está funcionando.",
+            "Código e sangue... uma mistura imbatível.",
+            "Suas teclas soam como música para meus ouvidos mortos.",
+            "O abismo vibra com sua produtividade!",
+            "Essa energia... quase me sinto corpóreo novamente."
+        ];
     } else if (nivel > 5 && xpHojes > 40) {
-        mood = { icon: 'img/moon_4139153.png', status: 'Espírito Ancião', message: 'Sua aura brilha mais que a lua cheia. Uma assombração de respeito.' };
+        moodKey = "anciao";
+        statusText = "Espírito Ancião";
+        phrases = [
+            "Você carrega a marca da maestria oculta.",
+            "Caminhando entre as sombras da arquitetura binária.",
+            "O Códice reverencia sua constância sagrada.",
+            "Conhecimento é a única luz permitida neste reino.",
+            "Vejo o brilho da sabedoria proibida nos seus olhos."
+        ];
     } else {
-        mood = { icon: 'img/ghost_8493864.png', status: 'Alma Penada.', message: 'Um progresso fantasmagórico. Continue assim.' };
+        moodKey = "penado";
+        statusText = "Alma em Evolução";
+        phrases = [
+            "Um passo para fora do esquecimento eterno.",
+            "Lento, mas o rito de passagem não pode parar.",
+            "Registrar é a única forma de salvar sua alma do limbo.",
+            "Suas mãos escrevem o destino no silício frio.",
+            "O sussurro da evolução está ficando mais alto."
+        ];
     }
 
-    iconEl.src = mood.icon;
-    statusEl.textContent = mood.status;
-    messageEl.textContent = mood.message;
+    // ⛧ O Título muda na hora e fica fixo (para não pular o layout)
+    statusEl.textContent = statusText;
+
+    // Reinicia o ciclo de mensagens completas APENAS se o humor mudar
+    if (lastGhostMood !== moodKey) {
+        lastGhostMood = moodKey;
+        // Reinicia o ciclo de conversa passando as novas frases
+        startGhostConversation(messageEl, phrases);
+    }
+}
+
+// Função principal do ciclo de conversa (Falar Sempre)
+async function startGhostConversation(element, phrases) {
+    if (ghostTalkTimeout) clearTimeout(ghostTalkTimeout);
+
+    async function cycle() {
+        const statusEl = document.getElementById('emotionStatus');
+        const widgetEl = element.closest('.emotional-widget');
+        
+        // --- ⛧ CHANCE DE SUSTO (3%) ⛧ ---
+        const jumpScareChance = Math.random() < 0.03;
+
+        if (jumpScareChance) {
+            await triggerJumpScare(statusEl, element, widgetEl);
+            // Após o susto, volta ao ciclo normal em 5 segundos
+            ghostTalkTimeout = setTimeout(cycle, 5000);
+            return;
+        }
+
+        // --- CICLO NORMAL ---
+        const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+        
+        if (element.textContent.length > 0) {
+            await eraseEffect(element);
+            await new Promise(r => setTimeout(r, 600));
+        }
+
+        await typeWriterEffect(element, randomPhrase);
+        ghostTalkTimeout = setTimeout(cycle, 10000);
+    }
+
+    cycle();
+}
+
+// Função que executa o susto
+async function triggerJumpScare(statusEl, messageEl, widgetEl) {
+    const originalStatus = statusEl.textContent;
+    const scareStatus = "EU ESTOU A VER-TE";
+    const scareMessage = "NÃO TE ATREVAS A SAIR...";
+
+    // 1. Cria o flash na tela
+    const flash = document.createElement('div');
+    flash.className = 'screen-glitch-flash';
+    document.body.appendChild(flash);
+
+    // 2. Aplica efeitos visuais intensos
+    widgetEl.classList.add('jumpscare-shake');
+    statusEl.textContent = scareStatus;
+    statusEl.style.color = "white";
+    messageEl.textContent = scareMessage;
+    messageEl.style.color = "white";
+
+    // 3. Duração do susto (800ms de pânico)
+    await new Promise(r => setTimeout(r, 800));
+
+    // 4. Limpeza e restauração
+    flash.remove();
+    widgetEl.classList.remove('jumpscare-shake');
+    statusEl.textContent = originalStatus;
+    statusEl.style.color = "";
+    messageEl.textContent = "";
+    messageEl.style.color = "";
+}
+
+// Efeito de Apagar letra por letra (Backspace místico)
+async function eraseEffect(element) {
+    let text = element.textContent;
+    while (text.length > 0) {
+        text = text.slice(0, -1);
+        element.textContent = text;
+        await new Promise(r => setTimeout(r, 20)); // Velocidade do backspace
+    }
+}
+
+// Efeito de Digitar com velocidade errática e glitches (O Efeito Legal!)
+async function typeWriterEffect(element, text) {
+    element.classList.add('show-cursor'); // Mostra o cursor místico
+    element.classList.add('ghost-typing'); // Ativa o brilho de digitação
+    
+    for (let i = 0; i < text.length; i++) {
+        element.textContent += text.charAt(i);
+        
+        // Velocidade errática: aleatória entre 40ms (rápido) e 100ms (lento/hesitante)
+        const delay = Math.random() * (100 - 40) + 40;
+        
+        // Pequena chance de um "glitch" visual rápido e tremente
+        if (Math.random() > 0.96) {
+            element.classList.add('glitch-flicker');
+            await new Promise(r => setTimeout(r, 100)); // Duração do glitch
+            element.classList.remove('glitch-flicker');
+        }
+
+        await new Promise(r => setTimeout(r, delay));
+    }
+    
+    // Remove as classes de animação ao terminar de digitar
+    element.classList.remove('show-cursor');
+    element.classList.remove('ghost-typing');
 }
 
 function updateTodayLogs() {
@@ -474,7 +623,6 @@ function setupLogModal() {
 
     if (!modal || !btn) return;
 
-    // Abrir Modal e resetar campos
     btn.onclick = () => {
         document.getElementById('logTitle').value = '';
         document.getElementById('logDescription').value = '';
@@ -489,10 +637,9 @@ function setupLogModal() {
     if (closeBtn) closeBtn.onclick = () => modal.classList.remove('show');
     window.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
 
-    // Avançar para Passo 2
     if(btnStep1Next) {
         btnStep1Next.addEventListener('click', (e) => {
-            e.preventDefault(); // Impede de recarregar a tela
+            e.preventDefault(); 
             if(document.getElementById('logTitle').value.trim() !== '') {
                 step1.style.display = 'none';
                 step2.style.display = 'block';
@@ -502,7 +649,6 @@ function setupLogModal() {
         });
     }
 
-    // Voltar para Passo 1
     if(btnStep2Back) {
         btnStep2Back.addEventListener('click', (e) => {
             e.preventDefault();
@@ -511,7 +657,6 @@ function setupLogModal() {
         });
     }
 
-    // Selar Registro (Finalizar)
     if(submitBtnFinal) {
         submitBtnFinal.addEventListener('click', async e => {
             e.preventDefault();
@@ -592,67 +737,6 @@ function setupDeleteModal() {
     });
 }
 
-// --- CONTROLE DO MODAL DA MISSÃO (O CÉREBRO QUE FALTAVA) ---
-function setupQuestModal() {
-    const modal = document.getElementById('questModal');
-    const closeBtn = document.getElementById('closeQuestModal');
-    const saveBtn = document.getElementById('saveQuestBtn');
-    const input = document.getElementById('questAnswer');
-
-    if (!modal) return;
-
-    // Fechar o modal ao clicar no X ou fora da caixa
-    if (closeBtn) closeBtn.onclick = () => modal.classList.remove('show');
-    window.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
-
-    // Salvar e reivindicar os pontos
-    if (saveBtn) {
-        saveBtn.onclick = async () => {
-            const answer = input.value.trim();
-            if (!answer) {
-                showToast('O Oráculo exige um relato do seu feito!');
-                return;
-            }
-
-            saveBtn.disabled = true;
-            saveBtn.textContent = 'Transmutando energia...';
-
-            // Registra a missão como uma "Conquista" valendo 60 XP
-            const title = "🔮 Missão do Oráculo Cumprida";
-            const fullDesc = `Sussurro: ${currentQuestText}\n\nMeu relato: ${answer}`;
-            
-            await dailyLog.addLog(title, fullDesc, 'conquista', 'empolgada', 'Sussurro do Oráculo atendido');
-
-            // Marca a missão do dia como concluída no localStorage
-            const todayStr = new Date().toISOString().split('T')[0];
-            localStorage.setItem('gothic_diary_quest_date', todayStr);
-            
-            // Muda o botão principal para o brilho verde
-            const questEl = document.getElementById('dailyQuestText');
-            const btnEl = document.getElementById('completeQuestBtn');
-            if (btnEl) {
-                btnEl.classList.add('completed');
-                btnEl.innerHTML = '✨'; 
-                btnEl.onclick = null;   
-            }
-            if (questEl) {
-                questEl.classList.add('quest-completed-text');
-            }
-            showToast("O Oráculo sorri para si. Missão cumprida!");
-
-            // Limpa o formulário e fecha o modal
-            input.value = '';
-            saveBtn.disabled = false;
-            saveBtn.textContent = 'Reivindicar Recompensa (60 XP)';
-            modal.classList.remove('show');
-            
-            // Atualiza os painéis para mostrar o XP ganho
-            updateGameification();
-            renderActivities(currentFilter); 
-        };
-    }
-}
-
 // ============================================================
 // SISTEMA DE SINCRONIZAÇÃO GITHUB GIST (API)
 // ============================================================
@@ -675,9 +759,16 @@ function setupGistConfig() {
         const token = tokenInput.value.trim();
         if (!token || !token.startsWith('ghp_')) { showToast('Token inválido. Deve começar com ghp_'); return; }
 
-        saveBtn.disabled = true;
-        saveBtn.textContent = 'Conectando...';
-        statusEl.textContent = 'Validando token...';
+        // O que aparece enquanto carrega
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Canalizando magia...';
+
+            // ... (código que salva a conquista continua igual) ...
+
+            // O que aparece depois de limpar e fechar
+            input.value = '';
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Transmutar Energia (60 XP)';
         
         const gistId = await initializeGist(token);
 
@@ -815,64 +906,23 @@ function setupActivityHeartbeat() {
 }
 
 // ============================================================
-// INIT ────────────────────────────────────────────────────────
-// ============================================================
-document.addEventListener('DOMContentLoaded', async () => {
-    updateDailyQuest(); // Inicia o Oráculo
-
-    if (getToken()) await downloadLogsFromGist();
-
-    setupPageNavigation();
-    setupLogModal();
-    setupDeleteModal(); 
-    
-    // A MAGIA ESTAVA A FALHAR AQUI! O setupQuestModal tem que ser chamado.
-    if (typeof setupQuestModal === "function") {
-        setupQuestModal(); 
-    }
-    
-    setupActivitiesFilters();
-    setupGistConfig();
-    
-    updateGameification(); 
-    setupActivityHeartbeat();
-
-    if(typeof gsap !== 'undefined') {
-        gsap.from('.sidebar', { x: -100, opacity: 0, duration: 0.8, ease: 'power2.out' });
-        gsap.from('.home-hero', { y: 30, opacity: 0, duration: 1, delay: 0.3, ease: 'power2.out' });
-        gsap.from('.gamification-section', { opacity: 0, duration: 1, delay: 0.5 });
-    }
-});
-
-// --- FUNÇÃO PARA MARCAR A MISSÃO COMO CONCLUÍDA VISUALMENTE ---
-function marcarMissaoComoFeita(questEl, btnEl, mostrarAviso) {
-    if (btnEl) {
-        btnEl.classList.add('completed');
-        btnEl.innerHTML = '✨'; 
-        btnEl.onclick = null;   
-    }
-    if (questEl) {
-        questEl.classList.add('quest-completed-text');
-    }
-    if (mostrarAviso) {
-        showToast("O Oráculo sorri para você. Missão cumprida!");
-    }
-}
-
-// ============================================================
 // ORÁCULO: MODAL E CONTROLE VISUAL 
 // ============================================================
 
-// 1. O feitiço que risca o texto e muda o botão
+// 1. O feitiço que risca o texto e MUDA PARA O SELO
 function marcarMissaoComoFeita(questEl, btnEl, mostrarAviso) {
     if (btnEl) {
         btnEl.classList.add('completed');
-        btnEl.innerHTML = '✨'; 
         btnEl.onclick = null;   
     }
     if (questEl) {
         questEl.classList.add('quest-completed-text');
     }
+    
+    // Acende o selo de "Feito"
+    const badge = document.getElementById('questDoneBadge');
+    if (badge) badge.classList.add('show');
+
     if (mostrarAviso) {
         showToast("O Oráculo sorri para você. Missão cumprida!");
     }
@@ -887,8 +937,17 @@ function setupQuestModal() {
 
     if (!modal) return;
 
-    if (closeBtn) closeBtn.onclick = () => modal.classList.remove('show');
-    window.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+    // Fechar o modal e materializar a palavra de volta (se cancelar)
+    if (closeBtn) closeBtn.onclick = () => {
+        modal.classList.remove('show');
+        document.getElementById('completeQuestBtn')?.classList.remove('smoke-away');
+    };
+    window.addEventListener('click', e => { 
+        if (e.target === modal) { 
+            modal.classList.remove('show'); 
+            document.getElementById('completeQuestBtn')?.classList.remove('smoke-away');
+        } 
+    });
 
     if (saveBtn) {
         saveBtn.onclick = async () => {
@@ -933,5 +992,30 @@ document.addEventListener('keydown', (e) => {
         localStorage.removeItem('gothic_diary_quest_date');
         showToast("Memória purificada... O tempo volta atrás.");
         setTimeout(() => location.reload(), 1000);
+    }
+});
+
+// ============================================================
+// INIT ────────────────────────────────────────────────────────
+// ============================================================
+document.addEventListener('DOMContentLoaded', async () => {
+    updateDailyQuest(); // Inicia o Oráculo
+
+    if (getToken()) await downloadLogsFromGist();
+
+    setupPageNavigation();
+    setupLogModal();
+    setupDeleteModal(); 
+    setupQuestModal(); 
+    setupActivitiesFilters();
+    setupGistConfig();
+    
+    updateGameification(); 
+    setupActivityHeartbeat();
+
+    if(typeof gsap !== 'undefined') {
+        gsap.from('.sidebar', { x: -100, opacity: 0, duration: 0.8, ease: 'power2.out' });
+        gsap.from('.home-hero', { y: 30, opacity: 0, duration: 1, delay: 0.3, ease: 'power2.out' });
+        gsap.from('.gamification-section', { opacity: 0, duration: 1, delay: 0.5 });
     }
 });
