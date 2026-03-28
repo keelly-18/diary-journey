@@ -1,0 +1,84 @@
+/* ==========================================================================
+   [01] VARIÁVEIS GLOBAIS E RESET
+   ========================================================================== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --font-gothic:  'Cinzel', serif;
+    --font-reading: 'Spectral', serif;
+    --font-ui:      'Spectral', serif;
+    --font-code:    'Fira Code', monospace;
+
+    --red: #dc2626;
+    --red-dim: rgba(220,38,38,0.25);
+    --red-glow: rgba(239,68,68,0.4);
+    --bg: #050505;
+    --surface: rgba(18,5,5,0.95);
+    --surface-2: rgba(26,8,8,0.9);
+    --text: #c8c8c8;
+    --text-soft: rgba(200,180,180,0.65);
+    --text-accent: #fca5a5;
+    --border: rgba(220,38,38,0.22);
+    --border-strong: rgba(220,38,38,0.42);
+
+    --fs-xs:   clamp(0.7rem,  1.4vw, 0.8rem);
+    --fs-sm:   clamp(0.82rem, 1.7vw, 0.95rem);
+    --fs-base: clamp(0.95rem, 2vw, 1.05rem);
+    --fs-md:   clamp(1.15rem, 2.3vw, 1.35rem);
+    --fs-lg:   clamp(1.3rem,  2.8vw, 1.65rem);
+    --fs-xl:   clamp(1.5rem,  3.5vw, 2rem);
+}
+
+/* ==========================================================================
+   [02] BASE E TIPOGRAFIA
+   ========================================================================== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: rgba(239, 68, 68, 0.3); border-radius: 10px; border: 1px solid rgba(239, 68, 68, 0.1); }
+::-webkit-scrollbar-thumb:hover { background: rgba(239, 68, 68, 0.8); box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+
+body {
+    font-family: var(--font-reading);
+    background: linear-gradient(160deg, #000 0%, #180808 55%, #000 100%);
+    background-attachment: fixed; color: var(--text);
+    font-size: var(--fs-base); line-height: 1.6; letter-spacing: 0.2px; overflow-x: hidden;
+}
+
+body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse at 20% 25%, rgba(220,38,38,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(153,27,27,0.07) 0%, transparent 50%);
+}
+
+h1, h2, h3, h4, .sidebar .logo { font-family: var(--font-gothic); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+button, .btn-primary, .btn-secondary, .nav-text, .stat-label, .hb-label, .area-tag, .last-log-text, .quest-done-badge {
+    font-family: var(--font-ui); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;
+}
+
+/* ==========================================================================
+   [03] CONTAINERS E PÁGINAS GERAIS
+   ========================================================================== */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 1.8rem 0 110px; position: relative; z-index: 2; }
+.pages-container { position:relative; min-height:60vh; padding-top: 2rem; }
+.page { position: absolute; width: 100%; opacity: 0; transform: translateX(35px) translateY(12px); transition: opacity .4s ease, transform .4s ease; pointer-events: none; }
+.page.active { position: relative; opacity:1; transform: translateX(0) translateY(0); pointer-events: auto; animation: pageIn .4s ease; }
+
+.home-section { padding: 2rem 0; }
+.home-hero { text-align:center; margin-bottom:2.5rem; }
+.home-hero h1 { font-size: 4rem; color: #ff2a2a; text-shadow: 0 0 20px rgba(255,0,0,0.5); }
+.home-subtitle { font-family: var(--font-reading); font-size: var(--fs-md); font-style: italic; opacity: .8; }
+.home-content { display:flex; flex-direction:column; gap:2.5rem; }
+.top-row { 
+    display: grid; 
+    grid-template-columns: 1fr 1.4fr; /* Mesma proporção aqui */
+    gap: 1.5rem; 
+    align-items: stretch; 
+    width: 100%; 
+}
+.bottom-row { 
+    display: grid; 
+    grid-template-columns: 1fr 1.4fr; /* Mesma proporção aqui */
+    gap: 1.5rem; 
+    align-items: stretch; 
+    width: 100%; 
+}

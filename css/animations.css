@@ -1,0 +1,68 @@
+/* ==========================================================================
+   EFEITOS DE TEXTO E FANTASMA
+   ========================================================================== */
+.ghost-typing { 
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.6), 0 0 2px white; 
+    transition: text-shadow 0.2s; 
+}
+.glitch-flicker { filter: blur(2px) contrast(200%); transform: translateX(2px) skewX(5deg); color: white !important; }
+.emotion-status::after, .emotion-message::after { content: none; }
+
+/* O Cursor verde do terminal */
+/* O Cursor de estrela sombria (REVERTIDO E VERDE) */
+/* O Cursor de estrela sombria (VERMELHA E GIRATÓRIA) */
+.emotion-message.show-cursor::after {
+    content: "⛧";
+    margin-left: 5px; /* Controlamos o distanciamento por aqui */
+    
+    /* === MUDANÇA: display inline-block para permitir girar === */
+    display: inline-block; 
+    vertical-align: middle; /* Mantém alinhada com o meio do texto */
+    transform-origin: center; /* Gira a partir do próprio centro */
+    
+    /* === NOVA ANIMAÇÃO: Piscar (blink) + Girar (spin) ao mesmo tempo === */
+    animation: blinkCursor 1.2s infinite, spinStar 2s linear infinite;
+    
+    /* === NOVA COR: Vermelha === */
+    color: #ef4444; /* Vermelho vibrante */
+    text-shadow: 0 0 10px #ef4444; /* Brilho vermelho místico */
+    
+    position: relative; z-index: 2;
+}
+
+.emotion-status { animation: ghostlyFlicker 4s infinite alternate; }
+
+.jumpscare-shake { animation: shakeWidget 0.15s infinite !important; border-color: var(--red) !important; box-shadow: 0 0 40px var(--red) !important; }
+.screen-glitch-flash {
+    position: fixed; inset: 0; background: rgba(220, 38, 38, 0.15); z-index: 9999;
+    pointer-events: none; mix-blend-mode: overlay; animation: flashAnimation 0.1s steps(2) infinite;
+}
+
+.smoke-away { animation: smokeFade 0.6s forwards !important; pointer-events: none; }
+.log-item.expurgando { animation: expurgarLog 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards; pointer-events: none; border-left-color: #000; }
+.quest-done-badge.show { display: inline-block; animation: fadeInBadge 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+/* ==========================================================================
+   KEYFRAMES (AS ANIMAÇÕES EM SI)
+   ========================================================================== */
+@keyframes blinkCursor { 0%, 100% { opacity: 1; transform: scale(1.2); } 50% { opacity: 0; transform: scale(0.8); } }
+@keyframes ghostlyFlicker { 0%, 100% { opacity: 1; filter: blur(0px); text-shadow: 0 0 10px var(--red-glow); } 50% { opacity: 0.8; filter: blur(1px); text-shadow: 0 0 20px var(--red-glow); } }
+@keyframes shakeWidget { 0% { transform: translate(2px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } }
+@keyframes flashAnimation { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes slideUp { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:none} }
+@keyframes radarScan { 0% { transform: translateY(-20px); } 100% { transform: translateY(120px); } }
+@keyframes pulsoFantasma { 0%,100%{transform:scale(1);} 50%{transform:scale(1.1);} }
+@keyframes statusPulse { 0%,100%{opacity:1} 50%{opacity:.45} }
+@keyframes fillProg { from{width:0} }
+@keyframes expurgarLog { 0% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } 50% { opacity: 0.5; filter: blur(2px) sepia(100%) hue-rotate(300deg); } 100% { opacity: 0; transform: scale(0.9) translateY(-15px); filter: blur(8px); } }
+@keyframes emoPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+@keyframes pulseButton { 0% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4); } 100% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.7), inset 0 0 10px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.9); } }
+@keyframes pulseQuest { 0% { box-shadow: 0 0 5px rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3); } 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.8), inset 0 0 8px rgba(168, 85, 247, 0.3); border-color: #c084fc; } }
+@keyframes smokeFade { 0% { opacity: 1; filter: blur(0px); transform: translateY(0) scale(1.02); } 50% { opacity: 0.5; filter: blur(4px); transform: translateY(-10px) scale(1.1) rotate(2deg); color: #888; border-color: transparent; background: transparent; box-shadow: none; } 100% { opacity: 0; filter: blur(10px); transform: translateY(-20px) scale(1.3) rotate(-2deg); display: none; } }
+@keyframes fadeInBadge { 0% { opacity: 0; transform: scale(0.5) rotate(5deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
+@keyframes spinStar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
