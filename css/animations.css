@@ -66,3 +66,41 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+@keyframes derreterTexto {
+    0%, 75% {
+        transform: translateY(0) scaleY(1);
+        filter: blur(0px);
+        opacity: 1;
+    }
+    85% {
+        /* Começa a pesar e a escorrer para baixo */
+        transform: translateY(3px) scaleY(1.2);
+        filter: blur(2px);
+        opacity: 0.8;
+    }
+    92% {
+        /* Desfaz-se completamente numa poça vermelha */
+        transform: translateY(20px) scaleY(3);
+        filter: blur(8px);
+        opacity: 0;
+        color: transparent;
+        text-shadow: 0 15px 10px rgba(220, 38, 38, 0.8);
+    }
+    100% {
+        /* Volta a materializar-se */
+        transform: translateY(0) scaleY(1);
+        filter: blur(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes cintilarMistico {
+    0%, 100% {
+        filter: brightness(1) drop-shadow(0 0 5px var(--glow-primary));
+        transform: scale(1);
+    }
+    50% {
+        filter: brightness(1.5) drop-shadow(0 0 15px var(--red));
+        transform: scale(1.05);
+    }
+}

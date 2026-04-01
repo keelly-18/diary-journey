@@ -69,6 +69,33 @@ function marcarMissaoComoFeita(questEl, btnEl, mostrarAviso) {
 }
 
 // ============================================================================
+// [01.5] DECRETOS BRUTAIS DIÁRIOS
+// ============================================================================
+function updateBrutalHighlight() {
+    const decrees = [
+        "O tempo devora os indecisos. Seja intencional, ou torne-se apenas um eco esquecido no mercado.",
+        "A mediocridade é um abismo silencioso. O código que você escreve hoje é a corda para escapar dele.",
+        "A procrastinação é o veneno das mentes brilhantes. Sangre no teclado hoje para reinar amanhã.",
+        "Nenhum Códice se compila sozinho. Cada linha de código é um prego no caixão da sua zona de conforto.",
+        "O conforto é a morte da evolução. Abrace a dor da disciplina e transcenda o seu nível atual.",
+        "Sua concorrência não está dormindo. Levante-se, foque-se e deixe-os nas sombras da sua ascensão.",
+        "A disciplina é a única magia real que transforma o caos da intenção em poder absoluto.",
+        "Descansar não é desistir, mas parar de tentar é assinar a própria sentença. Crie algo hoje.",
+        "A motivação é uma ilusão para os fracos. Apenas o hábito e o ódio pelo fracasso constroem impérios."
+    ];
+
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diff = now - start;
+    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    const highlightEl = document.getElementById('dailyBrutalHighlight');
+    if (highlightEl) {
+        highlightEl.textContent = decrees[dayOfYear % decrees.length];
+    }
+}
+
+// ============================================================================
 // [02] NAVEGAÇÃO E ATUALIZAÇÃO DA UI GERAL
 // ============================================================================
 function setupPageNavigation() {
@@ -118,6 +145,7 @@ function updateGameification() {
     updateTodayLogs();
     updateGhostMood();
     updateHeartbeatText();
+    renderHomeHistory();
 }
 
 // ============================================================================
@@ -131,24 +159,38 @@ function updateTodayLogs() {
     const logs = dailyLog.getTodayLogs();
 
     if (logs.length === 0) {
-        container.innerHTML = '<p class="empty-state" style="padding: 3rem 0; font-size: var(--fs-base); color: rgba(200,180,180,0.4); font-family: \'Cinzel\', serif;">As páginas aguardam sua energia vital...</p>';
-        if (lastLogTextEl) lastLogTextEl.textContent = 'O silêncio impera';
+        container.innerHTML = '<p style="padding: 1.5rem; text-align: center; color: rgba(200,180,180,0.3); font-size: 0.85rem; font-style: italic;">O Códice aguarda a sua tinta...</p>';
+        if (lastLogTextEl) lastLogTextEl.textContent = 'Nenhum registro selado';
         return;
     }
 
     if (lastLogTextEl) lastLogTextEl.textContent = `Último: ${logs[logs.length - 1].title}`;
 
-    container.innerHTML = logs.slice().reverse().map(log => {
-        const time  = new Date(log.timestamp).toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
-        const area  = log.area || 'estudo';
+    // A MÁGICA DO LIMITE: Pega apenas os últimos 5 registros e inverte para o mais novo ficar no topo
+    const logsToShow = logs.slice(-5).reverse();
+
+    container.innerHTML = logsToShow.map(log => {
+        const dateObj = new Date(log.timestamp);
+        const time = dateObj.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+        const date = dateObj.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit' });
+        const area = log.area || 'estudo';
+        
+        const isOracle = log.title.includes('Oráculo');
+        const verboAcao = isOracle ? 'Sussurrado' : 'Selado';
+        
         return `
-            <div class="log-item">
-                <span class="log-title">${log.title}</span>
-                <div class="log-meta">
+            <div class="log-item log-tema-${area}">
+                <div class="log-content-left">
+                    <span class="log-title">${log.title}</span>
+                    <span class="log-time-whisper">
+                        ${verboAcao} em <strong class="log-time-highlight">${date}</strong> <span class="log-separator">às</span> <strong class="log-time-highlight">${time}</strong>
+                    </span>
+                </div>
+                
+                <div class="log-content-right">
                     <span class="area-tag area-${area}">${AREA_LABELS[area] || area}</span>
-                    <span class="log-time">${time}</span>
-                    <span class="log-xp">+${log.xp} XP</span>
-                    <button class="delete-log-btn" data-id="${log.id}" title="Excluir este log">×</button>
+                    <span class="log-xp-highlight">+${log.xp}XP</span>
+                    <button class="delete-log-btn" data-id="${log.id}">×</button>
                 </div>
             </div>`;
     }).join('');
@@ -207,6 +249,119 @@ function setupActivitiesFilters() {
             renderActivities(currentFilter);
         });
     });
+}
+
+// ============================================================================
+// [05] HISTÓRICO DE INSCRIÇÕES (HOME)
+// ============================================================================
+
+let historyFilter = 'all';
+const HISTORY_PAGE_SIZE = 5; // grupos de dias por "página"
+let historyPage = 1;
+
+function setupHistorySection() {
+    // Filtros
+    const filterBtns = document.querySelectorAll('.hf-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            historyFilter = btn.getAttribute('data-filter');
+            historyPage = 1;
+            renderHomeHistory();
+        });
+    });
+
+    // Recolher / expandir
+    const collapseBtn = document.getElementById('historyCollapseBtn');
+    const body        = document.getElementById('historyBody');
+    const icon        = document.getElementById('historyCollapseIcon');
+    if (collapseBtn && body) {
+        collapseBtn.addEventListener('click', () => {
+            const collapsed = body.classList.toggle('collapsed');
+            icon.textContent = collapsed ? '▼' : '▲';
+        });
+    }
+
+    // Carregar mais
+    document.getElementById('historyLoadMore')?.addEventListener('click', () => {
+        historyPage++;
+        renderHomeHistory();
+    });
+}
+
+function renderHomeHistory() {
+    const list      = document.getElementById('historyList');
+    const countEl   = document.getElementById('historyCount');
+    const loadMore  = document.getElementById('historyLoadMore');
+    if (!list) return;
+
+    // Pega todos os logs e aplica filtro de área
+    let allLogs = dailyLog.getAllLogsFlat();
+    if (historyFilter !== 'all') allLogs = allLogs.filter(l => l.area === historyFilter);
+
+    // Atualiza contador
+    if (countEl) countEl.textContent = `${allLogs.length} registro${allLogs.length !== 1 ? 's' : ''}`;
+
+    if (allLogs.length === 0) {
+        list.innerHTML = '<p class="empty-state" style="padding: 2rem 0; color: rgba(200,180,180,0.35); font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px; font-size: var(--fs-xs);">Nenhuma inscrição encontrada.</p>';
+        if (loadMore) loadMore.style.display = 'none';
+        return;
+    }
+
+    // Agrupa por data (mais recente primeiro)
+    const groups = {};
+    allLogs.forEach(log => {
+        const dateKey = log.timestamp.split('T')[0];
+        if (!groups[dateKey]) groups[dateKey] = [];
+        groups[dateKey].push(log);
+    });
+
+    // Ordena as datas mais recentes primeiro
+    const sortedDates = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+
+    // Paginação por grupos de dias
+    const visibleDates = sortedDates.slice(0, historyPage * HISTORY_PAGE_SIZE);
+    const hasMore = visibleDates.length < sortedDates.length;
+    if (loadMore) loadMore.style.display = hasMore ? 'block' : 'none';
+
+    const today     = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+    function labelForDate(dateStr) {
+        if (dateStr === today)     return 'Hoje';
+        if (dateStr === yesterday) return 'Ontem';
+        return new Date(dateStr + 'T00:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    list.innerHTML = visibleDates.map(dateStr => {
+        const logsDodia = groups[dateStr];
+        const xpDia = logsDodia.reduce((sum, l) => sum + (l.xp || 0), 0);
+
+        const itens = logsDodia.map(log => {
+            const time = new Date(log.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            const area = log.area || 'estudo';
+            return `
+            <div class="history-log-item area-${area}">
+                <span class="history-log-title">${log.title}</span>
+                <div class="history-log-meta">
+                    <span class="area-tag area-${area}">${AREA_LABELS[area] || area}</span>
+                    <span class="history-log-time">${time}</span>
+                    <span class="log-xp">+${log.xp} XP</span>
+                    <button class="delete-log-btn" data-id="${log.id}" title="Expurgar">×</button>
+                </div>
+            </div>`;
+        }).join('');
+
+        return `
+        <div class="history-day-group">
+            <div class="history-day-label">
+                ${labelForDate(dateStr)}
+                <span class="history-day-xp">${xpDia} XP</span>
+            </div>
+            ${itens}
+        </div>`;
+    }).join('');
 }
 
 // ============================================================================
@@ -303,7 +458,7 @@ function setupQuestModal() {
         const btn = document.getElementById('saveQuestBtn');
         btn.disabled = true; btn.textContent = 'Transmutando energia...';
 
-        await dailyLog.addLog("🔮 Missão do Oráculo Cumprida", `Sussurro: ${currentQuestText}\n\nMeu relato: ${input.value.trim()}`, 'conquista', 'empolgada', 'Sussurro do Oráculo atendido');
+        await dailyLog.addLog("Missão do Oráculo Cumprida!", `Sussurro: ${currentQuestText}\n\nMeu relato: ${input.value.trim()}`, 'conquista', 'empolgada', 'Sussurro do Oráculo atendido');
         localStorage.setItem('gothic_diary_quest_date', new Date().toISOString().split('T')[0]);
         
         marcarMissaoComoFeita(document.getElementById('dailyQuestText'), document.getElementById('completeQuestBtn'), true);
@@ -335,6 +490,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupDeleteModal(); 
     setupQuestModal(); 
     setupActivitiesFilters();
+    setupHistorySection();
     setupGistConfig();
     
     updateGameification(); 
@@ -345,4 +501,80 @@ document.addEventListener('DOMContentLoaded', async () => {
         gsap.from('.home-hero', { y: 30, opacity: 0, duration: 1, delay: 0.3, ease: 'power2.out' });
         gsap.from('.gamification-section', { opacity: 0, duration: 1, delay: 0.5 });
     }
+});
+
+// Adicione isto no final do seu main.js ou dentro do DOMContentLoaded
+function setupGothicDropdown() {
+    const dropdown = document.getElementById('gothicDropdown');
+    if (!dropdown) return;
+
+    const selected = dropdown.querySelector('.dropdown-selected');
+    const input = document.getElementById('logArea');
+    const options = dropdown.querySelectorAll('.dropdown-list li');
+
+    // Abre e fecha o menu
+    selected.onclick = () => dropdown.classList.toggle('open');
+
+    // Quando clica numa opção
+    options.forEach(opt => {
+        opt.onclick = () => {
+            selected.querySelector('span').textContent = opt.textContent;
+            selected.querySelector('span').style.color = getComputedStyle(opt).color;
+            input.value = opt.getAttribute('data-value');
+            dropdown.classList.remove('open');
+        };
+    });
+
+    // Fecha se clicar fora
+    window.onclick = (e) => {
+        if (!dropdown.contains(e.target)) dropdown.classList.remove('open');
+    };
+}
+
+// Chame a função na inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    setupGothicDropdown();
+    // ... restante do seu código
+});
+
+function setupHumorSelector() {
+    const selector = document.getElementById('humorSelector');
+    if (!selector) return;
+
+    const trigger = selector.querySelector('.humor-trigger');
+    const inputHidden = document.getElementById('logEmotion');
+    const options = selector.querySelectorAll('.humor-option');
+
+    // 1. Abrir e fechar
+    trigger.onclick = (e) => {
+        e.stopPropagation(); // Impede o clique de fechar o menu na hora
+        selector.classList.toggle('open');
+    };
+
+    // 2. Escolher uma opção
+    options.forEach(opt => {
+        opt.onclick = () => {
+            const valor = opt.getAttribute('data-value');
+            const texto = opt.textContent;
+
+            // Atualiza o que o usuário vê
+            trigger.querySelector('span').textContent = texto;
+            
+            // Atualiza o valor invisível que o seu código de dados.js usa
+            inputHidden.value = valor;
+
+            selector.classList.remove('open');
+        };
+    });
+
+    // 3. Fechar se clicar fora do menu
+    document.addEventListener('click', () => {
+        selector.classList.remove('open');
+    });
+}
+
+// Inicialize chamando a função no DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    setupHumorSelector();
+    // outras funções aqui...
 });

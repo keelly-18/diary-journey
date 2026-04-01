@@ -55,18 +55,20 @@
                 <div class="home-content">
                     <div class="gamification-section">
                         <div class="oracle-box">
-                            <div class="oracle-header" style="justify-content: space-between;">
-                                <div style="display: flex; align-items: center; gap: 0.8rem;">
-                                    <h3 style="margin: 0;">Sussurro do Oráculo</h3>
-                                </div>
-                                <button id="completeQuestBtn" class="quest-btn" title="Atender ao Chamado">Atender</button>
-                                <div id="questDoneBadge" class="quest-done-badge">Selado ⛧</div>
-                            </div>
+                            <div class="oracle-header">
+    <div style="display: flex; align-items: center; gap: 0.8rem;">
+        <h3 style="margin: 0;">Sussurro do Oráculo</h3>
+    </div>
+    <div class="oracle-actions">
+        <button id="completeQuestBtn" class="quest-btn" title="Atender ao Chamado">Atender</button>
+        <div id="questDoneBadge" class="quest-done-badge">Selado ⛧</div>
+    </div>
+</div>
                             <p id="dailyQuestText">As cartas estão a ser baralhadas...</p>
                         </div>
 
                         <div class="top-row">
-                            <div class="emotional-widget">
+                            <div class="emotional-widget aura-abissal">
                                 <div class="emotion-content">
                                     <p class="emotion-status" id="emotionStatus" style="font-size: 1.5rem; margin-bottom: 0.5rem;">👻</p> 
                                     <p class="emotion-message" id="emotionMessage">Aguardando invocação...</p>
@@ -89,7 +91,7 @@
                                 </div>
                             </div>
 
-                            <div class="stats-panel">
+                            <div class="stats-panel aura-abissal">
                                 <h2 class="stats-title">
                                     Atributos Sombrios
                                 </h2>
@@ -137,7 +139,7 @@
                         </div>
 
                         <div class="bottom-row">
-                            <div class="heartbeat-section">
+                            <div class="heartbeat-section aura-abissal">
                                 <div class="heartbeat-header">
                                     <span class="heartbeat-title">
                                         RESSONÂNCIA ESPIRITUAL
@@ -161,10 +163,9 @@
                                 </div>
                             </div>
 
-                            <div class="daily-reminder">
+                            <div class="daily-reminder aura-abissal">
                                 <div class="logs-header">
                                     <h3 style="display: flex; align-items: center; gap: 0.6rem;">
-                                        <img src="img/feather-pen_6584407.png" alt="Grimório" style="width: 24px; filter: invert(82%) sepia(35%) saturate(1487%) hue-rotate(352deg) brightness(103%);">
                                         Páginas de Hoje
                                     </h3>
                                     <div class="last-log-badge">
@@ -183,21 +184,31 @@
                                     <div class="gist-status" id="gistStatus"></div>
                                 </div>
 
-                                <button class="btn-primary" id="addLogBtn" style="margin: 1rem auto; display: flex; width: 100%; justify-content: center;">
-                                    <span class="seal-text">Selar Novo Registro</span>
-                                </button>
-
-                                <div id="todayLogs" class="logs-list"></div>
-                            </div>
+                                <button class="btn-primary" id="addLogBtn">
+    <span class="seal-text">Selar Novo Registro</span>
+</button>
                         </div>
                     </div>
-                </section>
-                <div class="brutal-motivation">
-                    <h2>O tempo vai passar de qualquer jeito.</h2>
-                    <p>A diferença é onde você estará quando ele passar. Este grimório não é um enfeite para aliviar a culpa. É a prova em sangue e código de que você não está parada.</p>
-                    <div class="brutal-highlight">Seja intencional. Todo dia é uma chance de evoluir ou de ficar para trás.</div>
-                </div>
-            </div>
+               
+
+<div class="footer-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: stretch; margin-top: 1.5rem;">
+    
+    <div class="painel-de-logs aura-abissal" style="margin: 0; display: flex; flex-direction: column;">
+        <div class="painel-header">
+            <h3>Ecos do Dia</h3>
+        </div>
+        <div id="todayLogs" class="logs-list"></div>
+    </div>
+    
+    <div class="brutal-motivation aura-abissal" style="margin: 0; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+        <h2>O tempo vai escorrer de qualquer forma.</h2>
+        <p>A diferença é a patente que você terá quando ele passar. Este Códice não é um enfeite para aliviar a sua consciência. É a prova em sangue e sintaxe de que você sobreviveu a mais um dia.</p>
+        <div class="brutal-highlight" id="dailyBrutalHighlight">O tempo devora os indecisos. Seja intencional.</div>
+    </div>
+
+</div>
+
+ </section>
 
         <div class="page" data-page="activities">
             <section class="activities-section">
@@ -265,13 +276,20 @@
                 <h2>O que aconteceu hoje?</h2>
                 <div class="form-group">
                     <label for="logArea">Qual frente da jornada?</label>
-                    <select id="logArea">
-                        <option value="estagio">💼 Estágio (20 XP)</option>
-                        <option value="faculdade">🎓 Faculdade (20 XP)</option>
-                        <option value="estudo">📚 Estudo Extra (35 XP)</option>
-                        <option value="desafio">⚔️ Desafio Superado (45 XP)</option>
-                        <option value="conquista">🏆 Conquista (60 XP)</option>
-                    </select>
+                    <div class="gothic-dropdown" id="gothicDropdown">
+    <div class="dropdown-selected aura-abissal">
+        <span>💼 Estágio (20 XP)</span>
+        <div class="dropdown-arrow"></div>
+    </div>
+    <ul class="dropdown-list aura-abissal">
+        <li data-value="estagio" class="opt-estagio">💼 Estágio (20 XP)</li>
+        <li data-value="faculdade" class="opt-faculdade">🎓 Faculdade (20 XP)</li>
+        <li data-value="estudo" class="opt-estudo">📚 Estudo Extra (35 XP)</li>
+        <li data-value="desafio" class="opt-desafio">⚔️ Desafio Superado (45 XP)</li>
+        <li data-value="conquista" class="opt-conquista">🏆 Conquista (60 XP)</li>
+    </ul>
+    <input type="hidden" id="logArea" value="estagio">
+</div>
                 </div>
                 <div class="form-group">
                     <label for="logTitle">Título do feito</label>
@@ -286,14 +304,23 @@
             <div class="modal-step" data-step="2" style="display: none;">
                 <h2>Aprofunde a experiência</h2>
                 <div class="form-group">
-                    <label for="logEmotion">Humor</label>
-                    <select id="logEmotion">
-                        <option value="empolgada">🔥 Empolgada</option>
-                        <option value="frustrada">💀 Frustrada</option>
-                        <option value="exausta">🦇 Exausta</option>
-                        <option value="focada">👁️ Focada</option>
-                    </select>
-                </div>
+    <label>Humor Atual</label>
+    <div class="humor-custom-select" id="humorSelector">
+        <div class="humor-trigger aura-abissal">
+            <span>🔥 Empolgada</span>
+            <div class="humor-arrow"></div>
+        </div>
+        
+        <div class="humor-options-list aura-abissal">
+            <div class="humor-option" data-value="empolgada">🔥 Empolgada</div>
+            <div class="humor-option" data-value="frustrada">💀 Frustrada</div>
+            <div class="humor-option" data-value="exausta">🦇 Exausta</div>
+            <div class="humor-option" data-value="focada">👁️ Focada</div>
+        </div>
+
+        <input type="hidden" id="logEmotion" value="empolgada">
+    </div>
+</div>
                 <div class="form-group">
                     <label for="logReason">Propósito</label>
                     <textarea id="logReason" rows="3"></textarea>

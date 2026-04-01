@@ -160,6 +160,7 @@ function setupActivityHeartbeat() {
 
     for (let i = 0; i < maxPoints; i++) points.push({ x: i * (width / maxPoints), y: height / 2 });
 
+
     let frameCount = 0;
     function animate() {
         frameCount++; points.shift();
@@ -175,7 +176,9 @@ function setupActivityHeartbeat() {
         ctx.beginPath(); ctx.arc(points[points.length - 1].x, points[points.length - 1].y, 2.5, 0, Math.PI * 2);
         ctx.fillStyle = '#fff'; ctx.shadowBlur = 15; ctx.shadowColor = '#fff'; ctx.fill(); ctx.shadowBlur = 0; 
         
-        requestAnimationFrame(animate);
+        setTimeout(() => {
+    requestAnimationFrame(animate);
+    }, 25);
     }
     animate();
 }

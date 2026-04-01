@@ -104,26 +104,105 @@
    [03] HEARTBEAT & LOGS DIÁRIOS
    ========================================================================== */
 .heartbeat-section, .daily-reminder { height: 440px !important; background: rgba(8,2,2,.92); border: 1.5px solid var(--border); border-radius: .6rem; padding: 1.5rem; box-shadow: 0 0 20px rgba(239,68,68,.1), inset 0 0 18px rgba(239,68,68,.03); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; min-height: 320px; }
-.heartbeat-section::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 5; background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.3) 51%); background-size: 100% 4px; }
-.heartbeat-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 15px; pointer-events: none; z-index: 6; background: rgba(239, 68, 68, 0.15); filter: blur(4px); animation: radarScan 3s linear infinite; }
+.heartbeat-section::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 5;  background-size: 100% 4px; }
 .heartbeat-header { display:flex; flex-direction: column; align-items:center; gap: 0.5rem; position: relative; z-index: 10; }
 .heartbeat-title { font-size: var(--fs-md); font-weight: 800; color: #daa520; display: flex; align-items: center; gap: 0.6rem; }
 .monitor-icon { width: 24px; height: 24px; filter: invert(82%) sepia(35%) saturate(1487%) hue-rotate(352deg) brightness(103%); animation: pulsoFantasma 1.5s infinite alternate; }
 .heartbeat-status { font-size:var(--fs-sm); color:var(--text-soft); transition:color .5s; text-transform: uppercase; letter-spacing: 1px;}
-.heartbeat-canvas { width: 100%; height: 100px; border-radius: .3rem; background-image: linear-gradient(rgba(239, 68, 68, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(239, 68, 68, 0.08) 1px, transparent 1px); background-size: 15px 15px; border: 1px solid rgba(239, 68, 68, 0.15); position: relative; z-index: 10; }
-.heartbeat-footer { display: flex; justify-content: space-between; align-items: center; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 0.4rem; padding: 0.8rem 1.2rem; position: relative; z-index: 10; }
+.heartbeat-canvas { width: 100%; height: 100px; border-radius: .3rem; background-image: linear-gradient(rgba(239, 68, 68, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(239, 68, 68, 0.15) 1px, transparent 1px);background-color: #000000;  background-size: 15px 15px; border: 1px solid rgba(239, 68, 68, 0.15); position: relative; z-index: 10;}
+.heartbeat-footer { display: flex; justify-content: space-between; align-items: center; background: rgba(0, 0, 0, 0.6); border: 1px solid #ef444433; border-radius: 0.4rem; padding: 0.8rem 1.2rem; position: relative; z-index: 10; }
 .hb-stat { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
 .hb-label { font-size: 0.65rem; color: var(--text-soft); text-transform: uppercase; letter-spacing: 1px; }
 .hb-value { font-size: var(--fs-sm); color: #fca5a5; font-weight: bold; text-shadow: 0 0 5px rgba(252, 165, 165, 0.3); }
 
-.daily-reminder { background: linear-gradient(180deg, rgba(20, 5, 5, 0.9), rgba(8, 2, 2, 0.95)); box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(239, 68, 68, 0.03); }
-.logs-header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.7rem; margin-bottom:1.5rem; }
-.logs-header h3 { font-size:var(--fs-lg); color:#daa520; margin:0; }
-.last-log-badge { padding: .4rem .9rem; background: rgba(239,68,68,.05); border: 1px solid rgba(239,68,68,.2); border-radius: 2rem; max-width: 300px; }
-.last-log-text { font-size:var(--fs-xs); color:rgba(252,165,165,.6); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.logs-list { margin-top: 1rem; flex: 1; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 0.6rem; scrollbar-width: thin; scrollbar-color: rgba(239, 68, 68, 0.25) transparent; }
-.log-item { background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(5px); padding: .8rem 1.2rem; border-radius: .4rem; border: 1px solid rgba(239,68,68,.1); border-left: 3px solid rgba(239,68,68,.6); display: flex; justify-content:space-between; align-items:center; gap:.5rem; font-size: var(--fs-sm); transition: all .3s ease; }
-.log-item:hover { background: rgba(20, 5, 5, 0.85); border-left-color: #ef4444; border-color: rgba(239,68,68,.3); transform: translateX(5px); box-shadow: -5px 0 15px rgba(239,68,68,.15); }
+/* ──  (PÁGINAS DE HOJE) ── */
+.daily-reminder {
+    background: linear-gradient(180deg, rgba(20, 5, 5, 0.9), rgba(8, 2, 2, 0.95));
+    border: 1.5px solid var(--border); border-radius: .6rem; 
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(239, 68, 68, 0.03);
+    display: flex; flex-direction: column; 
+    gap: 1rem; /* Espaçamento constante entre os elementos */
+    height: 440px !important;
+}
+
+.logs-header { 
+    display: flex; 
+    flex-direction: column; /* Título em cima, badge em baixo para não esmagar */
+    align-items: flex-start; 
+    gap: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.logs-header h3 { 
+    font-size: var(--fs-md); 
+    color: #daa520; 
+    margin: 0; 
+    display: flex; 
+    align-items: center; 
+    gap: 0.6rem;
+    text-shadow: 0 0 10px rgba(218, 165, 32, 0.2);
+}
+
+.last-log-badge {
+    padding: 0.4rem 1rem; 
+    background: rgba(239, 68, 68, 0.05); 
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 4px; /* Mais quadrado para combinar com a BIOS */
+    width: 100%; /* Ocupa a largura toda para o texto fluir */
+    overflow: hidden;
+}
+
+.last-log-text { 
+    font-size: 0.75rem; 
+    color: rgba(252, 165, 165, 0.6); 
+    font-family: var(--font-ui); 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; /* Se o nome do log for gigante, ele coloca "..." */
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Ajuste do Botão de Selar dentro da caixa */
+#addLogBtn {
+    margin: 0.5rem 0; /* Espaço em cima e embaixo */
+    font-family: var(--font-gothic);
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* Lista de Logs com Scrollbar Sombrio */
+.logs-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--red) transparent;
+}
+
+/* Estilo de cada item da lista */
+.log-item {
+    background: rgba(0, 0, 0, 0.4); 
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    border: 1px solid rgba(239, 68, 68, 0.1);
+    border-left: 3px solid var(--red);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.log-item:hover {
+    background: rgba(239, 68, 68, 0.05);
+    transform: translateX(4px);
+    border-color: var(--red-glow);
+}
 .log-title { color: #e5e7eb; font-weight:500; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .log-meta { display:flex; align-items:center; gap:.6rem; }
 .log-time { font-size:var(--fs-xs); color:var(--text-soft); opacity: 0.7;}
@@ -139,14 +218,49 @@
 /* ==========================================================================
    [04] BOTÕES E MODAIS
    ========================================================================== */
-.btn-primary { background: linear-gradient(135deg, rgba(239,68,68,.3), rgba(200,50,50,.18)); border: 1.5px solid rgba(239,68,68,.52); color: var(--text-accent); padding: .8rem 1.4rem; border-radius: .45rem; cursor: pointer; font-size: var(--fs-base); width: 100%; transition: all .3s; text-transform: uppercase; box-shadow: 0 0 15px rgba(239,68,68,.22); animation: pulseButton 2s infinite alternate; }
+.btn-primary { background: linear-gradient(135deg, rgba(239,68,68,.3), rgba(200,50,50,.18)); border: 1.5px solid rgba(239,68,68,.52); color: var(--text-accent); padding: .8rem 1.4rem; border-radius: .45rem; cursor: pointer; font-size: var(--fs-base); width: 60%; position: relative;
+    right: -60px; transition: all .3s; text-transform: uppercase; box-shadow: 0 0 15px rgba(239,68,68,.22); animation: pulseButton 2s infinite alternate; }
 .btn-primary:hover { background: linear-gradient(135deg, rgba(239,68,68,.45), rgba(200,50,50,.32)); border-color: rgba(239,68,68,.82); box-shadow: 0 0 28px rgba(239,68,68,.55); transform: translateY(-2px) scale(1.01); }
 .btn-secondary { background: rgba(239,68,68,.1); border: 1.5px solid var(--border); color: var(--text-accent); padding: .6rem 1.1rem; border-radius: .35rem; cursor: pointer; font-size: var(--fs-sm); transition: all .25s ease; white-space: nowrap; }
 .btn-secondary:hover { background:rgba(239,68,68,.2); border-color:var(--border-strong); }
 .delete-log-btn { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: #fca5a5; border-radius: .25rem; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; margin-left: .5rem; }
 .delete-log-btn:hover { background: rgba(239, 68, 68, 0.8); color: #fff; border-color: rgba(239, 68, 68, 1); transform: scale(1.1); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
+/* Transformação em Botão Etéreo (Adeus Bloco!) */
+#btnStep2Back {
+    /* 1. Removemos a aparência de "caixa" */
+    background: transparent !important;
+    border: none !important;
+   
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    animation: none !important;
 
+    /* 2. Ajuste de Tipografia */
+    color: var(--text-soft);
+    padding: 0.4rem 0.2rem; /* Menos preenchimento para não parecer gordo */
+    font-size: 0.7rem;
+    letter-spacing: 3px; /* Texto mais espalhado e elegante */
+    text-transform: uppercase;
+    
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.4s ease;
+}
+
+/* 3. O Efeito Cintilante que você amou */
+#btnStep2Back:hover {
+    color: var(--red);
+    text-shadow: 0 0 12px var(--red);
+    
+    /* Aplicando a animação que criamos para os ícones */
+    animation: cintilarMistico 3s infinite ease-in-out !important;
+    
+    transform: translateX(-5px); /* Ele desliza suavemente para o lado */
+}
 .modal { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,.68); backdrop-filter:blur(8px); animation: fadeIn .25s ease; }
+
 .modal-content { background: linear-gradient(135deg, rgba(20,6,6,.98), rgba(10,3,3,1)); border: 1.5px solid var(--border); border-radius: .6rem; padding: 2.3rem; max-width: 500px; width:92%; box-shadow: 0 12px 50px rgba(0,0,0,.65), 0 0 35px rgba(239,68,68,.2); animation: slideUp .36s ease; max-height: 90vh; overflow-y: auto; }
 #questModal .modal-content { box-shadow: 0 12px 50px rgba(0,0,0,.9), 0 0 35px rgba(168, 85, 247, 0.2); border-color: rgba(168, 85, 247, 0.3); }
 .modal.show { display:flex; justify-content:center; align-items:center; }
@@ -157,12 +271,262 @@
 .form-group input, .form-group textarea, .form-group select { width:100%; background: var(--surface); border: 1.5px solid var(--border); color: var(--text-accent); padding: .7rem .85rem; border-radius: .35rem; font-family: var(--font-reading); font-size: var(--fs-base); transition: border-color .25s; }
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline:none; border-color:rgba(239,68,68,.65); box-shadow:0 0 14px rgba(239,68,68,.22); }
 #diary-toast { position:fixed; bottom:1.8rem; right:1.8rem; background: var(--surface); border: 1.5px solid var(--border); color: var(--text-accent); padding: .8rem 1.3rem; border-radius: .45rem; z-index: 9999; box-shadow: 0 0 22px rgba(239,68,68,.25); opacity: 0; transition: opacity .3s ease; pointer-events: none; }
+.form-group select {
+    width: 100%;
+    background-color: #050505; /* Fundo preto sólido */
+    border: 1.5px solid var(--border); /* Usa a tua cor de borda vermelha */
+    color: var(--text-accent); /* Texto em vermelho suave */
+    padding: 0.7rem 2.8rem 0.7rem 0.85rem; /* Aumentamos o espaço na direita para a seta */
+    border-radius: 0.35rem;
+    font-family: var(--font-reading);
+    font-size: var(--fs-base);
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    /* 1. REMOVE A SETA BRANCA PADRÃO */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* 2. ADICIONA A SETA GÓTICA (SVG Vermelho) */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.2rem center; /* Posiciona a seta na direita */
+    background-size: 0.85rem;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: var(--red); /* Brilha em vermelho forte ao clicar */
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.22);
+}
+
+.form-group select option {
+    background-color: #0a0505; /* Fundo escuro para a lista */
+    color: var(--text-accent);
+    padding: 10px;
+}
+
+/* 1. Espaçamento do Título do Modal */
+.modal-content h2 {
+    margin-bottom: 2rem; /* Aumenta o espaço depois do título principal */
+    text-align: center;
+}
+
+/* 2. Espaçamento entre os grupos de formulário */
+.form-group {
+    margin-bottom: 1.8rem; /* Aumentamos de 1.2rem para 1.8rem */
+}
+
+/* 3. Espaçamento entre o Label (rótulo) e o campo */
+.form-group label {
+    display: block;
+    font-size: var(--fs-sm);
+    color: #d0d0d0;
+    margin-bottom: 0.8rem; /* Aumentamos de 0.4rem para 0.8rem */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 4. Respiro extra para o botão de ação */
+#btnStep1Next, #submitLogBtnFinal {
+    margin-top: 1rem; /* Garante que o botão não fique colado na caixa de texto */
+}
+
+/* Estilo do Container */
+.gothic-dropdown { position: relative; width: 100%; cursor: pointer; }
+
+/* A caixa que fica fechada */
+.dropdown-selected {
+    padding: 0.7rem 1rem;
+    border-radius: 0.35rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-accent);
+}
+
+/* A seta customizada */
+.dropdown-arrow {
+    width: 8px;              /* Reduzido de 12px */
+    height: 8px;             /* Reduzido de 12px */
+    border-right: 1.5px solid var(--red); /* Linha mais fina (era 2px) */
+    border-bottom: 1.5px solid var(--red); /* Linha mais fina (era 2px) */
+    transform: rotate(45deg);
+    transition: 0.3s;
+    margin-right: 0.5rem;    /* Ajuste de posição */
+}
+
+/* A lista que abre */
+.dropdown-list {
+    position: absolute; top: 110%; left: 0; width: 100%;
+    list-style: none; padding: 0; margin: 0;
+    display: none; /* Começa escondida */
+    z-index: 100;
+}
+
+.gothic-dropdown.open .dropdown-list { display: block; }
+.gothic-dropdown.open .dropdown-arrow { transform: rotate(-135deg); }
+
+/* Estilo de cada opção e as CORES que querias */
+.dropdown-list li {
+    padding: 0.7rem 1.2rem; /* Aumentamos um pouco o respiro */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transição mais suave */
+    color: var(--text-soft);
+    cursor: pointer;
+}
+/* CORES INDIVIDUAIS E HOVER SEM AZUL! */
+.opt-estagio { color: #c084fc; }
+.opt-estagio:hover { 
+    background: rgba(168, 85, 247, 0.15); 
+    color: #c084fc;
+    padding-left: 1.6rem; 
+    text-shadow: 0 0 10px #c084fc;
+    animation: cintilarMistico 3s infinite ease-in-out; /* Usa a tua animação mística */
+}
+
+.opt-faculdade { color: #7dd3fc; }
+.opt-faculdade:hover { 
+    background: rgba(125, 211, 252, 0.15); 
+    color: #7dd3fc;
+    padding-left: 1.6rem;
+    text-shadow: 0 0 10px #7dd3fc;
+    animation: cintilarMistico 3s infinite ease-in-out;
+}
+
+.opt-estudo { color: #5eead4; }
+.opt-estudo:hover { 
+    background: rgba(94, 234, 212, 0.15); 
+    color: #5eead4;
+    padding-left: 1.6rem;
+    text-shadow: 0 0 10px #5eead4;
+    animation: cintilarMistico 3s infinite ease-in-out;
+}
+
+.opt-desafio { color: #fcd34d; }
+.opt-desafio:hover { 
+    background: rgba(252, 211, 77, 0.15); 
+    color: #fcd34d;
+    padding-left: 1.6rem;
+    text-shadow: 0 0 10px #fcd34d;
+    animation: cintilarMistico 3s infinite ease-in-out;
+}
+
+.opt-conquista { color: #fca5a5; }
+.opt-conquista:hover { 
+    background: rgba(239, 68, 68, 0.15); 
+    color: #fca5a5;
+    padding-left: 1.6rem;
+    text-shadow: 0 0 10px #fca5a5;
+    animation: cintilarMistico 3s infinite ease-in-out;
+}
+
+
+/* Container principal */
+.humor-custom-select {
+    position: relative;
+    width: 100%;
+    user-select: none;
+}
+
+/* A caixa principal (Trigger) */
+.humor-trigger {
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid var(--border-glow) !important;
+}
+
+/* Seta customizada */
+.humor-arrow {
+    width: 8px; height: 8px;
+    border-right: 2px solid var(--red);
+    border-bottom: 2px solid var(--red);
+    transform: rotate(45deg);
+    transition: transform 0.3s ease;
+}
+
+/* Lista que flutua (O segredo do Absolute) */
+.humor-options-list {
+    position: absolute;
+    top: calc(100% + 5px); /* Fica logo abaixo do trigger */
+    left: 0;
+    width: 100%;
+    z-index: 2100; /* Acima de tudo no modal */
+    display: none; /* Escondida por padrão */
+    border-radius: 4px;
+    padding: 5px 0;
+}
+
+/* Mostra a lista quando clicamos */
+.humor-custom-select.open .humor-options-list {
+    display: block;
+}
+
+.humor-custom-select.open .humor-arrow {
+    transform: rotate(-135deg);
+}
+
+/* Cada opção individual */
+.humor-option {
+    padding: 0.8rem 1.2rem;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* ADEUS AZUL! Aqui colocamos o efeito cintilante no hover */
+.humor-option:hover {
+    background: rgba(220, 38, 38, 0.15); /* Fundo vermelho fantasmagórico */
+    color: #fff;
+    padding-left: 1.6rem; /* Efeito de deslizar */
+    text-shadow: 0 0 10px var(--red);
+    animation: cintilarMistico 2s infinite; /* Usa a animação que criamos! */
+}
 
 /* ==========================================================================
    [05] SECÇÕES EXTRAS (ORÁCULO, CARDS DE MAGIA, ETC)
    ========================================================================== */
 .oracle-box { background: linear-gradient(135deg, rgba(20,5,5,0.9), rgba(10,2,2,0.95)); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 0.6rem; padding: 1.5rem; box-shadow: 0 0 20px rgba(168, 85, 247, 0.1); margin-bottom: 1.5rem; }
-.oracle-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+/* Cabeçalho organizado: Título na esquerda, Ações na direita */
+.oracle-header { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    width: 100%;
+    margin-bottom: 1.2rem;
+}
+
+.oracle-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 100px; /* Garante espaço para o badge não pular */
+}
+
+/* O SEGREDO: Quando a missão é feita, o botão SOME */
+.quest-btn.completed {
+    display: none !important;
+}
+
+/* O badge 'Selado' só aparece quando tiver a classe .show */
+.quest-done-badge {
+    display: none;
+}
+.quest-done-badge.show {
+    display: inline-block;
+}
+
+/* Garante que o botão 'Atender' e o badge 'Selado' fiquem lado a lado sem brigar */
+.oracle-header > div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+}
 .oracle-box h3 { color: #c084fc; font-size: var(--fs-md); margin: 0; }
 #dailyQuestText { font-size: var(--fs-base); color: #e5e7eb; font-style: italic; border-left: 2px solid #c084fc; padding-left: 1rem; }
 
@@ -171,10 +535,6 @@
 
 .quest-done-badge { display: none; font-size: var(--fs-xs); color: #d1d5db; background: rgba(156, 163, 175, 0.15); border: 1px solid rgba(156, 163, 175, 0.4); padding: 0.4rem 0.8rem; border-radius: 0.3rem; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
 .quest-completed-text { text-decoration: line-through; opacity: 0.4; transition: all 0.5s ease; }
-
-.brutal-motivation { background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(239, 68, 68, 0.1); border-radius: 0.6rem; padding: 2rem; margin-bottom: 2rem; }
-.brutal-motivation h2 { color: #ef4444; font-size: var(--fs-lg); margin-bottom: 1rem; }
-.brutal-highlight { margin-top: 1.5rem; padding: 1rem; background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; color: #fca5a5; font-weight: bold; font-size: var(--fs-md); }
 
 .activities-section { margin:3rem 0; }
 .activities-header h2 { font-size:var(--fs-xl); color:#ff6b9d; margin-bottom:1.2rem; padding-bottom:.8rem; border-bottom:1.5px solid var(--border); }
@@ -193,7 +553,6 @@
 .magic-card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(239, 68, 68, 0.2); padding-top: 1rem; }
 .magic-card-xp { font-size: var(--fs-sm); color: #daa520; font-weight: bold; }
 
-.gist-config { background: rgba(239,68,68,.05); border: 1px solid var(--border); border-radius: .5rem; padding: 1rem 1.2rem; margin-bottom: 1rem; }
 .gist-link { color:#fca5a5; text-decoration:underline; font-weight:600; }
 .gist-inputs { display:flex; gap:.6rem; flex-wrap:wrap; }
 
@@ -264,4 +623,326 @@
     color: #fff;
     border-color: #e9d5ff;
     animation: none; /* Para a pulsação no hover para focar no brilho */
+}
+
+/* ── CONFIGURAÇÕES GITHUB (GIST) ── */
+.gist-config {
+    background: rgba(10, 5, 5, 0.5); /* Fundo semi-transparente escuro */
+    border: 1px solid rgba(220, 38, 38, 0.15);
+    border-radius: 4px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    border-left: 3px solid var(--red); /* Destaque lateral em sangue */
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+}
+
+.gist-info {
+    font-size: 0.75rem;
+    color: var(--text-soft);
+    margin-bottom: 1rem;
+    font-family: var(--font-ui);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.4;
+}
+
+.gist-inputs {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.gist-input {
+    flex: 2;
+    background: #000 !important; /* Força o fundo preto BIOS */
+    border: 1px solid #333 !important; /* Borda discreta */
+    border-radius: 2px;
+    color: #4ade80 !important; /* Texto em verde terminal */
+    padding: 0.5rem 0.8rem;
+    font-family: var(--font-code), monospace;
+    font-size: 0.8rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.gist-input:focus {
+    border-color: var(--red) !important;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.3);
+}
+
+/* Ajuste específico para o botão de conexão */
+#saveTokenBtn {
+    flex: 1;
+    background: rgba(220, 38, 38, 0.05);
+    border: 1px solid var(--red);
+    color: var(--red);
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.6rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#saveTokenBtn:hover {
+    background: var(--red);
+    color: #fff;
+    box-shadow: 0 0 12px var(--red-glow);
+    transform: translateY(-1px);
+}
+
+.gist-status {
+    margin-top: 0.8rem;
+    font-size: 0.7rem;
+    font-family: var(--font-code);
+    text-transform: uppercase;
+}
+
+/* --- NOVA SECÇÃO: PAINEL DE LOGS --- */
+.painel-de-logs {
+    background: rgba(10, 5, 5, 0.6); /* Fundo escuro e levemente transparente */
+    border: 1px solid var(--border);
+    border-radius: 0.6rem;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.painel-header {
+    border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.painel-header h3 {
+    color: #daa520; /* Dourado místico */
+    font-size: var(--fs-md);
+    margin: 0;
+}
+
+/* Garante que a tua logs-list original não cresça infinitamente */
+.painel-de-logs .logs-list {
+    max-height: 250px; /* Define a altura máxima antes de criar o scroll */
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* ==========================================================================
+   A VERDADE BRUTAL (GLITCH IMPACTANTE DO CÓDICE)
+   ========================================================================== */
+.brutal-motivation { 
+    border: 1px solid rgba(220, 38, 38, 0.15); 
+    border-radius: 0.5rem; 
+    padding: 1.5rem 2rem; 
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(220, 38, 38, 0.04);
+    text-align: center; 
+    position: relative;
+    overflow: hidden;
+}
+
+
+.brutal-motivation h2 { 
+    font-family: var(--font-gothic);
+    color: var(--red); 
+    font-size: var(--fs-md); /* Fonte reduzida de gigante (xl) para média (md) */
+    margin-bottom: 0.6rem; 
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(220, 38, 38, 0.4);
+
+}
+
+.brutal-motivation p {
+    font-family: var(--font-reading);
+    color: var(--text-soft);
+    font-size: var(--fs-sm); /* Fonte do texto reduzida */
+    line-height: 1.5;
+    max-width: 700px;
+    margin: 0 auto; 
+    font-style: italic;
+
+}
+
+.brutal-highlight { 
+    margin: 1.5rem auto 0 auto; 
+    padding: 0.8rem 2.5rem; 
+    
+    /* Fim do fundo quadrado! Agora é uma aura de sangue esfumaçada no centro */
+    background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.15) 0%, transparent 75%); 
+    
+    /* Linhas finas em cima e embaixo que desaparecem nas pontas */
+    border: none;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.8), transparent) 1;
+    
+    /* Texto mais refinado e místico */
+    color: #fca5a5; 
+    font-family: var(--font-gothic); /* Trocamos para a fonte gótica */
+    font-weight: bold; 
+    font-size: 0.85rem; 
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 12px rgba(220, 38, 38, 0.6);
+    box-shadow: none; /* Adeus sombra interna feia */
+    
+    display: inline-block; 
+    
+    /* Mantemos a magia do derretimento */
+    animation: derreterTexto 12s ease-in-out infinite;
+    animation-delay: 1s;
+    will-change: transform, filter, opacity;
+}
+
+/* Aplicar a animação APENAS aos textos, não à caixa inteira */
+.brutal-motivation h2, 
+.brutal-motivation p, 
+.brutal-highlight {
+    animation: derreterTexto 12s ease-in-out infinite;
+    will-change: transform, filter, opacity;
+    display: inline-block; /* Necessário para a distorção funcionar corretamente */
+}
+
+/* Atrasos diferentes para que cada linha derreta num momento ligeiramente diferente */
+.brutal-motivation h2 { animation-delay: 0s; }
+.brutal-motivation p { animation-delay: 0.5s; }
+.brutal-highlight { animation-delay: 1s; margin-top: 1rem; }
+
+/* --- ESTILO DOS LOGS COMPACTOS E COLORIDOS (ECOS DO DIA) --- */
+.painel-de-logs .log-item {
+    background: rgba(10, 5, 5, 0.8);
+    padding: 0.6rem 0.8rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 3px solid; /* A cor entra aqui via JS */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    transition: transform 0.2s ease;
+}
+
+.painel-de-logs .log-item:hover {
+    transform: translateX(4px);
+    background: rgba(20, 10, 10, 0.95);
+}
+
+.painel-de-logs .log-title {
+    font-size: 0.85rem; /* Letra menor */
+    white-space: normal; /* Permite quebrar linha se o texto for grande */
+    line-height: 1.3;
+}
+
+.painel-de-logs .log-meta {
+    justify-content: space-between;
+    opacity: 0.9;
+}
+
+.painel-de-logs .log-time {
+    font-size: 0.65rem;
+    font-family: var(--font-code);
+    color: var(--text-soft);
+}
+
+/* --- BASE DA HORA E DATA --- */
+.log-time-highlight {
+    font-weight: 600; 
+    font-style: normal; 
+    font-family: var(--font-ui); 
+    transition: all 0.3s ease;
+}
+
+/* --- CORES DINÂMICAS BASEADAS NA ÁREA --- */
+.log-tema-estagio .log-time-highlight { color: #c084fc; text-shadow: 0 0 8px rgba(192, 132, 252, 0.4); }
+.log-tema-faculdade .log-time-highlight { color: #7dd3fc; text-shadow: 0 0 8px rgba(125, 211, 252, 0.4); }
+.log-tema-estudo .log-time-highlight { color: #5eead4; text-shadow: 0 0 8px rgba(94, 234, 212, 0.4); }
+.log-tema-desafio .log-time-highlight { color: #fcd34d; text-shadow: 0 0 8px rgba(252, 211, 77, 0.4); }
+.log-tema-conquista .log-time-highlight { color: #fca5a5; text-shadow: 0 0 8px rgba(252, 165, 165, 0.4); }
+
+/* O separador da linha do tempo (|) */
+.log-separator {
+    color: var(--text-soft); /* Usa a mesma cor de "Selado em" */
+    margin: 0 0.2rem; /* Margem menor para parecer uma frase normal */
+    font-style: italic; /* Acompanha a caligrafia mágica */
+    font-weight: normal;
+}
+/* --- ESTRUTURA DOS ECOS DO DIA --- */
+.log-content-left {
+    display: flex; 
+    flex-direction: column; 
+    gap: 0.3rem; 
+    width: 65%;
+}
+
+.log-content-right {
+    display: flex; 
+    align-items: center; 
+    gap: 0.6rem;
+}
+
+/* --- TIPOGRAFIA DOS ECOS --- */
+.log-title {
+    font-size: 0.85rem; 
+    color: #e5e7eb; 
+    font-weight: 600; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
+.log-time-whisper {
+    font-size: 0.7rem; 
+    font-family: var(--font-reading); 
+    color: var(--text-soft); 
+    font-style: italic;
+}
+
+.log-time-highlight {
+    color: #c084fc; 
+    font-weight: 600; 
+    font-style: normal; 
+    font-family: var(--font-ui); 
+    text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
+}
+
+.log-xp-highlight {
+    color: #daa520; 
+    font-size: 0.75rem; 
+    font-weight: bold; 
+    text-shadow: 0 0 5px rgba(218, 165, 32, 0.4);
+}
+
+/* CLASSE MESTRA: Brilho e Fundo Unificados (Levemente mais claro) */
+.aura-abissal {
+    /* Um tom de vinho/sangue muito escuro, tirando o aspecto de "buraco negro" */
+    background: linear-gradient(135deg, rgba(32, 10, 10, 0.95), rgba(15, 4, 4, 0.98)) !important;
+    
+    /* Borda Néon Fina */
+    border: 1px solid var(--border-glow) !important;
+    
+    /* Sombra Projetada (Glow Externo e Névoa) */
+    box-shadow: 
+        0 0 15px 1px var(--glow-primary),
+        0 0 30px 5px rgba(0, 0, 0, 0.5) !important;
+        
+    transition: all 0.4s ease-in-out !important;
+}
+
+/* O fundo fica mais vivo ao passar o rato por cima */
+.aura-abissal:hover {
+    background: linear-gradient(135deg, rgba(40, 12, 12, 0.98), rgba(20, 5, 5, 1)) !important;
+    box-shadow: 
+        0 0 20px 2px rgba(220, 38, 38, 0.6),
+        0 0 40px 10px rgba(0, 0, 0, 0.6) !important;
+    border-color: rgba(220, 38, 38, 0.4) !important;
+}
+
+
+
+/* Para telas de celular, colocar um embaixo do outro */
+@media (max-width: 1024px) {
+    .footer-row { grid-template-columns: 1fr !important; }
 }

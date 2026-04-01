@@ -27,6 +27,11 @@
     --fs-md:   clamp(1.15rem, 2.3vw, 1.35rem);
     --fs-lg:   clamp(1.3rem,  2.8vw, 1.65rem);
     --fs-xl:   clamp(1.5rem,  3.5vw, 2rem);
+
+    /* Novas variáveis de brilho unificado */
+    --glow-primary: rgba(220, 38, 38, 0.4);   /* Vermelho Códice suave */
+    --glow-secondary: rgba(192, 132, 252, 0.3); /* Roxo Místico suave */
+    --border-glow: rgba(220, 38, 38, 0.2);     /* Borda Néon sutil */
 }
 
 /* ==========================================================================
