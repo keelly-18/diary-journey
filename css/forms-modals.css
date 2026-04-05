@@ -796,11 +796,31 @@
 }
 
 .card-detail-move-desc {
-    font-family: var(--font-reading);
-    font-size: 1rem;
-    color: rgba(220, 210, 190, 0.8);
-    line-height: 1.6;
-    margin: 0;
+    max-height: 110px;      /* Limite de altura para a rolagem aparecer (ajuste se quiser maior/menor) */
+    overflow-y: auto;       /* Ativa o scroll vertical apenas quando necessário */
+    padding-right: 8px;     /* Dá um respiro para o texto não encostar na barra */
+    
+    /* Preserva o estilo de texto que já tens */
+    line-height: 1.5;
+}
+
+/* ── Ritual da Barra de Rolagem Gótica (Específica para estes campos) ── */
+.card-detail-move-desc::-webkit-scrollbar {
+    width: 4px; /* Bem fina e delicada */
+}
+
+.card-detail-move-desc::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.4); 
+    border-radius: 4px;
+}
+
+.card-detail-move-desc::-webkit-scrollbar-thumb {
+    background: rgba(218, 165, 32, 0.3); /* Ouro velho sombrio */
+    border-radius: 4px;
+}
+
+.card-detail-move-desc::-webkit-scrollbar-thumb:hover {
+    background: rgba(218, 165, 32, 0.8); /* Ouro brilhante ao passar o mouse */
 }
 .card-detail-move-desc.italic { font-style: italic; color: rgba(200, 190, 170, 0.65); }
 

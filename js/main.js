@@ -981,31 +981,40 @@ function renderProjectsDashboard() {
 
     if (projects.length === 0) {
         projectsGrid.innerHTML = `
-            <div class="skills-empty">
-                <p>🔮 Nenhum artefato registrado ainda.</p>
-                <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.8;">
-                    Compartilhe suas criações mágicas com o mundo.
+            <div class="empty-state" style="grid-column: 1/-1; padding: 4rem 2rem;">
+                <p>🔮 Nenhum artefato materializado ainda.</p>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.6;">
+                    A sua galeria das sombras aguarda as suas criações. Registe um acima.
                 </p>
             </div>
         `;
+        projectsGrid.className = ''; 
         return;
     }
 
+    projectsGrid.className = 'artifacts-grid';
+
     projectsGrid.innerHTML = projects.map(project => `
-        <div class="skill-card">
-            <div class="skill-header">
-                <span class="skill-name">${project.title}</span>
-                <button class="skill-btn-delete" onclick="deleteProjectById(${project.id})" title="Remover">×</button>
+        <div class="artifact-card">
+            <div class="artifact-image-wrapper">
+                ${project.image 
+                    ? `<img src="${project.image}" alt="${project.title}">` 
+                    : `<div class="artifact-fallback">📜</div>` 
+                }
             </div>
-
-            ${project.image ? `<div class="project-image-container"><img src="${project.image}" alt="${project.title}"></div>` : ''}
-
-            <div class="project-link-section">
-                ${project.link ? `
-                    <a href="${project.link}" target="_blank" class="project-link-btn">
-                        🔗 Ver Projeto
-                    </a>
-                ` : '<span style="color: rgba(218,165,32,0.4); font-size: 0.85rem;">Sem link</span>'}
+            
+            <div class="artifact-content">
+                <h3 class="artifact-title">${project.title}</h3>
+                
+                <div class="artifact-footer">
+                    ${project.link 
+                        ? `<a href="${project.link}" target="_blank" class="artifact-link">
+                             <span style="font-size: 1rem; filter: hue-rotate(280deg);">🔗</span> Visitar
+                           </a>` 
+                        : '<span style="color: rgba(218,165,32,0.3); font-size: 0.75rem; font-style: italic; text-transform: uppercase;">Selo Oculto</span>'
+                    }
+                    <button class="artifact-delete" onclick="deleteProjectById(${project.id})" title="Expurgar Artefato">×</button>
+                </div>
             </div>
         </div>
     `).join('');
