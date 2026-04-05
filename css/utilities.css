@@ -1,0 +1,304 @@
+/* ============================================================================
+   UTILITIES - CLASSES AUXILIARES E UTILITÁRIAS
+   ============================================================================ */
+
+/* --- Area Tags --- */
+.area-tag {
+    font-size: 0.65rem;
+    padding: .2rem .6rem;
+    border-radius: 2px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.area-estagio {
+    background: rgba(168, 85, 247, .1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, .3);
+}
+
+.area-faculdade {
+    background: rgba(56, 189, 248, .1);
+    color: #7dd3fc;
+    border: 1px solid rgba(56, 189, 248, .3);
+}
+
+.area-estudo {
+    background: rgba(45, 212, 191, .1);
+    color: #5eead4;
+    border: 1px solid rgba(45, 212, 191, .3);
+}
+
+.area-desafio {
+    background: rgba(245, 158, 11, .1);
+    color: #fcd34d;
+    border: 1px solid rgba(245, 158, 11, .3);
+}
+
+.area-conquista {
+    background: rgba(252, 165, 165, .1);
+    color: #fca5a5;
+    border: 1px solid rgba(252, 165, 165, .4);
+    box-shadow: 0 0 8px rgba(252, 165, 165, .2);
+}
+
+/* --- Aura Abissal (Espectral & Fantasmagórica) --- */
+.aura-abissal {
+    background: linear-gradient(135deg, rgba(88, 28, 135, 0.25), rgba(15, 4, 4, 0.95)) !important;
+    border: 1px solid rgba(168, 85, 247, 0.35) !important;
+    box-shadow: 
+        0 0 20px 2px rgba(168, 85, 247, 0.3),
+        0 0 40px 8px rgba(218, 165, 32, 0.15),
+        inset 0 0 20px rgba(88, 28, 135, 0.1) !important;
+    transition: all 0.5s ease-in-out !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+.aura-abissal:hover {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(20, 5, 5, 0.98)) !important;
+    box-shadow: 
+        0 0 30px 3px rgba(168, 85, 247, 0.6),
+        0 0 60px 12px rgba(218, 165, 32, 0.25),
+        inset 0 0 30px rgba(88, 28, 135, 0.2) !important;
+    border-color: rgba(168, 85, 247, 0.7) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* --- Oracle Box --- */
+.oracle-box {
+    background: #111111 !important;
+    border: 1px solid rgba(168, 85, 247, 0.6) !important;
+    border-radius: 4px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+    position: relative;
+    padding: 2rem !important;
+    margin-bottom: 1.5rem;
+}
+
+.oracle-box::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+.oracle-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 1.2rem;
+}
+
+.oracle-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 100px;
+}
+
+.oracle-header > div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.oracle-box h3 {
+    color: #c084fc;
+    font-size: var(--fs-md);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.oracle-box h3::before,
+.oracle-box h3::after {
+    content: '';
+    flex: 0.1;
+    height: 1px;
+    background: rgba(192, 132, 252, 0.5);
+}
+
+#dailyQuestText {
+    font-size: var(--fs-base);
+    color: #e5e7eb;
+    font-style: italic;
+    border-left: 2px solid #c084fc;
+    padding-left: 1rem;
+}
+
+/* --- Gist Configuration --- */
+.gist-config {
+    background: #111111 !important;
+    border: 1px solid rgba(218, 165, 32, 0.2) !important;
+    border-radius: 4px !important;
+    padding: 2rem !important;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+    position: relative;
+}\n\n.gist-config::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 165, 32, 0.05);
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+.gist-info {
+    font-size: 0.75rem;
+    color: var(--text-soft);
+    margin-bottom: 1rem;
+    font-family: var(--font-ui);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.4;
+}
+
+.gist-inputs {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.gist-input {
+    flex: 2;
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 2px;
+    color: #4ade80;
+    padding: 0.5rem 0.8rem;
+    font-family: var(--font-code), monospace;
+    font-size: 0.8rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.gist-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(218, 165, 32, 0.3);
+}
+
+#saveTokenBtn {
+    flex: 1;
+    background: rgba(218, 165, 32, 0.05);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.6rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#saveTokenBtn:hover {
+    background: var(--gold);
+    color: #fff;
+    box-shadow: 0 0 12px var(--red-glow);
+    transform: translateY(-1px);
+}
+
+.gist-status {
+    margin-top: 0.8rem;
+    font-size: 0.7rem;
+    font-family: var(--font-code);
+    text-transform: uppercase;
+}
+
+.gist-link {
+    color: var(--gold-light);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* --- Brutal Motivation --- */
+.brutal-motivation {
+    border: 1px solid rgba(218, 165, 32, 0.2) !important;
+    border-radius: 4px !important;
+    padding: 2rem !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: #111111 !important;
+}
+
+.brutal-motivation h2 {
+    font-family: var(--font-gothic);
+    color: var(--gold);
+    font-size: var(--fs-md);
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px rgba(218, 165, 32, 0.4);
+    animation: derreterTexto 12s ease-in-out infinite;
+    animation-delay: 0s;
+    will-change: transform, filter, opacity;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.brutal-motivation h2::before,
+.brutal-motivation h2::after {
+    content: '';
+    flex: 0.1;
+    height: 1px;
+    background: rgba(218, 165, 32, 0.4);
+}
+
+.brutal-motivation p {
+    font-family: var(--font-reading);
+    color: var(--text-soft);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    max-width: 700px;
+    margin: 0 auto;
+    font-style: italic;
+    animation: derreterTexto 12s ease-in-out infinite;
+    animation-delay: 0.5s;
+    will-change: transform, filter, opacity;
+    display: inline-block;
+}
+
+.brutal-motivation::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 165, 32, 0.08);
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+.brutal-highlight {
+    margin: 1.5rem auto 0 auto;
+    padding: 0.8rem 2.5rem;
+    background: transparent !important;
+    border: none;
+    border-top: 1px solid rgba(218, 165, 32, 0.3) !important;
+    border-bottom: 1px solid rgba(218, 165, 32, 0.3) !important;
+    border-image: none !important;
+    color: var(--gold-light);
+    font-family: var(--font-gothic);
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 12px rgba(218, 165, 32, 0.6);
+    box-shadow: none;
+    display: inline-block;
+    animation: derreterTexto 12s ease-in-out infinite;
+    animation-delay: 1s;
+    will-change: transform, filter, opacity;
+}

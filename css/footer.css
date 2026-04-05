@@ -1,0 +1,126 @@
+/* ============================================================================
+   FOOTER - VERSÃO LIMPA E MINIMALISTA
+   ============================================================================ */
+
+/* 1. Base do Rodapé */
+.codice-footer {
+    width: 100%;
+    padding: 3rem 1.5rem 2rem;
+    margin-top: 4rem;
+    border-top: 1px solid rgba(218, 165, 32, 0.15); /* Apenas uma linha dourada e elegante no topo */
+    background: transparent; /* Sem degradês pesados */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* 2. Ocultar Exageros Antigos (Glows, Vidro, Molduras) */
+.seal-glow, 
+.codice-footer::before, 
+.codice-footer::after,
+.seal-circle::before,
+.seal-circle::after,
+.deco-symbol {
+    display: none !important;
+}
+
+/* 3. Estrutura Central */
+.footer-seal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* 4. O Símbolo (Selo) */
+.seal-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.seal-text {
+    font-size: 2.2rem;
+    color: var(--gold);
+    opacity: 0.8;
+    animation: spinRitual 15s linear infinite;
+}
+
+/* 5. Textos e Tipografia */
+.seal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.seal-title {
+    font-size: 1.2rem;
+    color: var(--gold);
+    font-family: var(--font-gothic);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.seal-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-soft);
+    font-family: var(--font-reading);
+    font-style: italic;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.seal-meta {
+    font-size: 0.75rem;
+    color: rgba(218, 165, 32, 0.4);
+    font-family: var(--font-ui);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 1.5rem;
+}
+
+/* 6. Linha Decorativa Final */
+.footer-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2.5rem;
+    opacity: 0.4;
+}
+
+.deco-line {
+    width: 50px;
+    height: 1px;
+    background: var(--gold);
+}
+
+/* ============================================================================
+   RESPONSIVIDADE (Telas menores)
+   ============================================================================ */
+@media (max-width: 600px) {
+    .codice-footer {
+        padding: 2rem 1rem;
+        margin-top: 2rem;
+    }
+    .seal-title {
+        font-size: 1rem;
+        letter-spacing: 3px;
+    }
+    .seal-subtitle {
+        font-size: 0.8rem;
+    }
+}
+
+@keyframes spinRitual {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

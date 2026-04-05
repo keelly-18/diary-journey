@@ -1,0 +1,254 @@
+/* ============================================================================
+   CREDITS PAGE - PACTOS REALIZADOS
+   ============================================================================ */
+
+.credits-section {
+    padding: 2rem 0;
+}
+
+.credits-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    border-bottom: 2px solid rgba(218, 165, 32, 0.3);
+    padding-bottom: 2rem;
+}
+
+.credits-header h1 {
+    font-size: 2rem;
+    color: #daa520;
+    font-family: var(--font-gothic);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.credits-header h1::before,
+.credits-header h1::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.5), transparent);
+}
+
+.credits-header p {
+    font-size: 1rem;
+    color: var(--text-soft);
+}
+
+/* --- Credit Blocks --- */
+.credit-block {
+    margin-bottom: 3rem;
+}
+
+.credit-title {
+    font-size: 1.4rem;
+    color: #daa520;
+    font-family: var(--font-gothic);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.credit-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #daa520, transparent);
+}
+
+/* --- Credit Grid --- */
+.credit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* --- Credit Card --- */
+.credit-card {
+    background: #111111;
+    border: 1px solid rgba(218, 165, 32, 0.3);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.credit-card::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border: 1px solid rgba(218, 165, 32, 0.15);
+    pointer-events: none;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.credit-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(218, 165, 32, 0.6);
+    box-shadow: 0 15px 35px rgba(218, 165, 32, 0.15);
+}
+
+.credit-card:hover::before {
+    border-color: rgba(252, 230, 138, 0.4);
+}
+
+/* --- Card Content --- */
+.credit-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.credit-card h3 {
+    font-size: 1.2rem;
+    color: #daa520;
+    font-family: var(--font-gothic);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.8rem;
+    position: relative;
+    z-index: 2;
+}
+
+.credit-card p {
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.credit-link {
+    display: inline-block;
+    background: rgba(218, 165, 32, 0.15);
+    border: 1px solid rgba(218, 165, 32, 0.4);
+    color: #daa520;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 2;
+    font-weight: bold;
+}
+
+.credit-link:hover {
+    background: rgba(218, 165, 32, 0.25);
+    border-color: rgba(218, 165, 32, 0.7);
+    box-shadow: 0 0 10px rgba(218, 165, 32, 0.2);
+    transform: translateY(-2px);
+}
+
+/* --- Credit Thanks (Final) --- */
+.credit-block-final {
+    background: linear-gradient(135deg, rgba(20, 15, 20, 0.4), rgba(15, 10, 15, 0.8));
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    margin-top: 3rem;
+}
+
+.credit-block-final::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1px solid rgba(218, 165, 32, 0.1);
+    pointer-events: none;
+    border-radius: 4px;
+    z-index: 0;
+}
+
+.credit-thanks {
+    position: relative;
+    z-index: 2;
+}
+
+.credit-thanks p {
+    font-size: 1rem;
+    color: var(--text-soft);
+    line-height: 1.8;
+    font-style: italic;
+}
+
+.credit-thanks p:first-child {
+    color: #daa520;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* --- Responsivo --- */
+@media (max-width: 768px) {
+    .credits-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .credits-header h1::before,
+    .credits-header h1::after {
+        display: none;
+    }
+
+    .credit-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .credit-title {
+        font-size: 1.1rem;
+    }
+
+    .credit-card {
+        padding: 1.5rem;
+    }
+
+    .credit-icon {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .credits-section {
+        padding: 1rem 0;
+    }
+
+    .credits-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+    }
+
+    .credit-block {
+        margin-bottom: 2rem;
+    }
+
+    .credit-card:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+}

@@ -115,6 +115,8 @@ function setupPageNavigation() {
             
             if (target === 'home') updateGameification();
             if (target === 'activities') renderActivities(currentFilter);
+            if (target === 'skills') renderSkillsDashboard();
+            if (target === 'projects') renderProjectsDashboard();
             
             if (window.innerWidth <= 768 && sidebar) {
                 sidebar.style.width = '75px';
@@ -196,48 +198,327 @@ function updateTodayLogs() {
     }).join('');
 }
 
+// Substitua a renderActivities no seu main.js
 function renderActivities(filter = 'all') {
     const container = document.getElementById('activitiesTimeline');
     if (!container) return;
     
-    let logs = dailyLog.getAllLogsFlat();
-    if (filter !== 'all') logs = logs.filter(log => log.area === filter);
+    let allLogs = dailyLog.getAllLogsFlat();
+    if (filter !== 'all') allLogs = allLogs.filter(log => log.area === filter);
 
-    if (logs.length === 0) {
-        container.innerHTML = '<p class="empty-state">Nenhum feitiço registrado neste grimório ainda.</p>'; return;
+    if (allLogs.length === 0) {
+        container.innerHTML = '<p class="empty-state">O grimório está em branco.</p>'; 
+        return;
     }
 
-    const emotionIcons = { 'empolgada': '🔥', 'frustrada': '💀', 'exausta': '🦇', 'focada': '👁️' };
+    // Lógica de Agrupamento Temporal
+    const now = new Date();
+    const groups = {
+        "Hoje": [],
+        "Ontem": [],
+        "Sussurros da Semana": [],
+        "Ecos do Mês": [],
+        "Inscrições Antigas": []
+    };
 
-    container.innerHTML = logs.map(log => {
-        const d = new Date(log.timestamp);
-        const date = d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit' });
-        const area = log.area || 'estudo';
-        const emoIcon = emotionIcons[log.emotion || 'focada'] || '🔮';
+    allLogs.forEach(log => {
+        const logDate = new Date(log.timestamp);
+        const diffDays = Math.floor((now - logDate) / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) groups["Hoje"].push(log);
+        else if (diffDays === 1) groups["Ontem"].push(log);
+        else if (diffDays < 7) groups["Sussurros da Semana"].push(log);
+        else if (diffDays < 30) groups["Ecos do Mês"].push(log);
+        else groups["Inscrições Antigas"].push(log);
+    });
+
+    const emotionIcons = { 
+    'empolgada': 'img/empolgada.svg', 
+    'frustrada': 'img/frustrada.svg', 
+    'exausta': 'img/exausta.svg', 
+    'focada': 'img/focada.svg' 
+};
+
+    let html = '';
+    for (const [title, logs] of Object.entries(groups)) {
+        if (logs.length === 0) continue;
         
-        let descHtml = '';
-        if (log.description) descHtml += `<p class="magic-card-desc">"${log.description}"</p>`;
-        if (log.reason) descHtml += `<p class="magic-card-desc" style="color:#fca5a5; font-size:0.8rem; border-color: #fca5a5;">Propósito: ${log.reason}</p>`;
+        html += `<h3 class="timeline-group-header">${title}</h3>`;
+        html += `<div class="activities-cards-grid">`;
+        
+        html += logs.map(log => {
+            const emoSrc = emotionIcons[log.emotion || 'focada'];
+            const emoIcon = emoSrc
+                ? `<img src="${emoSrc}" alt="${log.emotion || 'focada'}" class="card-tarot-emotion-img" style="width:90px;height:90px;object-fit:contain;">`
+                : '🔮';
+            const time = new Date(log.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            const dateShort = new Date(log.timestamp).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+            const areaName = AREA_LABELS[log.area] || log.area;
 
-        return `
-            <div class="magic-card area-${area}">
-                <div class="magic-card-glow"></div>
-                <div class="magic-card-header">
-                    <span class="magic-card-emotion" title="${log.emotion || 'focada'}">${emoIcon}</span>
-                    <span class="magic-card-date">${date}</span>
-                </div>
-                <h3 class="magic-card-title">${log.title}</h3>
-                ${descHtml}
-                <div class="magic-card-footer">
-                    <span class="area-tag area-${area}">${AREA_LABELS[area] || area}</span>
-                    <div class="magic-card-actions">
-                        <span class="magic-card-xp">+${log.xp} XP</span>
-                        <button class="delete-log-btn" data-id="${log.id}" title="Excluir este log">×</button>
+            // Labels legíveis do humor
+            const emotionLabels = { empolgada: 'Empolgada', frustrada: 'Frustrada', exausta: 'Exausta', focada: 'Focada' };
+            const emoLabel = emotionLabels[log.emotion || 'focada'];
+
+            // Indicadores de conteúdo extra
+            const hasRepo    = !!log.repoUrl;
+            const hasDesc    = !!(log.description && log.description.trim());
+            const hasPurpose = !!(log.reason && log.reason.trim());
+
+            const badges = [
+                hasRepo    ? `<span class="card-badge card-badge-repo" title="Repositório vinculado">⛓</span>` : '',
+                hasDesc    ? `<span class="card-badge card-badge-desc" title="Tem descrição">✦</span>` : '',
+                hasPurpose ? `<span class="card-badge card-badge-purpose" title="Propósito registrado">⛧</span>` : '',
+            ].join('');
+
+            return `
+                <div class="magic-card-tarot moldura-gotica area-${log.area}" onclick="showLogDetail(${log.id})">
+                    <div class="card-tarot-header">
+                        <span class="area-tag area-${log.area}">${areaName}</span>
+                        <div class="card-tarot-header-right">
+                            <div class="card-tarot-time">${dateShort} · ${time}</div>
+                        </div>
+                    </div>
+                    <div class="card-tarot-center">
+                        <div class="card-tarot-icon">${emoIcon}</div>
+                        <span class="card-tarot-emotion-label">${emoLabel}</span>
+                        <h3 class="card-tarot-title">${log.title}</h3>
+                    </div>
+                    <div class="card-tarot-footer">
+                        <div class="card-tarot-xp">+${log.xp} XP</div>
+                        <div class="card-tarot-badges">${badges}</div>
+                    </div>
+                </div>`;
+        }).join('');
+        html += `</div>`;
+    }
+    container.innerHTML = html;
+}
+
+function renderSkills() {
+    const container = document.querySelector('.page[data-page="skills"] .activities-section');
+    if (!container) return;
+    
+    const skills = dailyLog.getSkills();
+    const skillsContainer = container.querySelector('div');
+    
+    if (!skillsContainer) return;
+
+    if (skills.length === 0) {
+        skillsContainer.innerHTML = '<div style="text-align: center; padding: 3rem; border: 1.5px dashed var(--border); border-radius: .5rem; color: var(--text-soft);"><p>🔮 Nenhuma habilidade registrada ainda.</p><p style="font-size: 0.85rem; margin-top: 1rem;">Adicione suas habilidades para compilar seu grimório pessoal.</p></div>';
+        return;
+    }
+
+    skillsContainer.innerHTML = `
+        <div class="skills-grid">
+            ${skills.map(skill => `
+                <div class="skill-card aura-abissal area-estudo">
+                    <div class="skill-header">
+                        <h3 style="margin: 0; color: #5eead4;">${skill.title}</h3>
+                        <button class="delete-log-btn" onclick="deleteSkill(${skill.id})" title="Remover habilidade">×</button>
+                    </div>
+                    <p style="margin: 0.5rem 0; color: var(--text-soft); font-size: 0.9rem;">${skill.description}</p>
+                    <div style="margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.75rem; color: rgba(45, 212, 191, 0.6);">Nível:</span>
+                        <div style="display: flex; gap: 0.3rem;">
+                            ${Array(5).fill('⭐').map((star, i) => `<span style="opacity: ${i < skill.level ? '1' : '0.2'}">${star}</span>`).join('')}
+                        </div>
                     </div>
                 </div>
-            </div>`;
-    }).join('');
+            `).join('')}
+        </div>
+    `;
 }
+
+function renderProjects() {
+    const container = document.querySelector('.page[data-page="projects"] .activities-section');
+    if (!container) return;
+    
+    const projects = dailyLog.getProjects();
+    const projectsContainer = container.querySelector('div');
+    
+    if (!projectsContainer) return;
+
+    if (projects.length === 0) {
+        projectsContainer.innerHTML = '<div style="text-align: center; padding: 3rem; border: 1.5px dashed var(--border); border-radius: .5rem; color: var(--text-soft);"><p>🔮 Nenhum projeto registrado ainda.</p><p style="font-size: 0.85rem; margin-top: 1rem;">Compartilhe seus artefatos e conquistas mágicas.</p></div>';
+        return;
+    }
+
+    const statusColors = { 'em_progresso': 'area-desafio', 'concluído': 'area-faculdade', 'planejado': 'area-estudo' };
+    const statusLabels = { 'em_progresso': '⚔️ Em Progresso', 'concluído': '✨ Concluído', 'planejado': '📋 Planejado' };
+
+    projectsContainer.innerHTML = `
+        <div class="projects-grid">
+            ${projects.map(project => `
+                <div class="project-card aura-abissal ${statusColors[project.status] || 'area-estudo'}">
+                    <div class="project-header">
+                        <h3 style="margin: 0; color: #fca5a5;">${project.title}</h3>
+                        <button class="delete-log-btn" onclick="deleteProject(${project.id})" title="Remover projeto">×</button>
+                    </div>
+                    <p style="margin: 0.5rem 0; color: var(--text-soft); font-size: 0.9rem;">${project.description}</p>
+                    <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                        <span class="area-tag ${statusColors[project.status] || 'area-estudo'}">${statusLabels[project.status]}</span>
+                        ${project.link ? `<a href="${project.link}" target="_blank" style="font-size: 0.75rem; color: #a0aaaa; text-decoration: none; border-bottom: 1px dashed #a0aaaa;">Ver Código</a>` : ''}
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+function deleteFromDetail(logId) {
+    const modal = document.getElementById('detailsModal');
+    const log = dailyLog.getAllLogsFlat().find(l => l.id === logId);
+    if (!log) return;
+
+    // Anima o modal antes de fechar
+    const content = modal.querySelector('.modal-content');
+    if (content) {
+        content.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+        content.style.transform = 'scale(0.95)';
+        content.style.opacity = '0';
+    }
+
+    setTimeout(() => {
+        modal.classList.remove('show');
+        if (content) { content.style.transform = ''; content.style.opacity = ''; }
+
+        // Usa o modal de confirmação existente
+        const confirmModal = document.getElementById('deleteConfirmModal');
+        if (confirmModal) {
+            confirmModal.classList.add('show');
+            document.getElementById('confirmDeleteBtn').onclick = () => {
+                dailyLog.deleteLog(logId);
+                confirmModal.classList.remove('show');
+                renderActivities(currentFilter);
+                updateGameification();
+                showToast('⛧ Registro expurgado para o vazio.');
+            };
+            document.getElementById('cancelDeleteBtn').onclick = () => {
+                confirmModal.classList.remove('show');
+            };
+        }
+    }, 250);
+}
+
+function deleteSkill(skillId) {
+    if (confirm('Deseja remover esta habilidade?')) {
+        dailyLog.deleteSkill(skillId);
+        renderSkillsDashboard();
+        showToast('Habilidade expurgada dos registros.');
+    }
+}
+
+function deleteProject(projectId) {
+    if (confirm('Deseja remover este projeto?')) {
+        dailyLog.deleteProject(projectId);
+        renderProjects();
+        showToast('Projeto removido do grimório.');
+    }
+}
+
+function showLogDetail(logId) {
+    const log = dailyLog.getAllLogsFlat().find(l => l.id === logId);
+    if (!log) return;
+
+    const modal   = document.getElementById('detailsModal');
+    const content = document.getElementById('detailsContent');
+
+    const date = new Date(log.timestamp).toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' });
+    const time = new Date(log.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+    const emotionIcons = {
+        'empolgada': 'img/empolgada.svg',
+        'frustrada':  'img/frustrada.svg',
+        'exausta':    'img/exausta.svg',
+        'focada':     'img/focada.svg'
+    };
+    const emotionLabels = {
+        'empolgada': 'Empolgada',
+        'frustrada':  'Frustrada',
+        'exausta':    'Exausta',
+        'focada':     'Focada'
+    };
+
+    const emoSrc   = emotionIcons[log.emotion || 'focada'];
+    const emoLabel = emotionLabels[log.emotion || 'focada'];
+
+    const hasRepo    = !!log.repoUrl;
+    const hasDesc    = !!(log.description && log.description.trim());
+    const hasPurpose = !!(log.reason && log.reason.trim());
+
+    content.innerHTML = `
+        <div class="card-detail area-${log.area}">
+
+            <!-- MOLDURA INTERNA (efeito tarot) -->
+            <div class="card-detail-frame"></div>
+
+            <!-- [1] TOPO: tipo + título + XP -->
+            <div class="card-detail-top">
+                <div class="card-detail-top-left">
+                    <span class="card-detail-type area-${log.area}">${AREA_LABELS[log.area]}</span>
+                    <h2 class="card-detail-title">${log.title}</h2>
+                </div>
+                <div class="card-detail-xp-box">
+                    <span class="card-detail-xp-label">XP</span>
+                    <span class="card-detail-xp-value">+${log.xp}</span>
+                </div>
+            </div>
+
+            <!-- [2] ARTE: ícone de humor centralizado -->
+            <div class="card-detail-art area-${log.area}">
+                <div class="card-detail-art-glow area-${log.area}"></div>
+                <img src="${emoSrc}" alt="${emoLabel}" class="card-detail-emotion-img area-${log.area}">
+                <div class="card-detail-art-caption">
+                    <span class="card-detail-emotion-label">${emoLabel}</span>
+                    <span class="card-detail-datetime">${date} · ${time}</span>
+                </div>
+            </div>
+
+            <!-- [3] SEPARADOR -->
+            <div class="card-detail-divider">
+                <span class="card-detail-divider-symbol">✦</span>
+            </div>
+
+            <!-- [4] ATAQUES / CONTEÚDO -->
+            <div class="card-detail-moves">
+                ${hasDesc ? `
+                <div class="card-detail-move">
+                    <div class="card-detail-move-top">
+                        <span class="card-detail-move-name">✦ Inscrição</span>
+                    </div>
+                    <p class="card-detail-move-desc">${log.description}</p>
+                </div>` : ''}
+
+                <div class="card-detail-move">
+                    <div class="card-detail-move-top">
+                        <span class="card-detail-move-name">⛧ Propósito</span>
+                    </div>
+                    <p class="card-detail-move-desc italic">${log.reason || 'Nenhum propósito declarado.'}</p>
+                </div>
+
+                ${hasRepo ? `
+                <div class="card-detail-move">
+                    <div class="card-detail-move-top">
+                        <span class="card-detail-move-name">⛓ Artefato</span>
+                    </div>
+                    <a href="${log.repoUrl}" target="_blank" class="card-detail-repo-link">Ver Código no GitHub →</a>
+                </div>` : ''}
+            </div>
+
+            <!-- [5] RODAPÉ DA CARTA -->
+            <div class="card-detail-footer">
+                <span class="card-detail-footer-text">Códice das Sombras · Registro Selado</span>
+                <button class="card-detail-delete-btn" onclick="deleteFromDetail(${log.id})">⛧ Expurgar</button>
+            </div>
+
+        </div>
+    `;
+
+    modal.classList.add('show');
+}
+
+// Fechar Modal
+document.getElementById('closeDetailsModal').onclick = () => document.getElementById('detailsModal').classList.remove('show');
 
 function setupActivitiesFilters() {
     const filters = document.querySelectorAll('.filter-btn');
@@ -398,20 +679,35 @@ function setupLogModal() {
     });
 
     document.getElementById('submitLogBtnFinal')?.addEventListener('click', async e => {
-        e.preventDefault();
-        const title = document.getElementById('logTitle')?.value?.trim();
-        if (!title) return;
+    e.preventDefault();
+    const title = document.getElementById('logTitle')?.value?.trim();
+    const repoUrl = document.getElementById('logRepo')?.value?.trim(); // Nova linha capturada
 
-        const btnSubmit = document.getElementById('submitLogBtnFinal');
-        btnSubmit.disabled = true; btnSubmit.textContent = 'Materializando...';
+    if (!title) return;
 
-        const { log, synced } = await dailyLog.addLog(title, document.getElementById('logDescription')?.value?.trim(), document.getElementById('logArea')?.value, document.getElementById('logEmotion')?.value || 'focada', document.getElementById('logReason')?.value?.trim());
+    const btnSubmit = document.getElementById('submitLogBtnFinal');
+    btnSubmit.disabled = true; btnSubmit.textContent = 'Materializando...';
 
-        btnSubmit.disabled = false; btnSubmit.textContent = '⛧ Selar no Códice';
-        updateGameification(); 
-        showToast(`+${log.xp} XP registrado sombriamente${synced ? ' · sincronizado' : ''}`);
-        modal.classList.remove('show');
-    });
+    // Passamos o repoUrl como o último argumento
+    const { log, synced } = await dailyLog.addLog(
+        title, 
+        document.getElementById('logDescription')?.value?.trim(), 
+        document.getElementById('logArea')?.value, 
+        document.getElementById('logEmotion')?.value || 'focada', 
+        document.getElementById('logReason')?.value?.trim(),
+        repoUrl // <--- O novo parâmetro enviado para o dados.js
+    );
+
+    btnSubmit.disabled = false; btnSubmit.textContent = '⛧ Selar no Códice';
+    
+    // Reset do campo após envio
+    if(document.getElementById('logRepo')) document.getElementById('logRepo').value = '';
+    
+    updateGameification();
+    renderActivities(currentFilter);
+    showToast(`+${log.xp} XP registrado sombriamente${synced ? ' · sincronizado' : ''}`);
+    modal.classList.remove('show');
+});
 }
 
 function setupDeleteModal() {
@@ -481,6 +777,7 @@ document.addEventListener('keydown', (e) => {
 // [05] INICIALIZAÇÃO (DOMContentLoaded)
 // ============================================================================
 document.addEventListener('DOMContentLoaded', async () => {
+    seedInitialData();
     updateDailyQuest(); 
 
     if (getToken()) await downloadLogsFromGist();
@@ -492,8 +789,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupActivitiesFilters();
     setupHistorySection();
     setupGistConfig();
+    setupGothicDropdown();
+    setupHumorSelector();
+    setupSkillsDashboard();
+    setupProjectsDashboard();
     
-    updateGameification(); 
+    updateGameification();
+    renderActivities(currentFilter);
     setupActivityHeartbeat();
 
     if(typeof gsap !== 'undefined') {
@@ -503,78 +805,353 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Adicione isto no final do seu main.js ou dentro do DOMContentLoaded
+// --- SETUP DO DROPDOWN DE ÁREAS (ESTÁGIO, FACULDADE, ETC) ---
 function setupGothicDropdown() {
     const dropdown = document.getElementById('gothicDropdown');
     if (!dropdown) return;
 
-    const selected = dropdown.querySelector('.dropdown-selected');
-    const input = document.getElementById('logArea');
+    const selectedContainer = dropdown.querySelector('.dropdown-selected');
+    const selectedSpan = dropdown.querySelector('.dropdown-selected span');
+    const hiddenInput = document.getElementById('logArea');
     const options = dropdown.querySelectorAll('.dropdown-list li');
 
     // Abre e fecha o menu
-    selected.onclick = () => dropdown.classList.toggle('open');
+    selectedContainer.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('open'); // Nota: se o seu CSS usar 'open', troque 'active' por 'open'
+    });
 
-    // Quando clica numa opção
+    // Seleciona a opção
     options.forEach(opt => {
-        opt.onclick = () => {
-            selected.querySelector('span').textContent = opt.textContent;
-            selected.querySelector('span').style.color = getComputedStyle(opt).color;
-            input.value = opt.getAttribute('data-value');
-            dropdown.classList.remove('open');
-        };
+        opt.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            // 1. Copia a imagem e o texto para o topo
+            if (selectedSpan) {
+                selectedSpan.innerHTML = this.innerHTML;
+            }
+            
+            // 2. Transfere o valor EXATO para o input escondido (fundamental para salvar)
+            if (hiddenInput) {
+                hiddenInput.value = this.getAttribute('data-value');
+            }
+            
+            // Fecha o menu
+            dropdown.classList.remove('open'); 
+        });
     });
 
     // Fecha se clicar fora
-    window.onclick = (e) => {
-        if (!dropdown.contains(e.target)) dropdown.classList.remove('open');
-    };
+    document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('open');
+        }
+    });
 }
 
-// Chame a função na inicialização
-document.addEventListener('DOMContentLoaded', () => {
-    setupGothicDropdown();
-    // ... restante do seu código
-});
-
+// --- SETUP DO SELETOR DE HUMOR ---
 function setupHumorSelector() {
     const selector = document.getElementById('humorSelector');
     if (!selector) return;
 
-    const trigger = selector.querySelector('.humor-trigger');
-    const inputHidden = document.getElementById('logEmotion');
+    const triggerContainer = selector.querySelector('.humor-trigger');
+    const triggerSpan = selector.querySelector('.humor-trigger span');
+    const hiddenInput = document.getElementById('logEmotion');
     const options = selector.querySelectorAll('.humor-option');
 
-    // 1. Abrir e fechar
-    trigger.onclick = (e) => {
-        e.stopPropagation(); // Impede o clique de fechar o menu na hora
-        selector.classList.toggle('open');
-    };
-
-    // 2. Escolher uma opção
-    options.forEach(opt => {
-        opt.onclick = () => {
-            const valor = opt.getAttribute('data-value');
-            const texto = opt.textContent;
-
-            // Atualiza o que o usuário vê
-            trigger.querySelector('span').textContent = texto;
-            
-            // Atualiza o valor invisível que o seu código de dados.js usa
-            inputHidden.value = valor;
-
-            selector.classList.remove('open');
-        };
+    // Abre e fecha o menu
+    triggerContainer.addEventListener('click', function(e) {
+        e.stopPropagation();
+        selector.classList.toggle('open'); // Novamente, verifique se seu CSS usa 'active' ou 'open'
     });
 
-    // 3. Fechar se clicar fora do menu
-    document.addEventListener('click', () => {
-        selector.classList.remove('open');
+    // Seleciona a opção
+    options.forEach(opt => {
+        opt.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            // 1. Copia a imagem e o texto
+            if (triggerSpan) {
+                triggerSpan.innerHTML = this.innerHTML;
+            }
+            
+            // 2. Salva o valor no input oculto
+            if (hiddenInput) {
+                hiddenInput.value = this.getAttribute('data-value');
+            }
+
+            // Fecha o menu
+            selector.classList.remove('open');
+        });
+    });
+
+    // Fecha se clicar fora
+    document.addEventListener('click', function(e) {
+        if (!selector.contains(e.target)) {
+            selector.classList.remove('open');
+        }
     });
 }
 
-// Inicialize chamando a função no DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    setupHumorSelector();
-    // outras funções aqui...
-});
+// ============================================================================
+// [07] GERENCIAMENTO DE PROJETOS (ARTEFATOS)
+// ============================================================================
+function setupProjectsDashboard() {
+    const projectTitle = document.getElementById('projectTitle');
+    const projectLink = document.getElementById('projectLink');
+    const projectImage = document.getElementById('projectImage');
+    const addProjectBtn = document.getElementById('addProjectBtn');
+
+    if (!addProjectBtn) return;
+
+    addProjectBtn.addEventListener('click', () => {
+        const title = projectTitle?.value?.trim();
+        const link = projectLink?.value?.trim();
+
+        if (!title) {
+            showToast('Digite o nome do artefato...');
+            return;
+        }
+
+        // Se houver imagem, ler como base64
+        if (projectImage?.files?.length > 0) {
+            const file = projectImage.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                addProject(title, link, e.target.result);
+                resetProjectForm();
+            };
+            
+            reader.readAsDataURL(file);
+        } else {
+            addProject(title, link, null);
+            resetProjectForm();
+        }
+    });
+
+    // Enter em title para focar em link
+    projectTitle?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') projectLink?.focus();
+    });
+
+    // Enter em link para submeter
+    projectLink?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') addProjectBtn.click();
+    });
+
+    renderProjectsDashboard();
+}
+
+function resetProjectForm() {
+    const projectTitle = document.getElementById('projectTitle');
+    const projectLink = document.getElementById('projectLink');
+    const projectImage = document.getElementById('projectImage');
+    
+    if (projectTitle) projectTitle.value = '';
+    if (projectLink) projectLink.value = '';
+    if (projectImage) projectImage.value = '';
+    projectTitle?.focus();
+}
+
+function addProject(title, link = '', imageBase64 = null) {
+    const projects = dailyLog.getProjects();
+    
+    const project = {
+        id: Date.now(),
+        title: title,
+        link: link || '',
+        image: imageBase64 || null,
+        createdAt: new Date().toISOString()
+    };
+    
+    projects.push(project);
+    dailyLog.projects = projects;
+    dailyLog.saveProjects();
+    
+    showToast(`✨ Novo Artefato: ${title}`);
+    renderProjectsDashboard();
+}
+
+function renderProjectsDashboard() {
+    const projectsGrid = document.getElementById('projectsGrid');
+    if (!projectsGrid) return;
+
+    const projects = dailyLog.getProjects();
+
+    if (projects.length === 0) {
+        projectsGrid.innerHTML = `
+            <div class="skills-empty">
+                <p>🔮 Nenhum artefato registrado ainda.</p>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.8;">
+                    Compartilhe suas criações mágicas com o mundo.
+                </p>
+            </div>
+        `;
+        return;
+    }
+
+    projectsGrid.innerHTML = projects.map(project => `
+        <div class="skill-card">
+            <div class="skill-header">
+                <span class="skill-name">${project.title}</span>
+                <button class="skill-btn-delete" onclick="deleteProjectById(${project.id})" title="Remover">×</button>
+            </div>
+
+            ${project.image ? `<div class="project-image-container"><img src="${project.image}" alt="${project.title}"></div>` : ''}
+
+            <div class="project-link-section">
+                ${project.link ? `
+                    <a href="${project.link}" target="_blank" class="project-link-btn">
+                        🔗 Ver Projeto
+                    </a>
+                ` : '<span style="color: rgba(218,165,32,0.4); font-size: 0.85rem;">Sem link</span>'}
+            </div>
+        </div>
+    `).join('');
+}
+
+function deleteProjectById(projectId) {
+    const projects = dailyLog.getProjects();
+    const project = projects.find(p => p.id === projectId);
+
+    if (project && confirm(`Deseja expurgar o artefato "${project.title}"?`)) {
+        dailyLog.deleteProject(projectId);
+        renderProjectsDashboard();
+        showToast(`🔮 ${project.title} foi removido do registro.`);
+    }
+}
+function setupSkillsDashboard() {
+    const skillInput = document.getElementById('skillInput');
+    const addSkillBtn = document.getElementById('addSkillBtn');
+
+    if (!skillInput || !addSkillBtn) return;
+
+    // Adicione skill ao clicar no botão
+    addSkillBtn.addEventListener('click', () => {
+        const skillName = skillInput.value.trim();
+        if (!skillName) {
+            showToast('Digite o nome de uma habilidade ou tecnologia...');
+            return;
+        }
+
+        addOrUpdateSkill(skillName);
+        skillInput.value = '';
+        skillInput.focus();
+    });
+
+    // Adicione skill ao pressionar Enter
+    skillInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            addSkillBtn.click();
+        }
+    });
+
+    // Renderiza skills iniciais
+    renderSkillsDashboard();
+}
+
+function addOrUpdateSkill(skillName) {
+    const existingSkills = dailyLog.getSkills();
+    const existingSkill = existingSkills.find(s => s.title.toLowerCase() === skillName.toLowerCase());
+
+    if (existingSkill) {
+        // Atualiza os pontos (+0.01)
+        existingSkill.points = Math.min((existingSkill.points || 0) + 0.01, 100);
+        dailyLog.saveSkills();
+        showToast(`📈 ${skillName}: +0.01 pontos (${existingSkill.points.toFixed(2)}/100)`);
+    } else {
+        // Cria nova skill com 0.01 pontos iniciais
+        const skill = {
+            id: Date.now(),
+            title: skillName,
+            points: 0.01,
+            description: '',
+            createdAt: new Date().toISOString()
+        };
+        dailyLog.skills.push(skill);
+        dailyLog.saveSkills();
+        showToast(`✨ Nova Habilidade: ${skillName} (+0.01 pontos)`);
+    }
+
+    renderSkillsDashboard();
+}
+
+function renderSkillsDashboard() {
+    const skillsGrid = document.getElementById('skillsGrid');
+    if (!skillsGrid) return;
+
+    const skills = dailyLog.getSkills();
+
+    if (skills.length === 0) {
+        skillsGrid.innerHTML = `
+            <div class="skills-empty">
+                <p>🔮 Nenhuma habilidade registrada ainda.</p>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.8;">
+                    Adicione suas tecnologias e habilidades para compilar seu arsenal mágico.
+                </p>
+            </div>
+        `;
+        return;
+    }
+
+    skillsGrid.innerHTML = skills.map(skill => {
+        const points = skill.points || 0;
+        const percentage = Math.min((points / 100) * 100, 100);
+        const level = Math.ceil(percentage / 20); // 0-5 níveis
+
+        return `
+            <div class="skill-card">
+                <div class="skill-header">
+                    <span class="skill-name">${skill.title}</span>
+                    <button class="skill-btn-delete" onclick="deleteSkillById(${skill.id})" title="Remover">×</button>
+                </div>
+
+                <div class="skill-level-display">${level > 0 ? '⭐'.repeat(level) : '🔮'}</div>
+
+                <div class="skill-progress-container">
+                    <div class="skill-progress-bar">
+                        <div class="skill-progress-fill" style="width: ${percentage}%">
+                            ${percentage > 15 ? `<span>${points.toFixed(2)}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-info">
+                    <span class="skill-points">${points.toFixed(2)}/100</span>
+                    <span class="skill-max">Nível ${level}</span>
+                </div>
+
+                <div class="skill-actions">
+                    <button class="skill-btn" onclick="incrementSkillPoints(${skill.id})">
+                        ⬆️ +0.01
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function incrementSkillPoints(skillId) {
+    const skills = dailyLog.getSkills();
+    const skill = skills.find(s => s.id === skillId);
+
+    if (skill) {
+        skill.points = Math.min((skill.points || 0) + 0.01, 100);
+        dailyLog.saveSkills();
+        renderSkillsDashboard();
+        showToast(`📈 ${skill.title}: +0.01 pontos (${skill.points.toFixed(2)}/100)`);
+    }
+}
+
+function deleteSkillById(skillId) {
+    const skills = dailyLog.getSkills();
+    const skill = skills.find(s => s.id === skillId);
+
+    if (skill && confirm(`Deseja expurgar a habilidade "${skill.title}" do arsenal?`)) {
+        dailyLog.deleteSkill(skillId);
+        renderSkillsDashboard();
+        showToast(`🔮 ${skill.title} foi expurgada do arsenal.`);
+    }
+}

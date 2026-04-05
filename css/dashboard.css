@@ -1,0 +1,746 @@
+/* ============================================================================
+   DASHBOARD - PAINEL PRINCIPAL, STATS E EMOTIONAL WIDGET
+   ============================================================================ */
+
+/* 🏠 SEÇÃO PRINCIPAL — o container preto que envolve TUDO na página inicial */
+.gamification-section {
+    background: #050505 !important;
+    border: 1px solid rgba(218, 165, 32, 0.2) !important;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8) !important; 
+    position: relative;
+}
+
+/* 🎨 ESTILO BASE COMPARTILHADO — borda dourada e fundo preto aplicados nos 4 painéis */
+.emotional-widget, 
+.stats-panel, 
+.heartbeat-section, 
+.daily-reminder {
+    background: #111111 !important;
+    border: 1px solid rgba(218, 165, 32, 0.2) !important;
+    border-radius: 4px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important; 
+    height: auto !important;
+    position: relative;
+    padding: 2rem !important;
+}
+
+/* ✨ MOLDURA INTERNA DOURADA — a linha fina dourada decorativa dentro de cada painel */
+.emotional-widget::before, 
+.stats-panel::before, 
+.heartbeat-section::before, 
+.daily-reminder::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 165, 32, 0.05);
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+/* ════════════════════════════════════════
+   👻 FANTASMA / WIDGET EMOCIONAL
+   Painel esquerdo com o texto verde do fantasma
+   ════════════════════════════════════════ */
+/* --- Emotional Widget --- */
+.emotional-widget {
+    background: #111111;
+    border: 1.5px solid var(--border);
+    border-radius: .6rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.2rem;
+    height: 100%;
+}
+
+.emotional-widget::before {
+    content: '';
+    position: absolute;
+    top: 5px; left: 5px; right: 5px; bottom: 5px;
+    border: 1px solid rgba(218, 165, 32, 0.1);
+    pointer-events: none;
+}
+
+/* 📦 Wrapper interno do widget do fantasma */
+.emotion-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+/* 🏷️ Texto do estado do fantasma ex: 'Ecos do Vazio', 'Frenesi Sombrio' */
+.emotion-status {
+    font-size: var(--fs-base);
+    font-family: var(--font-gothic);
+    font-weight: 700;
+    color: var(--text-accent);
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(218, 165, 32, .4);
+}
+
+/* 💬 Caixa preta com texto verde onde o fantasma fala (estilo terminal) */
+.emotion-message {
+    background-color: #050505;
+    background-image: radial-gradient(circle, rgba(0, 20, 0, 0.2) 0%, rgba(0, 0, 0, 1) 100%), linear-gradient(rgba(0, 0, 0, 0.4) 1px, transparent 1px);
+    background-size: 100%, 100% 4px;
+    border: 2px solid #1f2937;
+    border-radius: 4px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 1), 0 0 10px rgba(74, 222, 128, 0.05);
+    padding: 1rem;
+    width: 100%;
+    min-height: 130px;
+    display: block;
+    text-align: left;
+    font-family: var(--font-code), monospace;
+    font-size: 0.85rem;
+    color: #4ade80;
+    font-style: normal;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.emotion-message:hover {
+    box-shadow: #1f2937 0 0 20px;
+}
+
+
+/* 📊 Container das duas linhas abaixo do terminal (Evolução + Dias) */
+.emotion-insights {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 4rem;
+}
+
+.emotion-insight:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(218, 165, 32, .3);
+    border-color: var(--gold) !important;
+}
+
+/* 📌 Cada linha individual (Evolução Espiritual / Dias Assombrando) */
+.emotion-insight {
+    padding: .5rem .8rem;
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(218, 165, 32, .4) !important;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5) !important;
+    border-radius: .35rem;
+    transition: all .25s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+/* 🖱️ Efeito hover nas linhas de insight */
+.emotion-insight:hover {
+    background: rgba(218, 165, 32, .13);
+    transform: translateX(3px);
+}
+
+/* 🖼️ ÍCONE das linhas de Evolução Espiritual e Dias Assombrando
+   → width/height = tamanho do ícone */
+.insight-icon {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    object-fit: contain;
+    opacity: 0.8;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 🔵 Cor teal do ícone 'Evolução Espiritual' */
+.insight-icon.color-spirit {
+    filter: invert(78%) sepia(33%) saturate(1039%) hue-rotate(124deg) brightness(97%) contrast(93%) drop-shadow(0 0 5px rgba(45, 212, 191, 0.6));
+}
+
+/* 🟣 Cor roxa do ícone 'Dias Assombrando' */
+.insight-icon.color-time {
+    filter: invert(61%) sepia(56%) saturate(3474%) hue-rotate(236deg) brightness(98%) contrast(96%) drop-shadow(0 0 5px rgba(168, 85, 247, 0.6));
+}
+
+.emotion-insight:hover /* 🖼️ ÍCONE das linhas de Evolução Espiritual e Dias Assombrando
+   → width/height = tamanho do ícone */
+.insight-icon {
+    opacity: 1;
+    transform: scale(1.15) rotate(-5deg);
+}
+
+/* 🔤 Texto pequeno ex: 'EVOLUÇÃO ESPIRITUAL' */
+.insight-label {
+    font-size: 0.8rem;
+    color: var(--gold-glow) !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+/* 🔢 Valor ex: '125 XP', '4 dias' */
+.insight-value {
+    font-size: var(--fs-base);
+    font-weight: 700;
+    color: var(--text-accent);
+    margin: 0;
+}
+
+/* ════════════════════════════════════════
+   📊 PAINEL DE ATRIBUTOS SOMBRIOS
+   Painel direito com Chama Viva, Poder Total, Círculo
+   e os cards de Sombra da Semana, Ciclo Lunar, Ápice
+   ════════════════════════════════════════ */
+/* --- Stats Panel --- */
+.stats-panel {
+    background: var(--surface-2);
+    border: 1.5px solid rgba(184, 134, 11, .22);
+    border-radius: .6rem;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.1rem;
+}
+
+/* 🏆 Título 'ATRIBUTOS SOMBRIOS' */
+.stats-title {
+    color: var(--gold) !important;
+    font-family: var(--font-gothic) !important;
+    letter-spacing: 4px !important;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 2rem !important;
+    font-size: var(--fs-lg);
+    margin: 0;
+}
+
+/* ➖ Linhas decorativas douradas ao lado do título */
+.stats-title::before,
+.stats-title::after {
+    content: '';
+    flex: 0.1;
+    height: 1px;
+    background: rgba(218, 165, 32, 0.4);
+}
+
+/* 📦 Container dos 3 cards: Chama Viva, Poder Total, Círculo */
+.quick-stats {
+    display: flex;
+    gap: .7rem;
+    flex-wrap: wrap;
+    
+}
+
+/* 🃏 Cada card individual (Chama Viva / Poder Total / Círculo) */
+.quick-stat {
+    flex: 1;
+    min-width: 85px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .35rem;
+    background: #111111 !important;
+    padding: .9rem .7rem;
+    border-radius: .45rem;
+    border: 1px solid rgba(218, 165, 32, 0.2) !important;
+    box-shadow: none !important;
+    text-align: center;
+    transition: all .3s ease;
+}
+
+/* 🖱️ Efeito hover nos cards de stat */
+.quick-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(218, 165, 32, .3);
+    border-color: var(--gold) !important;
+}
+
+.insight-card:hover{
+    transform: translateY(-3px);
+    border-color: var(--gold) !important;
+    box-shadow: 0 8px 24px rgba(218, 165, 32, .3);
+
+}
+
+/* 🎨 Estilo preto compartilhado entre cards de stat e cards de insight */
+.quick-stat, /* 🃏 Cada card inferior (Sombra da Semana / Ciclo Lunar / Ápice de Poder) */
+.insight-card {
+    background: #111111 !important; /* Preto sólido para não deixar o brilho passar */
+    border: 1px solid rgba(218, 165, 32, 0.3) !important;
+    border-radius: 4px !important;
+    box-shadow: none !important; /* Mata o brilho individual de cada card */
+    position: relative;
+    overflow: hidden;
+}
+
+/* ✨ Moldura interna fina dentro de cada card */
+.quick-stat::before, .insight-card::before {
+    content: '';
+    position: absolute;
+    top: 4px; left: 4px; right: 4px; bottom: 4px;
+    border: 1px solid rgba(218, 165, 32, 0.08);
+    pointer-events: none;
+}
+
+/* 🔥 Borda do card 'Chama Viva' */
+.stat-streak {
+    border-color: var(--border-strong);
+}
+
+/* ⚡ Borda do card 'Poder Total' */
+.stat-xp {
+    border-color: var(--border-strong);
+}
+
+/* ⭕ Borda do card 'Círculo' */
+.stat-level {
+    border-color: var(--border-strong);
+}
+
+/* 🖼️ ÍCONES dos cards (Chama Viva, Poder Total, Círculo)
+   → width/height = tamanho do ícone */
+.stat-icon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 0.5rem;
+    opacity: 0.85;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.quick-stat:hover /* 🖼️ ÍCONES dos cards (Chama Viva, Poder Total, Círculo)
+   → width/height = tamanho do ícone */
+.stat-icon {
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+/* 🟠 Cor laranja/fogo do ícone 'Chama Viva' */
+.stat-icon.color-streak {
+    filter: invert(72%) sepia(74%) saturate(2891%) hue-rotate(357deg) brightness(101%) drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+}
+
+/* 🟡 Cor dourada do ícone 'Poder Total' */
+.stat-icon.color-xp {
+    filter: invert(42%) sepia(93%) saturate(3012%) hue-rotate(336deg) brightness(101%) drop-shadow(0 0 8px rgba(218, 165, 32, 0.6));
+}
+
+/* 🟡 Cor amarelo claro do ícone 'Círculo' */
+.stat-icon.color-level {
+    filter: invert(82%) sepia(35%) saturate(1487%) hue-rotate(352deg) brightness(103%) drop-shadow(0 0 8px rgba(250, 204, 21, 0.6));
+}
+
+/* 🔤 Texto do label ex: 'CHAMA VIVA', 'PODER TOTAL' */
+.stat-label {
+    font-size: var(--fs-xs);
+    color: var(--gold-glow);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+/* 🔢 Número grande ex: 4, 3375, 7 */
+.quick-value {
+    font-size: var(--fs-xl);
+    font-weight: 800;
+    color: var(--text-accent);
+    text-shadow: 0 0 10px rgba(218, 165, 32, .5);
+}
+
+/* 📦 Container dos 3 cards inferiores: Sombra da Semana, Ciclo Lunar, Ápice */
+.performance-insights {
+    display: flex;
+    gap: .7rem;
+    flex-wrap: wrap;
+}
+
+/* 🃏 Cada card inferior (Sombra da Semana / Ciclo Lunar / Ápice de Poder) */
+.insight-card {
+    flex: 1;
+    min-width: 95px;
+    padding: .9rem .7rem;
+    background: rgba(218, 165, 32, .07);
+    border: 1px solid var(--border);
+    border-radius: .45rem;
+    text-align: center;
+    transition: all .25s ease;
+}
+
+/* 🖱️ Efeito hover nos cards inferiores */
+.insight-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(218, 165, 32, .45);
+    box-shadow: 0 5px 18px rgba(218, 165, 32, .18);
+}
+
+/* 🖼️ ÍCONES dos cards inferiores (Sombra, Ciclo, Ápice)
+   → width/height = tamanho do ícone */
+.insight-card-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 0.8rem auto;
+    opacity: 0.65;
+    filter: invert(42%) sepia(93%) saturate(3012%) hue-rotate(336deg) brightness(101%);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.insight-card:hover /* 🖼️ ÍCONES dos cards inferiores (Sombra, Ciclo, Ápice)
+   → width/height = tamanho do ícone */
+.insight-card-icon {
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+/* 🟡 Variação dourada do ícone (Ápice de Poder) */
+.insight-card-icon.color-ouro {
+    filter: invert(82%) sepia(35%) saturate(1487%) hue-rotate(352deg) brightness(103%) drop-shadow(0 0 8px rgba(250, 204, 21, 0.6));
+}
+
+/* 🔤 Título do card ex: 'Sombra da Semana' */
+.insight-header {
+    font-size: var(--fs-xs);
+    font-family: var(--font-gothic);
+    font-weight: 700;
+    color: var(--gold-glow);
+    margin-bottom: .45rem;
+}
+
+/* 🔢 Número grande dentro do card ex: 6, 7, 28/03 */
+.insight-big {
+    font-size: var(--fs-xl);
+    font-weight: 900;
+    color: var(--gold-light);
+}
+
+/* 🔤 Subtexto ex: 'DIAS ATIVOS', 'XP MÁXIMO' */
+.insight-sub {
+    font-size: var(--fs-xs);
+    color: var(--text-soft);
+    text-transform: uppercase;
+    margin: .1rem 0;
+}
+
+/* ⚡ XP do card ex: '1020 XP' */
+.insight-xp {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--gold);
+}
+
+/* ════════════════════════════════════════
+   💓 RESSONÂNCIA ESPIRITUAL (Heartbeat)
+   e 📋 PÁGINAS DE HOJE (Daily Reminder)
+   Painéis da segunda linha
+   ════════════════════════════════════════ */
+/* --- Heartbeat & Daily Reminder --- */
+.heartbeat-section,
+.daily-reminder {
+    background: rgba(8, 2, 2, .92);
+    border: 1.5px solid var(--border);
+    border-radius: .6rem;
+    padding: 1.5rem;
+    box-shadow: 0 0 20px rgba(218, 165, 32, .1), inset 0 0 18px rgba(218, 165, 32, .03);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: 440px;
+    min-height: 320px;
+}
+
+.heartbeat-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background-size: 100% 4px;
+}
+
+.heartbeat-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+.heartbeat-title {
+    font-size: var(--fs-md);
+    font-weight: 800;
+    color: #daa520;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.heartbeat-title::before,
+.heartbeat-title::after {
+    content: '';
+    flex: 0.1;
+    height: 1px;
+    background: rgba(218, 165, 32, 0.4);
+}
+
+/* 🖼️ ÍCONE pulsante ao lado de 'Ressonância Espiritual'
+   → width/height = tamanho do ícone */
+.monitor-icon {
+    width: 40px;
+    height: 40px;
+    filter: invert(82%) sepia(35%) saturate(1487%) hue-rotate(352deg) brightness(103%);
+    animation: pulsoFantasma 1.5s infinite alternate;
+}
+
+/* 🏷️ Status ex: 'Frenesi Sombrio!', 'Ressuscitando...' */
+.heartbeat-status {
+    font-size: var(--fs-sm);
+    color: var(--text-soft);
+    transition: color .5s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 📈 A grade do gráfico de batimento cardíaco */
+.heartbeat-canvas {
+    width: 100%;
+    height: 100px;
+    border-radius: .3rem;
+    background-image: linear-gradient(rgba(218, 165, 32, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(218, 165, 32, 0.15) 1px, transparent 1px);
+    background-color: #000000;
+    background-size: 15px 15px;
+    border: 1px solid rgba(218, 165, 32, 0.15);
+    position: relative;
+    z-index: 10;
+}
+
+.heartbeat-canvas:hover{
+    transform: translateY(-3px);
+    border-color: var(--red-frequency) !important;
+    box-shadow: 0 0 10px var(--red-frequency);
+}
+
+/* 📊 Rodapé do heartbeat com Sincronia, Frequência, Potência */
+.heartbeat-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(218, 165, 32, 0.15);
+    border-radius: 0.4rem;
+    padding: 0.8rem 1.2rem;
+    position: relative;
+    z-index: 10;
+}
+
+.heartbeat-footer:hover{
+    transform: translateY(-3px);
+    border-color: var(--red-frequency) !important;
+    box-shadow: 0 0 10px var(--red-frequency);
+}
+
+/* 📌 Cada coluna do rodapé */
+.hb-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* 🔤 Labels ex: 'SINCRONIA', 'FREQUÊNCIA' */
+.hb-label {
+    font-size: 0.65rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 🔢 Valores ex: 'Máxima!', '11.4Hz' */
+.hb-value {
+    font-size: var(--fs-sm);
+    color: var(--gold-light);
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(218, 165, 32, 0.3);
+}
+
+/* ════════════════════════════════════════
+   📋 PÁGINAS DE HOJE
+   Painel com os últimos registros do dia
+   ════════════════════════════════════════ */
+/* --- Daily Reminder Specific --- */
+.daily-reminder {
+    background: #111111 !important;
+    border: 1px solid rgba(218, 165, 32, 0.2) !important;
+    border-radius: 4px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+    height: auto !important;
+    position: relative;
+    padding: 2rem !important;
+    width: 100%;
+}
+
+.daily-reminder::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 165, 32, 0.05);
+    pointer-events: none;
+    border-radius: 2px;
+}
+/* 🏷️ Cabeçalho da seção 'Páginas de Hoje' */
+.logs-header {
+    border-bottom: 1px solid rgba(218, 165, 32, 0.2); /* A linha por baixo do título */
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    display: block !important; /* Remove o flex anterior */
+}
+
+.logs-header h3 {
+    font-family: var(--font-gothic) !important;
+    color: var(--gold) !important;
+    font-size: 1.3rem !important;
+    text-transform: uppercase;
+    letter-spacing: 4px !important;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.logs-header h3::before,
+.logs-header h3::after {
+    content: '';
+    flex: 0.1;
+    height: 1px;
+    background: rgba(218, 165, 32, 0.4);
+}
+
+/* 🏷️ Badgezinha com o último registro */
+.last-log-badge {
+    padding: 0.4rem 1rem;
+    background: rgba(218, 165, 32, 0.05);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    border-radius: 4px;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* 🔤 Texto dentro da badge ex: 'ÚLTIMO: TESTE' */
+.last-log-text {
+    font-size: 0.75rem;
+    color: var(--gold-dim);
+    font-family: var(--font-ui);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ➕ Botão 'Selar no Códice' */
+#addLogBtn {
+    margin: 0.5rem auto;
+    font-family: var(--font-gothic);
+    font-weight: bold;
+    letter-spacing: 2px;
+    width: auto;
+    position: relative;
+    right: auto;
+}
+
+/* 📦 Container da lista de registros do dia */
+.logs-list {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* 🃏 Cada linha de registro no painel de hoje */
+.log-item {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    border: 1px solid rgba(218, 165, 32, 0.1);
+    border-left: 3px solid var(--gold);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+/* 🖱️ Hover nos registros */
+.log-item:hover {
+    background: rgba(218, 165, 32, 0.05);
+    transform: translateX(4px);
+    border-color: var(--red-glow);
+}
+
+/* 🔤 Título do registro */
+.log-title {
+    color: #e5e7eb;
+    font-weight: 500;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 📊 Área com tag, hora e XP do registro */
+.log-meta {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}
+
+/* 🕐 Hora do registro */
+.log-time {
+    font-size: var(--fs-xs);
+    color: var(--text-soft);
+    opacity: 0.7;
+}
+
+/* ⚡ Badge de XP ex: '+20 XP' */
+.log-xp {
+    background: transparent;
+    color: #daa520;
+    padding: .15rem .6rem;
+    border-radius: 2px;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    border: 1px solid rgba(218, 165, 32, 0.3);
+    text-shadow: 0 0 5px rgba(218, 165, 32, 0.4);
+}
+
+/* 💬 Texto quando não há registros */
+.empty-state {
+    color: var(--text-soft);
+    font-family: var(--font-reading);
+    font-style: italic;
+    font-size: 1rem;
+    opacity: 0.6;
+    line-height: 1.6;
+}

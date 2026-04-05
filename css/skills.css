@@ -1,0 +1,421 @@
+/* ============================================================================
+   SKILLS DASHBOARD - PAINEL DE HABILIDADES
+   ============================================================================ */
+
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* --- Registro de Habilidades --- */
+.skills-register {
+    margin-bottom: 1rem;
+}
+
+.register-card {
+    background: #111111;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    border-radius: 6px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    position: relative;
+}
+
+.register-card::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 165, 32, 0.05);
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+.register-card > div {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+.register-card .btn-primary {
+    width: auto !important;
+    right: 0 !important;
+    padding: 0.8rem 1.5rem !important;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.skill-input {
+    background: rgba(10, 5, 5, 0.9);
+    border: 1px solid rgba(218, 165, 32, 0.3);
+    border-radius: 4px;
+    padding: 0.8rem 1rem;
+    color: var(--text-accent);
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.skill-input::placeholder {
+    color: rgba(218, 165, 32, 0.4);
+}
+
+.skill-input:focus {
+    outline: none;
+    background: rgba(15, 10, 8, 0.95);
+    border-color: rgba(218, 165, 32, 0.6);
+    box-shadow: 0 0 15px rgba(218, 165, 32, 0.2);
+}
+
+/* --- File Input Styling --- */
+input[type="file"].skill-input {
+    cursor: pointer;
+}
+
+input[type="file"].skill-input::file-selector-button {
+    background: rgba(218, 165, 32, 0.2);
+    border: 1px solid rgba(218, 165, 32, 0.3);
+    color: #daa520;
+    padding: 0.4rem 0.8rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+input[type="file"].skill-input::file-selector-button:hover {
+    background: rgba(218, 165, 32, 0.3);
+    border-color: rgba(218, 165, 32, 0.5);
+}
+
+/* --- Grid de Habilidades --- */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.skill-card {
+    background: #111111 !important;
+    border: 1px solid rgba(218, 165, 32, 0.6) !important;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* --- Moldura Interna (Tarot Style) --- */
+.skill-card::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border: 1px solid rgba(218, 165, 32, 0.3);
+    pointer-events: none;
+    border-radius: 4px;
+    z-index: 1;
+    transition: all 0.4s ease;
+}
+
+/* --- Elevar conteúdo acima da moldura --- */
+.skill-header,
+.skill-progress-container,
+.skill-info,
+.skill-actions {
+    position: relative;
+    z-index: 2;
+}
+
+.skill-card:hover {
+    transform: translateY(-10px) scale(1.05) !important;
+    border-color: #fce68a !important;
+    box-shadow: 0 15px 35px rgba(218, 165, 32, 0.15) !important;
+}
+
+.skill-card:hover::before {
+    border-color: rgba(252, 230, 138, 0.6);
+}
+
+/* --- Cabeçalho da Habilidade --- */
+.skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.skill-name {
+    font-size: 1rem;
+    color: #daa520;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: var(--font-gothic);
+}
+
+.skill-btn-delete {
+    background: transparent;
+    border: none;
+    color: rgba(220, 38, 38, 0.6);
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.skill-btn-delete:hover {
+    color: rgba(220, 38, 38, 1);
+    transform: scale(1.2);
+}
+
+/* --- Exibição de Nível --- */
+.skill-level-display {
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 0.8rem 0;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 2;
+}
+
+/* --- Barra de Progresso --- */
+.skill-progress-container {
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.skill-progress-bar {
+    background: rgba(20, 10, 20, 0.7);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    border-radius: 8px;
+    height: 24px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.skill-progress-fill {
+    background: linear-gradient(90deg, #daa520, #fce68a, #daa520);
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    box-shadow: 0 0 15px rgba(218, 165, 32, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #050505;
+    letter-spacing: 0.5px;
+}
+
+.skill-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* --- Info de Pontos --- */
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: rgba(218, 165, 32, 0.8);
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    position: relative;
+    z-index: 2;
+}
+
+.skill-points {
+    font-weight: bold;
+    color: #fce68a;
+}
+
+.skill-max {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+/* --- Botões de Ação --- */
+.skill-actions {
+    display: flex;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.skill-btn {
+    background: rgba(218, 165, 32, 0.1);
+    border: 1px solid rgba(218, 165, 32, 0.3);
+    color: var(--text-accent);
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+}
+
+.skill-btn:hover {
+    background: rgba(218, 165, 32, 0.2);
+    border-color: rgba(218, 165, 32, 0.6);
+    box-shadow: 0 0 10px rgba(218, 165, 32, 0.2);
+    transform: translateY(-2px);
+}
+
+.skill-btn-delete-action {
+    background: rgba(220, 38, 38, 0.1);
+    border-color: rgba(220, 38, 38, 0.3);
+    color: rgba(220, 38, 38, 0.7);
+}
+
+.skill-btn-delete-action:hover {
+    background: rgba(220, 38, 38, 0.2);
+    border-color: rgba(220, 38, 38, 0.6);
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.2);
+}
+
+/* --- Empty State --- */
+.skills-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-soft);
+}
+
+/* --- Container de Imagem do Projeto --- */
+.project-image-container {
+    width: 100%;
+    height: 200px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+    background: rgba(20, 10, 20, 0.5);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+}
+
+.project-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.skill-card:hover .project-image-container img {
+    transform: scale(1.05);
+}
+
+/* --- Seção de Link do Projeto --- */
+.project-link-section {
+    text-align: center;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.project-link-btn {
+    display: inline-block;
+    background: rgba(218, 165, 32, 0.15);
+    border: 1px solid rgba(218, 165, 32, 0.4);
+    color: #daa520;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    font-weight: bold;
+}
+
+.project-link-btn:hover {
+    background: rgba(218, 165, 32, 0.25);
+    border-color: rgba(218, 165, 32, 0.7);
+    box-shadow: 0 0 10px rgba(218, 165, 32, 0.2);
+    transform: translateY(-2px);
+}
+
+/* --- Projects Register Card --- */
+.projects-register {
+    margin-bottom: 2rem;
+}
+
+/* --- Responsivo --- */
+@media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+
+    .register-card {
+        padding: 1.5rem;
+    }
+
+    .skill-card {
+        padding: 1rem;
+    }
+
+    .skill-card:hover {
+        transform: translateY(-8px) scale(1.02) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .skill-input {
+        font-size: 0.9rem;
+    }
+
+    .skill-card:hover {
+        transform: translateY(-6px) scale(1.01) !important;
+    }
+}

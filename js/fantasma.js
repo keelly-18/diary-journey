@@ -172,7 +172,7 @@ function setupActivityHeartbeat() {
         for (let i = 0; i < points.length; i++) { if (i === 0) ctx.moveTo(points[i].x, points[i].y); else ctx.lineTo(points[i].x, points[i].y); }
         ctx.stroke();
 
-        ctx.shadowBlur = 10; ctx.shadowColor = 'rgba(239, 68, 68, 0.7)';
+        ctx.shadowBlur = 10; ctx.shadowColor = 'rgba(218, 165, 32, 0.7)';
         ctx.beginPath(); ctx.arc(points[points.length - 1].x, points[points.length - 1].y, 2.5, 0, Math.PI * 2);
         ctx.fillStyle = '#fff'; ctx.shadowBlur = 15; ctx.shadowColor = '#fff'; ctx.fill(); ctx.shadowBlur = 0; 
         

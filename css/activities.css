@@ -1,0 +1,296 @@
+/* ============================================================================
+   ACTIVITIES - TIMELINE E REGISTROS (ECOS SOMBRIOS)
+   ============================================================================ */
+
+.activities-section {
+    margin: 3rem 0;
+}
+
+.activities-header {
+    margin-bottom: 2rem;
+}
+
+.activities-header h2 {
+    font-size: var(--fs-xl);
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    padding-bottom: .8rem;
+    border-bottom: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.activities-header h2::before,
+.activities-header h2::after {
+    content: '';
+    flex: 0.1;
+    height: 1px;
+    background: rgba(218, 165, 32, 0.4);
+}
+
+.activities-filters {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(218, 165, 32, 0.15);
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    color: var(--text-soft);
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-family: var(--font-ui);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    border-color: var(--gold);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(218, 165, 32, 0.2);
+}
+
+.filter-btn.active {
+    background: rgba(218, 165, 32, 0.15);
+    border-color: var(--gold);
+    color: var(--text-accent); 
+    box-shadow: 0 0 15px rgba(218, 165, 32, 0.3);
+}
+
+.activities-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 1.5rem;
+}
+
+/* --- Timeline Group Header --- */
+.timeline-group-header {
+    font-family: var(--font-gothic);
+    color: #daa520;
+    font-size: 1.3rem;
+    margin: 3rem 0 1.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed rgba(218, 165, 32, 0.3);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.timeline-group-header::before {
+    content: '✧';
+    font-size: 0.9rem;
+    color: var(--gold);
+}
+
+/* --- Log/Activity Item --- */
+.log-separator {
+    color: var(--text-soft);
+    margin: 0 0.2rem;
+    font-style: italic;
+    font-weight: normal;
+}
+
+.log-content-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    width: 65%;
+}
+
+.log-content-right {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.log-time-whisper {
+    font-size: 0.7rem;
+    font-family: var(--font-reading);
+    color: var(--text-soft);
+    font-style: italic;
+}
+
+.log-time-highlight {
+    color: #c084fc;
+    font-weight: 600;
+    font-style: normal;
+    font-family: var(--font-ui);
+    text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
+}
+
+.log-xp-highlight {
+    color: #daa520;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(218, 165, 32, 0.4);
+}
+
+/* --- Area-based Time Color --- */
+.log-tema-estagio .log-time-highlight {
+    color: #c084fc;
+    text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
+}
+
+.log-tema-faculdade .log-time-highlight {
+    color: #7dd3fc;
+    text-shadow: 0 0 8px rgba(125, 211, 252, 0.4);
+}
+
+.log-tema-estudo .log-time-highlight {
+    color: #5eead4;
+    text-shadow: 0 0 8px rgba(94, 234, 212, 0.4);
+}
+
+.log-tema-desafio .log-time-highlight {
+    color: #fcd34d;
+    text-shadow: 0 0 8px rgba(252, 211, 77, 0.4);
+}
+
+.log-tema-conquista .log-time-highlight {
+    color: #fca5a5;
+    text-shadow: 0 0 8px rgba(252, 165, 165, 0.4);
+}
+
+/* --- Panel de Logs --- */
+.painel-de-logs {
+    background: #111111 !important;
+    border: 1px solid rgba(218, 165, 32, 0.2) !important;
+    border-radius: 4px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+    height: auto !important;
+    position: relative;
+    padding: 2rem !important;
+    width: 100%;
+}
+
+.painel-de-logs::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 165, 32, 0.05);
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+.painel-header {
+    border-bottom: 1px solid rgba(218, 165, 32, 0.2);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.painel-header h3 {
+    color: #daa520;
+    font-size: var(--fs-md);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.painel-header h3::before,
+.painel-header h3::after {
+    content: '';
+    flex: 0.1;
+    height: 1px;
+    background: rgba(218, 165, 32, 0.4);
+}
+
+.painel-de-logs .logs-list {
+    max-height: 200px;
+    width: 100%;
+    overflow-y: auto;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 1em;
+    scroll-behavior: smooth;
+}
+
+.painel-de-logs .logs-list::-webkit-scrollbar {
+    width: 10px
+}
+
+.painel-de-logs .logs-list::-webkit-scrollbar-track {
+    background: rgba(218, 165, 32, 0.05);
+    border-radius: 3px;
+}
+
+.painel-de-logs .logs-list::-webkit-scrollbar-thumb {
+    background: rgba(218, 165, 32, 0.3);
+    border-radius: 3px;
+}
+
+.painel-de-logs .logs-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(218, 165, 32, 0.5);
+}
+
+.painel-de-logs .log-item {
+    background: rgba(18, 15, 10, 0.9);
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid rgba(218, 165, 32, 0.15);
+    border-left: 3px solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    width: calc(100% - 12px);
+}
+
+.painel-de-logs .log-item:hover {
+    transform: translateY(-2px);
+    background: rgba(25, 20, 12, 0.95);
+    border-color: rgba(218, 165, 32, 0.3);
+    box-shadow: 0 8px 20px rgba(218, 165, 32, 0.15);
+}
+
+.painel-de-logs .log-title {
+    font-size: 0.8rem; 
+    white-space: normal;
+    line-height: 1.4;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: flex-end; /* Mantém o alinhamento correto com os outros itens */
+}
+
+.painel-de-logs .log-meta {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    opacity: 0.95;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(218, 165, 32, 0.1);
+}
+
+.painel-de-logs .log-time {
+    font-size: 0.7rem;
+    font-family: var(--font-code);
+    color: #b09cac;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

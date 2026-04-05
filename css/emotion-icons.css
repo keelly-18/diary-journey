@@ -1,0 +1,134 @@
+/* ============================================================================
+   ÍCONES DE EMOÇÃO - CARDS TAROT (ECOS SOMBRIOS)
+   Coloração e brilho dinâmico de acordo com a área do card.
+   ============================================================================ */
+
+/* --- Base do ícone nos cards --- */
+.card-tarot-emotion-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+    transition: all 0.4s ease;
+    /* Dourado padrão (fallback caso nenhuma área bata) */
+    filter: invert(72%) sepia(85%) saturate(450%) hue-rotate(5deg) brightness(95%) contrast(95%)
+            drop-shadow(0 0 8px rgba(218, 165, 32, 0.5));
+    animation: pulseIcon 2s ease-in-out infinite;
+}
+
+/* --- Roxo: Estágio (#c084fc) --- */
+.area-estagio .card-tarot-emotion-img {
+    filter: invert(61%) sepia(60%) saturate(600%) hue-rotate(240deg) brightness(105%) contrast(95%)
+            drop-shadow(0 0 8px rgba(192, 132, 252, 0.5));
+}
+.area-estagio:hover .card-tarot-emotion-img {
+    filter: invert(61%) sepia(60%) saturate(900%) hue-rotate(240deg) brightness(120%) contrast(95%)
+            drop-shadow(0 0 16px rgba(192, 132, 252, 0.9));
+    transform: scale(1.12);
+}
+
+/* --- Azul: Faculdade (#7dd3fc) --- */
+.area-faculdade .card-tarot-emotion-img {
+    filter: invert(78%) sepia(50%) saturate(500%) hue-rotate(175deg) brightness(105%) contrast(95%)
+            drop-shadow(0 0 8px rgba(125, 211, 252, 0.5));
+}
+.area-faculdade:hover .card-tarot-emotion-img {
+    filter: invert(78%) sepia(50%) saturate(900%) hue-rotate(175deg) brightness(120%) contrast(95%)
+            drop-shadow(0 0 16px rgba(125, 211, 252, 0.9));
+    transform: scale(1.12);
+}
+
+/* --- Teal: Estudo (#5eead4) --- */
+.area-estudo .card-tarot-emotion-img {
+    filter: invert(80%) sepia(40%) saturate(500%) hue-rotate(130deg) brightness(100%) contrast(95%)
+            drop-shadow(0 0 8px rgba(94, 234, 212, 0.5));
+}
+.area-estudo:hover .card-tarot-emotion-img {
+    filter: invert(80%) sepia(40%) saturate(900%) hue-rotate(130deg) brightness(120%) contrast(95%)
+            drop-shadow(0 0 16px rgba(94, 234, 212, 0.9));
+    transform: scale(1.12);
+}
+
+/* --- Amarelo: Desafio (#fcd34d) --- */
+.area-desafio .card-tarot-emotion-img {
+    filter: invert(85%) sepia(70%) saturate(500%) hue-rotate(5deg) brightness(100%) contrast(95%)
+            drop-shadow(0 0 8px rgba(252, 211, 77, 0.5));
+}
+.area-desafio:hover .card-tarot-emotion-img {
+    filter: invert(85%) sepia(70%) saturate(900%) hue-rotate(5deg) brightness(120%) contrast(95%)
+            drop-shadow(0 0 16px rgba(252, 211, 77, 0.9));
+    transform: scale(1.12);
+}
+
+/* --- Rosa: Conquista (#fca5a5) --- */
+.area-conquista .card-tarot-emotion-img {
+    filter: invert(75%) sepia(40%) saturate(500%) hue-rotate(310deg) brightness(105%) contrast(95%)
+            drop-shadow(0 0 8px rgba(252, 165, 165, 0.5));
+}
+.area-conquista:hover .card-tarot-emotion-img {
+    filter: invert(75%) sepia(40%) saturate(900%) hue-rotate(310deg) brightness(120%) contrast(95%)
+            drop-shadow(0 0 16px rgba(252, 165, 165, 0.9));
+    transform: scale(1.12);
+    
+}
+
+/* --- Pulso já existe no .card-tarot-icon (herdado pela img) ---
+   Sobrescrevemos para a img respeitar o keyframe de cada área       */
+@keyframes pulseEstagio {
+    0%, 100% { filter: invert(61%) sepia(60%) saturate(600%) hue-rotate(240deg) brightness(105%) contrast(95%) drop-shadow(0 0 8px rgba(192,132,252,0.4)); transform: scale(1); }
+    50%       { filter: invert(61%) sepia(60%) saturate(900%) hue-rotate(240deg) brightness(120%) contrast(95%) drop-shadow(0 0 18px rgba(192,132,252,0.9)); transform: scale(1.06); }
+}
+@keyframes pulseFaculdade {
+    0%, 100% { filter: invert(78%) sepia(50%) saturate(500%) hue-rotate(175deg) brightness(105%) contrast(95%) drop-shadow(0 0 8px rgba(125,211,252,0.4)); transform: scale(1); }
+    50%       { filter: invert(78%) sepia(50%) saturate(900%) hue-rotate(175deg) brightness(120%) contrast(95%) drop-shadow(0 0 18px rgba(125,211,252,0.9)); transform: scale(1.06); }
+}
+@keyframes pulseEstudo {
+    0%, 100% { filter: invert(80%) sepia(40%) saturate(500%) hue-rotate(130deg) brightness(100%) contrast(95%) drop-shadow(0 0 8px rgba(94,234,212,0.4)); transform: scale(1); }
+    50%       { filter: invert(80%) sepia(40%) saturate(900%) hue-rotate(130deg) brightness(120%) contrast(95%) drop-shadow(0 0 18px rgba(94,234,212,0.9)); transform: scale(1.06); }
+}
+@keyframes pulseDesafio {
+    0%, 100% { filter: invert(85%) sepia(70%) saturate(500%) hue-rotate(5deg) brightness(100%) contrast(95%) drop-shadow(0 0 8px rgba(252,211,77,0.4)); transform: scale(1); }
+    50%       { filter: invert(85%) sepia(70%) saturate(900%) hue-rotate(5deg) brightness(120%) contrast(95%) drop-shadow(0 0 18px rgba(252,211,77,0.9)); transform: scale(1.06); }
+}
+@keyframes pulseConquista {
+    0%, 100% { filter: invert(75%) sepia(40%) saturate(500%) hue-rotate(310deg) brightness(105%) contrast(95%) drop-shadow(0 0 8px rgba(252,165,165,0.4)); transform: scale(1); }
+    50%       { filter: invert(75%) sepia(40%) saturate(900%) hue-rotate(310deg) brightness(120%) contrast(95%) drop-shadow(0 0 18px rgba(252,165,165,0.9)); transform: scale(1.06); }
+}
+
+.area-estagio  .card-tarot-emotion-img { animation: pulseEstagio  2s ease-in-out infinite; }
+.area-faculdade .card-tarot-emotion-img { animation: pulseFaculdade 2s ease-in-out infinite; }
+.area-estudo   .card-tarot-emotion-img { animation: pulseEstudo   2s ease-in-out infinite; }
+.area-desafio  .card-tarot-emotion-img { animation: pulseDesafio  2s ease-in-out infinite; }
+.area-conquista .card-tarot-emotion-img { animation: pulseConquista 2s ease-in-out infinite; }
+
+/* Para o hover não conflitar com a animação */
+.area-estagio:hover  .card-tarot-emotion-img,
+.area-faculdade:hover .card-tarot-emotion-img,
+.area-estudo:hover   .card-tarot-emotion-img,
+.area-desafio:hover  .card-tarot-emotion-img,
+.area-conquista:hover .card-tarot-emotion-img {
+    animation-play-state: paused;
+}
+
+
+/* ============================================================================
+   ÍCONES DE EMOÇÃO - DROPDOWNS (MODAL DE LOG)
+   Coloração dourada padrão, com brilho no hover igual ao padrão do Códice.
+   ============================================================================ */
+
+.humor-option .dropdown-icon,
+.humor-trigger .dropdown-icon {
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    /* Dourado padrão igual ao restante dos dropdowns */
+    filter: invert(72%) sepia(85%) saturate(450%) hue-rotate(5deg) brightness(95%) contrast(95%);
+    transition: all 0.25s ease;
+}
+
+.humor-option:hover .dropdown-icon {
+    filter: invert(72%) sepia(85%) saturate(900%) hue-rotate(5deg) brightness(115%) contrast(95%)
+            drop-shadow(0 0 6px rgba(218, 165, 32, 0.7));
+    transform: scale(1.15);
+}

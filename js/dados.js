@@ -33,7 +33,11 @@ class DailyLog {
         this.STORAGE_KEY = 'gothic_diary_logs';
         this.GIST_ID_KEY = 'gothic_diary_gist_id';
         this.TOKEN_KEY = 'gothic_diary_github_token';
+        this.SKILLS_KEY = 'gothic_diary_skills';
+        this.PROJECTS_KEY = 'gothic_diary_projects';
         this.logs = this.loadLocal();
+        this.skills = this.loadSkills();
+        this.projects = this.loadProjects();
     }
 
     loadLocal() {
@@ -43,28 +47,60 @@ class DailyLog {
     }
 
     saveLocal() { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.logs)); }
+
+    loadSkills() {
+        const saved = localStorage.getItem(this.SKILLS_KEY);
+        try { return saved ? JSON.parse(saved) : []; }
+        catch (e) { return []; }
+    }
+
+    saveSkills() { localStorage.setItem(this.SKILLS_KEY, JSON.stringify(this.skills)); }
+
+    loadProjects() {
+        const saved = localStorage.getItem(this.PROJECTS_KEY);
+        try { return saved ? JSON.parse(saved) : []; }
+        catch (e) { return []; }
+    }
+
+    saveProjects() { localStorage.setItem(this.PROJECTS_KEY, JSON.stringify(this.projects)); }
+
     getToday() { return new Date().toISOString().split('T')[0]; }
     getTodayLogs() { return this.logs[this.getToday()] || []; }
     getAllLogsFlat() { return Object.values(this.logs).flat().sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)); }
 
-    async addLog(title, description, area, emotion, reason) {
-        const xpMap = { estagio: 20, faculdade: 20, estudo: 35, desafio: 45, conquista: 60 };
-        const log = {
-            id: Date.now(), title, description, area, emotion: emotion || 'focada',
-            reason: reason || '', xp: xpMap[area] || 20, timestamp: new Date().toISOString()
-        };
+    async addLog(title, description, area, emotion, reason, repoUrl) {
+    const xpMap = { estagio: 20, faculdade: 20, estudo: 35, desafio: 45, conquista: 60 };
+    
+    // Cálculo do XP Base
+    let baseXP = xpMap[area] || 20;
+    
+    // Aplicação do Bónus de Repositório (+15 XP)
+    let bonusXP = (repoUrl && repoUrl.trim() !== "") ? 15 : 0;
+    let finalXP = baseXP + bonusXP;
 
-        const today = this.getToday();
-        if (!this.logs[today]) this.logs[today] = [];
-        this.logs[today].push(log);
-        this.saveLocal();
+    const log = {
+        id: Date.now(), 
+        title, 
+        description, 
+        area, 
+        emotion: emotion || 'focada',
+        reason: reason || '', 
+        repoUrl: repoUrl || '', // Guardamos a URL no objeto do log
+        xp: finalXP, 
+        timestamp: new Date().toISOString()
+    };
 
-        if (getToken() && getGistId()) {
-            const ok = await saveLogsToGist({ logs: this.logs });
-            return { log, synced: ok };
-        }
-        return { log, synced: false };
+    const today = this.getToday();
+    if (!this.logs[today]) this.logs[today] = [];
+    this.logs[today].push(log);
+    this.saveLocal();
+
+    if (getToken() && getGistId()) {
+        const ok = await saveLogsToGist({ logs: this.logs });
+        return { log, synced: ok };
     }
+    return { log, synced: false };
+}
 
     async deleteLog(idLog) {
         let logDeletado = false;
@@ -131,6 +167,34 @@ class DailyLog {
             monthDays: uniqueDays(logsMonth), monthXP: logsMonth.reduce((sum, l) => sum + (l.xp || 0), 0),
             bestDay: bestDayDate, bestDayXP: bestDayXP
         };
+    }
+
+    addSkill(title, level = 1, description = '') {
+        const skill = { id: Date.now(), title, level, description, createdAt: new Date().toISOString() };
+        this.skills.push(skill);
+        this.saveSkills();
+        return skill;
+    }
+
+    addProject(title, status = 'em_progresso', link = '', description = '') {
+        const project = { id: Date.now(), title, status, link, description, createdAt: new Date().toISOString() };
+        this.projects.push(project);
+        this.saveProjects();
+        return project;
+    }
+
+    getSkills() { return this.skills || []; }
+
+    getProjects() { return this.projects || []; }
+
+    deleteSkill(skillId) {
+        this.skills = this.skills.filter(s => s.id !== skillId);
+        this.saveSkills();
+    }
+
+    deleteProject(projectId) {
+        this.projects = this.projects.filter(p => p.id !== projectId);
+        this.saveProjects();
     }
 }
 const dailyLog = new DailyLog();
@@ -210,4 +274,12 @@ async function downloadLogsFromGist() {
             dailyLog.saveLocal();
         }
     } catch (e) {}
+}
+
+function seedInitialData() {
+    if (dailyLog.getAllLogsFlat().length === 0 && dailyLog.getSkills().length === 0) {
+        dailyLog.addSkill('JavaScript Avançado', 2, 'Domínio de ES6+, async/await e manipulação do DOM');
+        dailyLog.addSkill('CSS & Design', 1, 'Criação de interfaces góticas e responsivas');
+        dailyLog.addProject('Códice das Sombras', 'em_progresso', 'https://github.com/seu-repo', 'Diário de aprendizado com tema de horror');
+    }
 }
