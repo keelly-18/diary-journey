@@ -625,11 +625,10 @@
     letter-spacing: 1.5px !important;
     line-height: 1.3 !important;
     margin: 0 !important;
+    margin-left: 50px !important;
     text-shadow: 0 0 10px rgba(218, 165, 32, 0.2);
-    display: block !important;
+    display: flex;
 }
-.card-detail-title::before,
-.card-detail-title::after { display: none !important; }
 
 /* XP box estilo "PS 190" do Pokémon */
 .card-detail-xp-box {
@@ -699,11 +698,27 @@
     mix-blend-mode: screen
 }
 
-.card-detail-emotion-img.area-estagio   { filter: invert(61%) sepia(10%) saturate(100%) hue-rotate(100deg) brightness(10%) drop-shadow(0 0 14px rgba(192,132,252,0.6)); }
-.card-detail-emotion-img.area-faculdade { filter: invert(78%) sepia(50%) saturate(500%) hue-rotate(175deg) brightness(105%) drop-shadow(0 0 14px rgba(125,211,252,0.6)); }
-.card-detail-emotion-img.area-estudo    { filter: invert(80%) sepia(40%) saturate(500%) hue-rotate(130deg) brightness(100%) drop-shadow(0 0 14px rgba(94,234,212,0.6)); }
-.card-detail-emotion-img.area-desafio   { filter: invert(85%) sepia(70%) saturate(500%) hue-rotate(5deg)   brightness(100%) drop-shadow(0 0 14px rgba(252,211,77,0.6)); }
-.card-detail-emotion-img.area-conquista { filter: invert(75%) sepia(40%) saturate(500%) hue-rotate(310deg) brightness(105%) drop-shadow(0 0 14px rgba(252,165,165,0.6)); }
+.card-detail-emotion-mask {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    z-index: 1;
+    animation: pulseIcon 2.5s ease-in-out infinite;
+    
+    /* A tua imagem SVG (a ampulheta) é usada apenas como "molde/recorte" */
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.card-detail-emotion-mask.area-estagio   { background-color: #c084fc; filter: drop-shadow(0 0 12px rgba(192,132,252,0.8)); }
+.card-detail-emotion-mask.area-faculdade { background-color: #7dd3fc; filter: drop-shadow(0 0 12px rgba(125,211,252,0.8)); }
+.card-detail-emotion-mask.area-estudo    { background-color: #5eead4; filter: drop-shadow(0 0 12px rgba(94,234,212,0.8)); }
+.card-detail-emotion-mask.area-desafio   { background-color: #fcd34d; filter: drop-shadow(0 0 12px rgba(252,211,77,0.8)); }
+.card-detail-emotion-mask.area-conquista { background-color: #fca5a5; filter: drop-shadow(0 0 12px rgba(252,165,165,0.8)); }
 
 .card-detail-art-caption {
     display: flex;
@@ -717,7 +732,7 @@
 
 .card-detail-emotion-label {
     font-family: var(--font-ui);
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: rgba(218, 165, 32, 0.6);
@@ -725,7 +740,7 @@
 
 .card-detail-datetime {
     font-family: var(--font-ui);
-    font-size: 0.45rem;
+    font-size: 0.6rem;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: rgba(218, 165, 32, 0.35);
@@ -747,7 +762,7 @@
 }
 .card-detail-divider-symbol {
     font-size: 0.55rem;
-    color: rgba(218, 165, 32, 0.4);
+    color: rgba(218, 165, 32, 0.5);
 }
 
 /* ── [4] MOVES / CONTEÚDO ── */
@@ -774,7 +789,7 @@
 
 .card-detail-move-name {
     font-family: var(--font-gothic);
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     color: #daa520;
@@ -782,7 +797,7 @@
 
 .card-detail-move-desc {
     font-family: var(--font-reading);
-    font-size: 0.78rem;
+    font-size: 1rem;
     color: rgba(220, 210, 190, 0.8);
     line-height: 1.6;
     margin: 0;
@@ -817,7 +832,7 @@
 
 .card-detail-footer-text {
     font-family: var(--font-ui);
-    font-size: 0.42rem;
+    font-size: 0.6rem;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: rgba(218, 165, 32, 0.28);
@@ -831,7 +846,7 @@
     padding: 0.35rem 0.8rem;
     border-radius: 3px;
     font-family: var(--font-ui);
-    font-size: 0.52rem;
+    font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     cursor: pointer;
@@ -840,7 +855,7 @@
 .card-detail-delete-btn:hover {
     border-color: rgba(218, 165, 32, 0.55);
     color: #daa520;
-    background: rgba(218, 165, 32, 0.05);
+    background: rgba(218, 165, 32, 0.25);
     box-shadow: 0 0 10px rgba(218, 165, 32, 0.1);
     text-shadow: 0 0 6px rgba(218, 165, 32, 0.35);
 }

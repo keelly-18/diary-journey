@@ -467,7 +467,7 @@ function showLogDetail(logId) {
             <!-- [2] ARTE: ícone de humor centralizado -->
             <div class="card-detail-art area-${log.area}">
                 <div class="card-detail-art-glow area-${log.area}"></div>
-                <img src="${emoSrc}" alt="${emoLabel}" class="card-detail-emotion-img area-${log.area}">
+                <div class="card-detail-emotion-mask area-${log.area}" style="-webkit-mask-image: url('${emoSrc}'); mask-image: url('${emoSrc}');"></div>
                 <div class="card-detail-art-caption">
                     <span class="card-detail-emotion-label">${emoLabel}</span>
                     <span class="card-detail-datetime">${date} · ${time}</span>
