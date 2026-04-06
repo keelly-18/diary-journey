@@ -293,25 +293,27 @@
                 <div class="skills-container">
                     <!-- Área de Registro -->
                     <div class="skills-register">
-                        <div class="register-card">
-                            <h3 style="color: #daa520; margin-bottom: 1.2rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Registrar Nova Habilidade</h3>
-                            <div style="display: flex; gap: 0.8rem;">
-                                <input 
-                                    type="text" 
-                                    id="skillInput" 
-                                    placeholder="Digite uma tecnologia ou habilidade..." 
-                                    class="skill-input"
-                                    style="flex: 1;"
-                                >
-                                <button id="addSkillBtn" class="btn-primary" style="width: auto;">Registrar</button>
-                            </div>
-                        </div>
-                    </div>
+    <div class="register-card" style="border-left: 3px solid #38bdf8;">
+        <h3 style="color: #38bdf8; margin-bottom: 1.2rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 0.5rem;">
+             Iniciar Nova Disciplina
+        </h3>
+        <div style="display: flex; gap: 0.8rem;">
+            <input 
+                type="text" 
+                id="skillInput" 
+                placeholder="Nome da tecnologia ou feitiço (Ex: React, Node)..." 
+                class="skill-input"
+                style="flex: 1;"
+            >
+            <button id="addSkillBtn" class="btn-primary" style="width: auto; background: rgba(56, 189, 248, 0.15); border-color: #38bdf8; color: #bae6fd;">Inscrever Runa</button>
+        </div>
+    </div>
+</div>
 
                     <!-- Área de Visualização de Habilidades -->
                     <div id="skillsGrid" class="skills-grid">
                         <div style="text-align: center; padding: 3rem; color: var(--text-soft); grid-column: 1/-1;">
-                            <p>🔮 Nenhuma habilidade registrada ainda. Registre sua primeira tecnologia acima!</p>
+                            <p>Nenhuma habilidade registrada ainda. Registre sua primeira tecnologia acima!</p>
                         </div>
                     </div>
                 </div>
@@ -346,9 +348,9 @@
                 
                 <!-- Registro de Novo Projeto -->
                 <div class="projects-register">
-    <div class="register-card" style="border-left: 3px solid #c084fc;">
-        <h3 style="color: #c084fc; margin-bottom: 1.2rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 0.5rem;">
-            <span>✨</span> Conjurar Novo Artefato
+    <div class="register-card" style="border-left: 3px solid #10b981;">
+        <h3 style="color: #10b981; margin-bottom: 1.2rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 0.5rem;">
+             Conjurar Novo Artefato
         </h3>
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
@@ -358,11 +360,11 @@
         
         <div style="display: flex; gap: 1rem; align-items: center; background: rgba(0,0,0,0.2); padding: 0.5rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">
             <div style="flex: 1; display: flex; align-items: center; gap: 0.5rem;">
-                <label for="projectImage" style="color: var(--text-soft); font-size: 0.85rem; cursor: pointer;">🖼️ Inserir Imagem (Opcional):</label>
+                <label for="projectImage" style="color: var(--text-soft); font-size: 0.85rem; cursor: pointer;"> Inserir Imagem (Opcional):</label>
                 <input type="file" id="projectImage" accept="image/*" class="skill-input" style="padding: 0.4rem; border: none; background: transparent; font-size: 0.8rem;">
             </div>
             
-            <button id="addProjectBtn" class="btn-primary" style="background: rgba(192, 132, 252, 0.2); border-color: #c084fc; color: #d8b4fe; width: auto;">Conjurar</button>
+            <button id="addProjectBtn" class="btn-primary" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #34d399; width: auto;">Conjurar</button>
         </div>
     </div>
 </div>
@@ -370,7 +372,7 @@
                 <!-- Grid de Projetos -->
                 <div id="projectsGrid" class="skills-grid">
                     <div style="text-align: center; padding: 3rem; color: var(--text-soft); grid-column: 1/-1;">
-                        <p>🔮 Nenhum artefato registrado ainda.</p>
+                        <p>Nenhum artefato registrado ainda.</p>
                     </div>
                 </div>
             </section>
@@ -397,102 +399,95 @@
 
         <div class="page" data-page="credits">
             <section class="credits-section">
-                <div class="credits-header">
-                    <h1>— PACTOS REALIZADOS —</h1>
-                    <p style="color: var(--text-soft); font-size: 0.95rem; font-style: italic;">Os artefatos e conhecimentos que tornaram este Códice possível</p>
-                </div>
+    <div class="credits-header">
+        <h1>— PACTOS REALIZADOS —</h1>
+        <p style="color: var(--text-soft); font-size: 0.95rem; font-style: italic;">Os artefatos e conhecimentos que tornaram este Códice possível</p>
+    </div>
 
-                <!-- Seção de IA -->
-                <div class="credit-block">
-                    <h2 class="credit-title">🤖 Inteligências Artificiais</h2>
-                    <div class="credit-grid">
-                        <div class="credit-card">
-                            <div class="credit-icon">🔮</div>
-                            <h3>Claude</h3>
-                            <p>Arquitetura, lógica e implementação do sistema. Toda a estrutura dinâmica e funcionalidades do Códice.</p>
-                            <a href="https://claude.ai" target="_blank" class="credit-link">Visitar</a>
-                        </div>
-                        <div class="credit-card">
-                            <div class="credit-icon">✨</div>
-                            <h3>Gemini</h3>
-                            <p>Assistência em conceitos, refinamento de ideias e otimizações do código.</p>
-                            <a href="https://gemini.google.com" target="_blank" class="credit-link">Visitar</a>
-                        </div>
-                    </div>
+    <div class="credit-block">
+        <h2 class="credit-title">Inteligências Artificiais</h2>
+        <div class="credit-grid">
+            <div class="credit-card">
+                <div class="credit-icon">
+                    <img src="https://cdn.simpleicons.org/anthropic/D97757" alt="Claude/Anthropic" class="brand-logo">
                 </div>
+                <h3>Claude</h3>
+                <p>Arquitetura, lógica e implementação do sistema. Toda a estrutura dinâmica e funcionalidades do Códice.</p>
+                <a href="https://claude.ai" target="_blank" class="credit-link">Visitar</a>
+            </div>
+            <div class="credit-card">
+                <div class="credit-icon">
+                    <img src="https://cdn.simpleicons.org/googlegemini/8E75B2" alt="Gemini" class="brand-logo">
+                </div>
+                <h3>Gemini</h3>
+                <p>Assistência em conceitos, refinamento de ideias e otimizações do código.</p>
+                <a href="https://gemini.google.com" target="_blank" class="credit-link">Visitar</a>
+            </div>
+        </div>
+    </div>
 
-                <!-- Seção de Tecnologias -->
-                <div class="credit-block">
-                    <h2 class="credit-title">⚙️ Tecnologias Utilizadas</h2>
-                    <div class="credit-grid">
-                        <div class="credit-card">
-                            <div class="credit-icon">🏗️</div>
-                            <h3>HTML5</h3>
-                            <p>Estrutura semântica e marcação do Códice.</p>
-                        </div>
-                        <div class="credit-card">
-                            <div class="credit-icon">🎨</div>
-                            <h3>CSS3</h3>
-                            <p>Estilização visual, animações e design responsivo.</p>
-                        </div>
-                        <div class="credit-card">
-                            <div class="credit-icon">⚡</div>
-                            <h3>JavaScript</h3>
-                            <p>Interatividade, lógica dinâmica e gerenciamento de dados com localStorage.</p>
-                        </div>
-                        <div class="credit-card">
-                            <div class="credit-icon">🎬</div>
-                            <h3>GSAP</h3>
-                            <p>Animações suaves e efeitos visuais avançados.</p>
-                        </div>
-                    </div>
+    <div class="credit-block">
+        <h2 class="credit-title">Tecnologias Utilizadas</h2>
+        <div class="credit-grid">
+            <div class="credit-card">
+                <div class="credit-icon">
+                    <img src="https://cdn.simpleicons.org/html5/E34F26" alt="HTML5" class="brand-logo">
                 </div>
+                <h3>HTML5</h3>
+                <p>Estrutura semântica e marcação do Códice.</p>
+            </div>
+            <div class="credit-card">
+                <div class="credit-icon">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3" class="brand-logo">
+                </div>
+                <h3>CSS3</h3>
+                <p>Estilização visual, animações e design responsivo.</p>
+            </div>
+            <div class="credit-card">
+                <div class="credit-icon">
+                    <img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="JavaScript" class="brand-logo">
+                </div>
+                <h3>JavaScript</h3>
+                <p>Interatividade, lógica dinâmica e gerenciamento de dados com localStorage.</p>
+            </div>
+            <div class="credit-card">
+                <div class="credit-icon">
+                    <img src="https://cdn.simpleicons.org/greensock/88CE02" alt="GSAP" class="brand-logo">
+                </div>
+                <h3>GSAP</h3>
+                <p>Animações suaves e efeitos visuais avançados.</p>
+            </div>
+        </div>
+    </div>
 
-                <!-- Seção de Recursos Visuais -->
-                <div class="credit-block">
-                    <h2 class="credit-title">🎭 Recursos Visuais</h2>
-                    <div class="credit-grid">
-                        <div class="credit-card">
-                            <div class="credit-icon">🎪</div>
-                            <h3>Freepik</h3>
-                            <p>Ícones e elementos gráficos que compõem a identidade visual do Códice.</p>
-                            <a href="https://www.freepik.com" target="_blank" class="credit-link">Visitar</a>
-                        </div>
-                        <div class="credit-card">
-                            <div class="credit-icon">🖼️</div>
-                            <h3>Flaticon</h3>
-                            <p>Biblioteca abrangente de ícones e ilustrações para a interface.</p>
-                            <a href="https://www.flaticon.com" target="_blank" class="credit-link">Visitar</a>
-                        </div>
-                    </div>
+    <div class="credit-block">
+        <h2 class="credit-title">Tipografia</h2>
+        <div class="credit-grid">
+            <div class="credit-card">
+                <div class="credit-icon">
+                    <img src="https://cdn.simpleicons.org/googlefonts/4285F4" alt="Google Fonts" class="brand-logo">
                 </div>
+                <h3>Cinzel</h3>
+                <p style="font-family: 'Cinzel', serif;">Fonte serif elegante para títulos e destaques.</p>
+            </div>
+            <div class="credit-card">
+                <div class="credit-icon">
+                    <img src="https://cdn.simpleicons.org/googlefonts/4285F4" alt="Google Fonts" class="brand-logo">
+                </div>
+                <h3>Spectral</h3>
+                <p style="font-family: 'Spectral', serif;">Fonte serif refinada para corpo de texto.</p>
+            </div>
+        </div>
+    </div>
 
-                <!-- Seção de Tipografia -->
-                <div class="credit-block">
-                    <h2 class="credit-title">✍️ Tipografia</h2>
-                    <div class="credit-grid">
-                        <div class="credit-card">
-                            <div class="credit-icon">👑</div>
-                            <h3>Cinzel</h3>
-                            <p style="font-family: 'Cinzel', serif;">Fonte serif elegante para títulos e destaques.</p>
-                        </div>
-                        <div class="credit-card">
-                            <div class="credit-icon">📖</div>
-                            <h3>Spectral</h3>
-                            <p style="font-family: 'Spectral', serif;">Fonte serif refinada para corpo de texto.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Seção de Agradecimentos -->
-                <div class="credit-block credit-block-final">
-                    <h2 class="credit-title">🙏 Agradecimento Final</h2>
-                    <div class="credit-thanks">
-                        <p>Este Códice das Sombras é resultado da convergência entre criatividade humana e inteligência artificial, combinando tecnologias modernas com uma estética única.</p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(218, 165, 32, 0.8);">Criado com dedicação, disciplina e um toque de magia. ✨</p>
-                    </div>
-                </div>
-            </section>
+    <div class="credit-block credit-block-final">
+        <h2 class="credit-title">Agradecimento Final</h2>
+        <div class="credit-thanks">
+            <p>Este Códice das Sombras é resultado da convergência entre criatividade humana e inteligência artificial, combinando tecnologias modernas com uma estética única.</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(218, 165, 32, 0.8);">Criado com dedicação, disciplina e um toque de magia. ✨</p>
+        </div>
+    </div>
+</section>
         <!-- FOOTER CREDITS -->
         <footer class="codice-footer">
             <div class="footer-seal">

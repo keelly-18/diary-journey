@@ -1,8 +1,26 @@
 /* ============================================================================
-   CARDS - SKILLS, PROJECTS E MAGIC CARDS
+   CARDS.CSS — DIÁRIO GÓTICO
+   Estiliza todos os tipos de cards da interface.
+   Estrutura:
+     [1] Grid de Skills & Projects — layout base compartilhado
+     [2] Cards de Skill & Project — aparência e hover
+     [3] Carta de Tarot (.magic-card-tarot) — corpo e moldura interna
+     [4] Carta de Tarot — cabeçalho (tags e ícone de artefato)
+     [5] Carta de Tarot — centro (ícone animado + título + hora)
+     [6] Carta de Tarot — rodapé (XP + badges de conteúdo)
+     [7] Carta de Tarot — hover (elevação + brilho)
+     [8] Estado Vazio (.empty-state)
+     [9] Cards de Artefato / Projeto (.artifact-card) — Aura Esmeralda
+    [10] Cards de Maestria / Runa (.rune-card) — Azul Arcano
    ============================================================================ */
 
-/* --- Skills & Projects Grid --- */
+
+/* ============================================================================
+   [1] GRID DE SKILLS & PROJECTS — layout base compartilhado
+   Grade responsiva que organiza os cards de habilidades e projetos.
+   Colunas se ajustam automaticamente com mínimo de 280px.
+   ============================================================================ */
+
 .skills-grid,
 .projects-grid {
     display: grid;
@@ -11,6 +29,15 @@
     margin: 1rem 0;
 }
 
+
+/* ============================================================================
+   [2] CARDS DE SKILL & PROJECT — aparência e hover
+   Cards genéricos de habilidade e projeto com fundo de superfície,
+   borda discreta e elevação suave ao passar o mouse.
+
+   .skill-header / .project-header → linha do topo com título e ação
+   ============================================================================ */
+
 .skill-card,
 .project-card {
     background: var(--surface-2);
@@ -18,13 +45,13 @@
     border-radius: 0.5rem;
     padding: 1.5rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .skill-card:hover,
 .project-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     border-color: var(--border-strong);
 }
 
@@ -43,48 +70,65 @@
     font-weight: 600;
 }
 
-/* ==========================================================================
-   A VERDADEIRA CARTA DE TAROT (ESTILO LINE-ART CLÁSSICO)
-   ========================================================================== */
 
-/* 1. O Corpo da Carta */
+/* ============================================================================
+   [3] CARTA DE TAROT (.magic-card-tarot) — corpo e moldura interna
+   O card principal de registro de atividade, com proporção 2:3.2 (tarot).
+
+   - aspect-ratio: 2/3.2       → proporção vertical de carta de tarô
+   - background: #111111        → fundo preto sólido
+   - border dourada             → borda exterior da carta
+   - ::before                   → moldura interna sutil (efeito de carta clássica)
+   - z-index nos filhos         → garante que o conteúdo fique acima da moldura
+   ============================================================================ */
+
 .magic-card-tarot {
-    aspect-ratio: 2 / 3.2; 
+    aspect-ratio: 2 / 3.2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 1.2rem;
-    
-    /* Fundo preto sólido e borda dourada escura */
-    background: #111111 !important; 
-    border: 1px solid rgba(218, 165, 32, 0.6) !important; 
+
+    background: #111111 !important;
+    border: 1px solid rgba(218, 165, 32, 0.6) !important;
     border-radius: 6px;
-    
+
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
     position: relative;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.8) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8) !important;
 }
 
-/* 2. A Moldura Interna (O detalhe crucial!) */
+/* Moldura interna dourada — detalhe visual de carta clássica */
 .magic-card-tarot::before {
     content: '';
     position: absolute;
     top: 6px; left: 6px; right: 6px; bottom: 6px;
-    border: 1px solid rgba(218, 165, 32, 0.3); /* Linha dourada interna fina */
+    border: 1px solid rgba(218, 165, 32, 0.3);
     pointer-events: none;
     border-radius: 3px;
     z-index: 1;
     transition: all 0.4s ease;
 }
 
-/* Elevamos o conteúdo para ficar acima da moldura interna */
-.card-tarot-header, .card-tarot-center, .card-tarot-xp {
+/* Eleva o conteúdo acima da moldura interna (z-index: 1) */
+.card-tarot-header,
+.card-tarot-center,
+.card-tarot-xp {
     position: relative;
     z-index: 2;
 }
 
-/* 3. O Cabeçalho (Tags e Hora) */
+
+/* ============================================================================
+   [4] CARTA DE TAROT — cabeçalho (tags de área e ícone de artefato)
+   Topo da carta: tag de área à esquerda, ícone de artefato à direita.
+
+   .card-tarot-header-right  → coluna direita com ícone alinhado à direita
+   .area-tag                 → tag de área como "gravura vazada" (borda colorida, fundo transparente)
+   .card-tarot-artifact      → ícone decorativo no canto, brilha mais ao hover
+   ============================================================================ */
+
 .card-tarot-header {
     display: flex;
     justify-content: space-between;
@@ -100,16 +144,17 @@
     gap: 0.3rem;
 }
 
-/* Transformar as tags coloridas em "Gravuras Vazadas" */
+/* Tag de área como "gravura vazada" — borda colorida, fundo transparente */
 .magic-card-tarot .area-tag {
-    font-size: 0.5rem; 
-    padding: 0.2rem 0.4rem; 
+    font-size: 0.5rem;
+    padding: 0.2rem 0.4rem;
     letter-spacing: 1px;
-    background: transparent !important; 
-    border: 1px solid currentColor !important; 
+    background: transparent !important;
+    border: 1px solid currentColor !important;
     box-shadow: none !important;
 }
 
+/* Ícone decorativo de artefato — brilha ao hover */
 .card-tarot-artifact {
     font-size: 0.65rem;
     opacity: 0.6;
@@ -123,7 +168,19 @@
     filter: drop-shadow(0 0 10px rgba(218, 165, 32, 0.8));
 }
 
-/* 4. O Centro - Ícone + Título */
+
+/* ============================================================================
+   [5] CARTA DE TAROT — centro (ícone animado + título + hora + emoção)
+   Área central da carta: ícone grande pulsante, título em gótico,
+   hora discreta e label de emoção abaixo do ícone.
+
+   .card-tarot-icon         → emoji grande com animação pulseIcon
+   @keyframes pulseIcon     → pulso suave de brilho e escala (2s loop)
+   h3.card-tarot-title      → título em fonte gótica, dourado, maiúsculas
+   .card-tarot-time         → hora do registro, pequena e dourada
+   .card-tarot-emotion-label → label de emoção, minúscula e discreta
+   ============================================================================ */
+
 .card-tarot-center {
     display: flex;
     flex-direction: column;
@@ -133,32 +190,32 @@
     gap: 0.8rem;
 }
 
-/* O Ícone - Grande Destaque */
+/* Ícone central — pulsa suavemente em brilho e escala */
 .card-tarot-icon {
     font-size: 3.5rem;
     margin: 0;
     display: block;
-    filter: drop-shadow(0 0 12px rgba(218, 165, 32, 0.4)); 
+    filter: drop-shadow(0 0 12px rgba(218, 165, 32, 0.4));
     animation: pulseIcon 2s ease-in-out infinite;
 }
 
 @keyframes pulseIcon {
-    0%, 100% { 
+    0%, 100% {
         filter: drop-shadow(0 0 12px rgba(218, 165, 32, 0.4));
         transform: scale(1);
     }
-    50% { 
+    50% {
         filter: drop-shadow(0 0 20px rgba(218, 165, 32, 0.8));
         transform: scale(1.1);
     }
 }
 
-/* 5. O Título */
+/* Título em fonte gótica, dourado, maiúsculas */
 h3.card-tarot-title {
-    font-family: var(--font-gothic) !important; 
+    font-family: var(--font-gothic) !important;
     text-align: center;
     font-size: 0.65rem !important;
-    color: #daa520 !important; 
+    color: #daa520 !important;
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
     font-weight: bold !important;
@@ -166,7 +223,7 @@ h3.card-tarot-title {
     line-height: 1.2;
 }
 
-/* A Hora */
+/* Hora do registro — discreta */
 .card-tarot-time {
     font-size: 0.5rem;
     color: #daa520;
@@ -175,7 +232,7 @@ h3.card-tarot-title {
     font-weight: bold;
 }
 
-/* 6. Label da Emoção (abaixo do ícone) */
+/* Label de emoção — bem pequena, dourada esmaecida */
 .card-tarot-emotion-label {
     font-family: var(--font-ui);
     font-size: 0.5rem;
@@ -186,7 +243,21 @@ h3.card-tarot-title {
     display: block;
 }
 
-/* 6. Rodapé do Card: XP + Badges lado a lado */
+
+/* ============================================================================
+   [6] CARTA DE TAROT — rodapé (XP + badges de conteúdo)
+   Barra inferior da carta com o valor de XP e ícones indicadores
+   de conteúdo extra (repositório, descrição, propósito).
+
+   .card-tarot-footer   → linha de rodapé com justify space-between
+   .card-tarot-xp       → valor de XP em destaque dourado
+   .card-tarot-badges   → conjunto de ícones badge
+   .card-badge          → ícone individual, brilha ao hover da carta
+   .card-badge-repo     → azul claro (link de repositório)
+   .card-badge-desc     → dourado (anotação/descrição)
+   .card-badge-purpose  → lilás (propósito/intenção)
+   ============================================================================ */
+
 .card-tarot-footer {
     display: flex;
     justify-content: space-between;
@@ -195,7 +266,6 @@ h3.card-tarot-title {
     z-index: 2;
 }
 
-/* 6. O XP no Rodapé */
 .card-tarot-xp {
     font-family: var(--font-gothic) !important;
     font-weight: bold;
@@ -204,13 +274,13 @@ h3.card-tarot-title {
     letter-spacing: 2px;
 }
 
-/* 6b. Badges de conteúdo extra */
 .card-tarot-badges {
     display: flex;
     gap: 0.25rem;
     align-items: center;
 }
 
+/* Badge individual — discreto em repouso, brilha ao hover da carta */
 .card-badge {
     font-size: 1rem;
     opacity: 0.45;
@@ -224,22 +294,36 @@ h3.card-tarot-title {
     filter: drop-shadow(0 0 6px rgba(218, 165, 32, 0.6));
 }
 
-.card-badge-repo    { color: #7dd3fc; } /* azul claro – link externo */
-.card-badge-desc    { color: #daa520; } /* dourado – anotação */
-.card-badge-purpose { color: #c084fc; } /* lilás – propósito/intenção */
+/* Cores dos badges por tipo de conteúdo */
+.card-badge-repo    { color: #7dd3fc; } /* azul claro — link externo */
+.card-badge-desc    { color: #daa520; } /* dourado — anotação */
+.card-badge-purpose { color: #c084fc; } /* lilás — propósito/intenção */
 
-/* 7. Efeito ao Passar o Mouse */
+
+/* ============================================================================
+   [7] CARTA DE TAROT — hover (elevação + brilho da moldura)
+   Ao passar o mouse, a carta sobe, aumenta de escala e a borda fica
+   dourada brilhante. A moldura interna (::before) também acende.
+   ============================================================================ */
+
 .magic-card-tarot:hover {
     transform: translateY(-10px) scale(1.05) !important;
-    border-color: #fce68a !important; /* Dourado brilhante */
+    border-color: #fce68a !important;
     box-shadow: 0 15px 35px rgba(218, 165, 32, 0.15) !important;
 }
 
+/* Moldura interna acende junto com a carta */
 .magic-card-tarot:hover::before {
-    border-color: rgba(252, 230, 138, 0.6); /* Moldura interna acende */
+    border-color: rgba(252, 230, 138, 0.6);
 }
 
-/* --- Estado Vazio --- */
+
+/* ============================================================================
+   [8] ESTADO VAZIO (.empty-state)
+   Placeholder exibido quando não há cards para mostrar numa seção.
+   Borda tracejada discreta com texto itálico centralizado.
+   ============================================================================ */
+
 .empty-state {
     text-align: center;
     padding: 3rem 1.5rem;
@@ -250,8 +334,22 @@ h3.card-tarot-title {
     background-color: rgba(0, 0, 0, 0.02);
 }
 
+
 /* ============================================================================
-   ARTEFATOS (PROJECT CARDS) - A GALERIA DAS SOMBRAS
+   [9] CARDS DE ARTEFATO / PROJETO (.artifact-card) — Aura Esmeralda
+   Cards de projeto com tema verde esmeralda. Têm área de imagem no topo
+   e área de texto + ações no corpo inferior.
+
+   .artifacts-grid          → grade responsiva dos cards de artefato
+   .artifact-card           → card principal, borda verde escura
+   .artifact-image-wrapper  → área da imagem (160px) com fundo radial escuro
+   .artifact-image-wrapper img → imagem com zoom e brilho ao hover
+   .artifact-fallback       → emoji substituto quando não há imagem
+   .artifact-content        → área de texto (título + rodapé)
+   .artifact-title          → título em verde esmeralda, fonte gótica
+   .artifact-footer         → rodapé com link e botão de deletar
+   .artifact-link           → link para o projeto, estilo metálico verde
+   .artifact-delete         → botão de deletar, vermelho discreto
    ============================================================================ */
 
 .artifacts-grid {
@@ -263,7 +361,7 @@ h3.card-tarot-title {
 
 .artifact-card {
     background: #0d0d0d;
-    border: 1px solid rgba(218, 165, 32, 0.2);
+    border: 1px solid rgba(16, 185, 129, 0.2);
     border-radius: 8px;
     overflow: hidden;
     position: relative;
@@ -275,16 +373,16 @@ h3.card-tarot-title {
 
 .artifact-card:hover {
     transform: translateY(-8px);
-    border-color: rgba(218, 165, 32, 0.8);
-    box-shadow: 0 15px 35px rgba(218, 165, 32, 0.15);
+    border-color: rgba(16, 185, 129, 0.8);
+    box-shadow: 0 15px 35px rgba(16, 185, 129, 0.15);
 }
 
-/* Área da Imagem */
+/* Área da imagem com fundo radial escuro */
 .artifact-image-wrapper {
     width: 100%;
     height: 160px;
-    border-bottom: 1px solid rgba(218, 165, 32, 0.2);
-    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+    border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+    background: radial-gradient(circle at center, #11221c 0%, #000 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -292,6 +390,7 @@ h3.card-tarot-title {
     position: relative;
 }
 
+/* Imagem com zoom e aumento de brilho ao hover */
 .artifact-image-wrapper img {
     width: 100%;
     height: 100%;
@@ -305,19 +404,19 @@ h3.card-tarot-title {
     filter: brightness(1) contrast(1.2);
 }
 
+/* Emoji substituto quando não há imagem */
 .artifact-fallback {
     font-size: 3.5rem;
-    opacity: 0.3;
-    filter: drop-shadow(0 0 15px rgba(218, 165, 32, 0.4));
+    opacity: 0.4;
+    filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.5));
     transition: all 0.4s ease;
 }
 
 .artifact-card:hover .artifact-fallback {
-    opacity: 0.8;
+    opacity: 0.9;
     transform: scale(1.1);
 }
 
-/* Área do Texto e Botões */
 .artifact-content {
     padding: 1.5rem;
     display: flex;
@@ -325,9 +424,10 @@ h3.card-tarot-title {
     flex-grow: 1;
 }
 
+/* Título em verde esmeralda, fonte gótica */
 .artifact-title {
     font-family: var(--font-gothic);
-    color: #daa520;
+    color: #10b981;
     font-size: 1.1rem;
     margin: 0 0 1.5rem 0;
     text-transform: uppercase;
@@ -341,11 +441,12 @@ h3.card-tarot-title {
     justify-content: space-between;
     align-items: center;
     padding-top: 1rem;
-    border-top: 1px dashed rgba(218, 165, 32, 0.15);
+    border-top: 1px dashed rgba(16, 185, 129, 0.2);
 }
 
+/* Link para o projeto — estilo metálico verde */
 .artifact-link {
-    color: #c084fc;
+    color: #34d399;
     text-decoration: none;
     font-size: 0.75rem;
     font-family: var(--font-ui);
@@ -356,18 +457,19 @@ h3.card-tarot-title {
     gap: 0.5rem;
     transition: all 0.3s ease;
     padding: 0.4rem 0.8rem;
-    border: 1px solid rgba(192, 132, 252, 0.3);
+    border: 1px solid rgba(52, 211, 153, 0.3);
     border-radius: 4px;
-    background: rgba(192, 132, 252, 0.05);
+    background: rgba(52, 211, 153, 0.05);
 }
 
 .artifact-link:hover {
     color: #fff;
-    background: rgba(192, 132, 252, 0.2);
-    border-color: #c084fc;
-    box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
+    background: rgba(52, 211, 153, 0.2);
+    border-color: #34d399;
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.4);
 }
 
+/* Botão de deletar — vermelho discreto, acende ao hover */
 .artifact-delete {
     background: none;
     border: none;
@@ -382,4 +484,99 @@ h3.card-tarot-title {
 .artifact-delete:hover {
     color: #ff3c3c;
     text-shadow: 0 0 10px rgba(255, 60, 60, 0.6);
+}
+
+
+/* ============================================================================
+   [10] CARDS DE MAESTRIA / RUNA (.rune-card) — Azul Arcano
+   Cards de habilidades/maestrias com tema azul. Têm marca d'água ✧
+   no fundo que brilha levemente ao hover.
+
+   .rune-card         → card principal, gradiente azul escuro
+   .rune-card::before → símbolo ✧ como marca d'água no canto
+   .rune-card:hover   → borda azul acende, marca d'água gira
+   .rune-header       → linha do topo com título e botão de deletar
+   .rune-title        → título em azul arcano, fonte gótica
+   .rune-delete       → botão de deletar, vermelho discreto
+   .rune-body         → corpo do card com ícone e conteúdo
+   ============================================================================ */
+
+.rune-card {
+    background: linear-gradient(145deg, #0f172a, #020617);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    overflow: hidden;
+}
+
+/* Marca d'água ✧ no fundo — quase invisível, gira ao hover */
+.rune-card::before {
+    content: '✧';
+    position: absolute;
+    top: -20px;
+    right: -10px;
+    font-size: 8rem;
+    color: rgba(56, 189, 248, 0.03);
+    pointer-events: none;
+    transition: all 0.5s ease;
+}
+
+.rune-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(56, 189, 248, 0.6);
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15);
+}
+
+/* Marca d'água gira e fica levemente mais visível ao hover */
+.rune-card:hover::before {
+    color: rgba(56, 189, 248, 0.08);
+    transform: rotate(15deg) scale(1.1);
+}
+
+.rune-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 1;
+}
+
+/* Título em azul arcano, fonte gótica */
+.rune-title {
+    font-family: var(--font-gothic);
+    color: #38bdf8;
+    font-size: 1.2rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+/* Botão de deletar — discreto em branco esmaecido, vermelho ao hover */
+.rune-delete {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.rune-delete:hover {
+    color: #ef4444;
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+.rune-body {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 1;
 }

@@ -252,3 +252,30 @@
         transform: translateY(-4px) scale(1.01);
     }
 }
+
+/* ============================================================================
+   LOGOS ORIGINAIS DAS MARCAS (PACTOS)
+   ============================================================================ */
+
+.brand-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
+    /* Pequena sombra escura para separar a cor do fundo */
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8)); 
+}
+
+/* O brilho e a levitação ao focar na carta */
+.credit-card:hover .brand-logo {
+    transform: scale(1.15) translateY(-5px);
+    filter: drop-shadow(0 8px 15px rgba(218, 165, 32, 0.3)); /* Brilho dourado sombrio */
+}
+
+/* Remove a margem extra que a div antiga do ícone tinha */
+.credit-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}

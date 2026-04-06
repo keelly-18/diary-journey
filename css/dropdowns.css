@@ -2,13 +2,19 @@
    DROPDOWNS - SELECTS CUSTOMIZADOS GÓTICOS
    ============================================================================ */
 
-/* --- Gothic Dropdown --- */
+/* ════════════════════════════════════════
+   📂 GOTHIC DROPDOWN
+   Select customizado para escolha de área (Estágio, Faculdade, etc.)
+   ════════════════════════════════════════ */
+
+/* 📦 Container principal do dropdown — ocupa 100% da largura */
 .gothic-dropdown {
     position: relative;
     width: 100%;
     cursor: pointer;
 }
 
+/* 🏷️ O "botão" visível do dropdown — mostra a opção selecionada */
 .dropdown-selected {
     padding: 0.7rem 1rem;
     border-radius: 0.35rem;
@@ -18,6 +24,7 @@
     color: var(--text-accent);
 }
 
+/* ▼ Setinha dourada que indica que o elemento é clicável */
 .dropdown-arrow {
     width: 8px;
     height: 8px;
@@ -28,6 +35,7 @@
     margin-right: 0.5rem;
 }
 
+/* 📋 Lista de opções — oculta por padrão */
 .dropdown-list {
     position: absolute;
     top: 110%;
@@ -40,14 +48,17 @@
     z-index: 100;
 }
 
+/* 📋 Lista aparece quando o dropdown está aberto */
 .gothic-dropdown.open .dropdown-list {
     display: block;
 }
 
+/* ▲ Setinha vira para cima quando o dropdown está aberto */
 .gothic-dropdown.open .dropdown-arrow {
     transform: rotate(-135deg);
 }
 
+/* 🃏 Cada opção da lista */
 .dropdown-list li {
     padding: 0.7rem 1.2rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -55,10 +66,14 @@
     cursor: pointer;
 }
 
-/* --- Option Colors --- */
-.opt-estagio {
-    color: #c084fc;
-}
+/* ════════════════════════════════════════
+   🎨 CORES DAS OPÇÕES POR ÁREA
+   Cada área tem cor própria + animação ao hover
+   (animação cintilarMistico definida em outro arquivo)
+   ════════════════════════════════════════ */
+
+/* 🟣 Cor roxa — Estágio */
+.opt-estagio { color: #c084fc; }
 
 .opt-estagio:hover {
     background: rgba(168, 85, 247, 0.15);
@@ -68,9 +83,8 @@
     animation: cintilarMistico 3s infinite ease-in-out;
 }
 
-.opt-faculdade {
-    color: #7dd3fc;
-}
+/* 🔵 Cor azul claro — Faculdade */
+.opt-faculdade { color: #7dd3fc; }
 
 .opt-faculdade:hover {
     background: rgba(125, 211, 252, 0.15);
@@ -80,9 +94,8 @@
     animation: cintilarMistico 3s infinite ease-in-out;
 }
 
-.opt-estudo {
-    color: #5eead4;
-}
+/* 🟢 Cor verde água — Estudo Extra */
+.opt-estudo { color: #5eead4; }
 
 .opt-estudo:hover {
     background: rgba(94, 234, 212, 0.15);
@@ -92,9 +105,8 @@
     animation: cintilarMistico 3s infinite ease-in-out;
 }
 
-.opt-desafio {
-    color: #fcd34d;
-}
+/* 🟡 Cor amarela — Desafio */
+.opt-desafio { color: #fcd34d; }
 
 .opt-desafio:hover {
     background: rgba(252, 211, 77, 0.15);
@@ -104,9 +116,8 @@
     animation: cintilarMistico 3s infinite ease-in-out;
 }
 
-.opt-conquista {
-    color: #fca5a5;
-}
+/* 🌸 Cor rosa claro — Conquista */
+.opt-conquista { color: #fca5a5; }
 
 .opt-conquista:hover {
     background: rgba(252, 165, 165, 0.15);
@@ -116,13 +127,19 @@
     animation: cintilarMistico 3s infinite ease-in-out;
 }
 
-/* --- Humor Custom Select --- */
+/* ════════════════════════════════════════
+   😶 HUMOR CUSTOM SELECT
+   Select customizado para escolha de emoção/humor do registro
+   ════════════════════════════════════════ */
+
+/* 📦 Container principal do select de humor */
 .humor-custom-select {
     position: relative;
     width: 100%;
     user-select: none;
 }
 
+/* 🏷️ O "botão" visível do select de humor */
 .humor-trigger {
     padding: 0.75rem 1rem;
     display: flex;
@@ -133,6 +150,7 @@
     border: 1px solid var(--border-glow);
 }
 
+/* ▼ Setinha dourada do select de humor */
 .humor-arrow {
     width: 8px;
     height: 8px;
@@ -142,6 +160,7 @@
     transition: transform 0.3s ease;
 }
 
+/* 📋 Lista de opções de humor — oculta por padrão */
 .humor-options-list {
     position: absolute;
     top: calc(100% + 5px);
@@ -153,14 +172,17 @@
     padding: 5px 0;
 }
 
+/* 📋 Lista de humor aparece quando aberta */
 .humor-custom-select.open .humor-options-list {
     display: block;
 }
 
+/* ▲ Setinha vira para cima quando aberta */
 .humor-custom-select.open .humor-arrow {
     transform: rotate(-135deg);
 }
 
+/* 🃏 Cada opção de humor */
 .humor-option {
     padding: 0.8rem 1.2rem;
     color: var(--text-soft);
@@ -168,6 +190,7 @@
     transition: all 0.2s ease;
 }
 
+/* 🖱️ Hover nas opções de humor — desliza e brilha dourado */
 .humor-option:hover {
     background: rgba(218, 165, 32, 0.15);
     color: #fff;
@@ -176,12 +199,18 @@
     animation: cintilarMistico 2s infinite;
 }
 
-/* === TEMA ESPECÍFICO: ECOS SOMBRIOS (DOURADO) === */
+/* ════════════════════════════════════════
+   🪙 TEMA: ECOS SOMBRIOS — #logModal
+   Sobrescritas douradas para os dropdowns dentro do modal de novo registro
+   ════════════════════════════════════════ */
+
+/* 📦 Garante posicionamento correto dentro do modal */
 #logModal .gothic-dropdown {
     position: relative;
     width: 100%;
 }
 
+/* 🏷️ Botão visível com fundo dourado translúcido e brilho */
 #logModal .dropdown-selected {
     padding: 0.7rem 1rem;
     border-radius: 4px;
@@ -194,12 +223,14 @@
     box-shadow: 0 0 15px rgba(218, 165, 32, 0.15);
 }
 
+/* 🖱️ Hover — brilho dourado aumenta */
 #logModal .dropdown-selected:hover {
     background: linear-gradient(135deg, rgba(218, 165, 32, 0.25), rgba(20, 20, 20, 0.98));
     border-color: rgba(218, 165, 32, 0.5);
     box-shadow: 0 0 20px rgba(218, 165, 32, 0.3);
 }
 
+/* 📋 Lista de áreas com fundo preto e borda dourada */
 #logModal .dropdown-list {
     background: #1a1a1a;
     border: 1px solid rgba(218, 165, 32, 0.2);
@@ -207,6 +238,7 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
+/* 📋 Lista de humor com mesmo estilo preto/dourado */
 #logModal .humor-options-list {
     background: #1a1a1a;
     border: 1px solid rgba(218, 165, 32, 0.2);
@@ -214,10 +246,12 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
+/* 🃏 Opções de humor com cor de texto dourada */
 #logModal .humor-option {
     color: var(--text-accent);
 }
 
+/* 🖱️ Hover nas opções de humor — desliza e brilha */
 #logModal .humor-option:hover {
     background: rgba(218, 165, 32, 0.15);
     color: #fff;
@@ -226,12 +260,18 @@
     animation: cintilarMistico 2s infinite;
 }
 
-/* === TEMA ESPECÍFICO: SUSSURRO DO ORÁCULO (ROXO) === */
+/* ════════════════════════════════════════
+   🔮 TEMA: SUSSURRO DO ORÁCULO — #questModal
+   Sobrescritas roxas para os dropdowns dentro do modal de quests
+   ════════════════════════════════════════ */
+
+/* 📦 Garante posicionamento correto dentro do modal */
 #questModal .humor-custom-select {
     position: relative;
     width: 100%;
 }
 
+/* 🏷️ Botão visível com fundo roxo translúcido e brilho */
 #questModal .humor-trigger {
     padding: 0.75rem 1rem;
     display: flex;
@@ -244,17 +284,20 @@
     box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
 }
 
+/* 🖱️ Hover — brilho roxo aumenta */
 #questModal .humor-trigger:hover {
     background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(20, 5, 5, 0.98));
     border-color: rgba(168, 85, 247, 0.6);
     box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
 }
 
+/* ▼ Setinha roxa no tema do oráculo */
 #questModal .humor-arrow {
     border-right-color: rgba(168, 85, 247, 0.7);
     border-bottom-color: rgba(168, 85, 247, 0.7);
 }
 
+/* 📋 Lista de opções com fundo quase preto e borda roxa */
 #questModal .humor-options-list {
     background: #1a0a1a;
     border: 1px solid rgba(168, 85, 247, 0.2);
@@ -262,10 +305,12 @@
     box-shadow: 0 10px 30px rgba(88, 28, 135, 0.3);
 }
 
+/* 🃏 Opções com cor lilás */
 #questModal .humor-option {
     color: rgba(216, 180, 254, 0.8);
 }
 
+/* 🖱️ Hover nas opções — desliza e brilha roxo */
 #questModal .humor-option:hover {
     background: rgba(168, 85, 247, 0.2);
     color: #f0e6ff;
@@ -273,25 +318,29 @@
     text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
 }
 
-/* --- Magia dos Ícones no Dropdown --- */
+/* ════════════════════════════════════════
+   🖼️ ÍCONES DOS DROPDOWNS
+   SVGs dourados ao lado do texto de cada opção
+   ════════════════════════════════════════ */
+
+/* 🖼️ Ícone SVG da opção — transmutado para tom dourado via filter
+   → width/height = tamanho do ícone */
 .dropdown-icon {
-    width: 22px;         /* Tamanho pequeno e elegante para a lista */
+    width: 22px;
     height: 22px;
-    margin-right: 10px;  /* Espaço entre o ícone e o texto */
+    margin-right: 10px;
     flex-shrink: 0;
-    
-    /* Transmuta o SVG preto para o tom dourado do Códice */
     filter: invert(72%) sepia(85%) saturate(450%) hue-rotate(5deg) brightness(95%) contrast(95%);
     transition: all 0.2s ease;
 }
 
-/* Garante que a lista fique alinhada com as imagens */
+/* 📋 Garante que cada item da lista fique alinhado com o ícone */
 .dropdown-list li {
     display: flex;
     align-items: center;
 }
 
-/* Faz o ícone brilhar quando você passa o mouse por cima da opção */
+/* 🖱️ Ícone brilha e aumenta ao passar o mouse na opção */
 .dropdown-list li:hover .dropdown-icon {
     filter: invert(72%) sepia(85%) saturate(800%) hue-rotate(5deg) brightness(110%) contrast(95%) drop-shadow(0 0 5px rgba(218, 165, 32, 0.6));
     transform: scale(1.1);

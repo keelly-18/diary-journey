@@ -1,31 +1,54 @@
 /* ============================================================================
-   BUTTONS - TODOS OS TIPOS DE BOTÕES
+   BUTTONS.CSS — DIÁRIO GÓTICO
+   Estiliza todos os tipos de botões da interface.
+   Estrutura:
+     [1] Botão Primário (.btn-primary) — "Selar Registro"
+     [2] Botão Secundário (.btn-secondary) — "Conectar GitHub" e similares
+     [3] Botões internos do Modal de Log (#logModal)
+     [4] Botão de Quest (.quest-btn / .modal-quest-btn)
+     [5] Badge de Quest Concluída
+     [6] Botão de Deletar (.delete-log-btn)
+     [7] Botão de Deletar Grande (dentro do #detailsModal)
+     [8] Botão de Quest do Modal (.modal-quest-btn — versão expandida)
+     [9] Sobrescritas de Tema: Ecos Sombrios (#logModal)
+    [10] Sobrescritas de Tema: Sussurro do Oráculo (#questModal)
    ============================================================================ */
 
-/* --- Primary Button (Selar novo registro)--- */
+
+/* ============================================================================
+   [1] BOTÃO PRIMÁRIO — "Selar Registro"
+   Botão principal de ação dourado, centralizado e com animação de pulso.
+   
+   - align-self + width: fit-content → impede que esticue em containers flex
+   - text-shadow fixo                → efeito neon/mágico subtil nas letras
+   - animation: pulseb2s             → pulso contínuo definido em outro arquivo
+   - .seal-text                      → span interno que herda o estilo do botão
+   - .seal-text:hover                → letras brilham mais ao passar o mouse
+   ============================================================================ */
+
 .btn-primary {
     background: linear-gradient(135deg, rgba(218, 165, 32, .15), rgba(15, 15, 15, .9));
     border: 1px solid rgba(218, 165, 32, 0.4);
     color: var(--gold);
-    
-    /* BLOQUEIO DE ESTICAMENTO */
+
+    /* Impede que o botão esticue em containers flex */
     align-self: center;
     width: fit-content !important;
-    
-    /* PROPORÇÕES */
+
+    /* Proporções */
     padding: 0.8rem 2rem;
     margin: 1.5rem auto;
-    
-    /* TIPOGRAFIA */
+
+    /* Tipografia */
     font-size: 0.85rem !important;
     white-space: nowrap;
     font-weight: 600;
     letter-spacing: 2px;
-    
-    /* NOVO: Brilho fixo nas letras (efeito neon/mágico subtil) */
-    text-shadow: 0 0 5px rgba(218, 165, 32, 0.5); 
-    
-    /* ESTÉTICA */
+
+    /* Brilho fixo nas letras — efeito neon/mágico subtil */
+    text-shadow: 0 0 5px rgba(218, 165, 32, 0.5);
+
+    /* Estética */
     border-radius: .3rem;
     cursor: pointer;
     text-transform: uppercase;
@@ -36,14 +59,15 @@
     animation: pulseb2s infinite alternate;
 }
 
-/* Garante que o texto interno mantenha o estilo e brilhe ao passar o rato */
+/* Span interno que herda o estilo de fonte do botão */
 .btn-primary .seal-text {
     font-size: inherit;
     letter-spacing: inherit;
 }
 
+/* Letras brilham mais ao passar o mouse */
 .btn-primary:hover .seal-text {
-    text-shadow: 0 0 12px rgba(218, 165, 32, 0.9); /* As letras brilham mais ao passar o rato */
+    text-shadow: 0 0 12px rgba(218, 165, 32, 0.9);
 }
 
 .btn-primary:hover {
@@ -53,7 +77,12 @@
     transform: translateY(-1px);
 }
 
-/* --- Secondary Button (Conectar GitHub)--- */
+
+/* ============================================================================
+   [2] BOTÃO SECUNDÁRIO — "Conectar GitHub" e ações de menor prioridade
+   Versão mais discreta do botão, com fundo translúcido dourado fraco.
+   ============================================================================ */
+
 .btn-secondary {
     background: rgba(218, 165, 32, .1);
     border: 1.5px solid var(--border);
@@ -71,6 +100,20 @@
     border-color: var(--border-strong);
 }
 
+
+/* ============================================================================
+   [3] BOTÕES INTERNOS DO MODAL DE LOG (#logModal)
+   Sobrescritas específicas para os botões de navegação entre steps do modal
+   (Próximo, Voltar, Submeter). Removem o estilo padrão para que possam
+   receber estilo próprio via JS ou outro CSS.
+
+   #btnStep1Next      → botão "Próximo" no step 1 (reseta tudo)
+   #btnStep2Back      → botão "Voltar" no step 2 (transparente)
+   #btnStep2Back:hover → leve elevação ao passar o mouse
+   #submitLogBtnFinal → botão final de submissão (posicionado manualmente)
+   ============================================================================ */
+
+/* Botão "Próximo" — sem estilo visual, recebe estilo externo */
 #logModal #btnStep1Next {
     background: none !important;
     border: none !important;
@@ -80,9 +123,10 @@
     font-size: 0.8rem !important;
 }
 
+/* Botão "Voltar" — totalmente transparente */
 #logModal #btnStep2Back {
     background: transparent !important;
-    border: none !important;    
+    border: none !important;
     font-size: 0.8rem !important;
 }
 
@@ -90,6 +134,7 @@
     transform: translateY(-2px) scale(1.01);
 }
 
+/* Botão final de submissão — sem estilo, posicionado manualmente */
 #logModal #submitLogBtnFinal {
     background: none !important;
     border: none !important;
@@ -105,7 +150,17 @@
     transform: translateY(-2px) scale(1.01);
 }
 
-/* --- Quest Button --- */
+
+/* ============================================================================
+   [4] BOTÃO DE QUEST — roxo pulsante
+   Usado tanto inline na página (.quest-btn) quanto dentro de modais
+   (.modal-quest-btn — estilos base compartilhados aqui).
+
+   - animation: pulseQuest → pulso roxo contínuo (definido em outro arquivo)
+   - :hover                → para a animação e acende um brilho roxo forte
+   - .quest-btn.completed  → some quando a quest é concluída
+   ============================================================================ */
+
 .quest-btn,
 .modal-quest-btn {
     background: linear-gradient(135deg, rgba(88, 28, 135, 0.4), rgba(59, 7, 100, 0.4));
@@ -120,21 +175,33 @@
     animation: pulseQuest 2s infinite alternate;
 }
 
+/* Para a animação de pulso e acende brilho roxo forte */
 .quest-btn:hover,
 .modal-quest-btn:hover {
     background: linear-gradient(135deg, rgba(88, 28, 135, 0.8), rgba(59, 7, 100, 0.8));
     color: #fff;
     transform: translateY(-2px) scale(1.02);
-    border-color: #e9d5ff; /* Borda acende */
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.9), inset 0 0 10px rgba(168, 85, 247, 0.5); /* Super brilho roxo fixo */
-    animation: none; /* Para de pulsar, mas mantém o brilho aceso */
+    border-color: #e9d5ff;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.9), inset 0 0 10px rgba(168, 85, 247, 0.5);
+    animation: none;
 }
 
+/* Some quando a quest já foi concluída */
 .quest-btn.completed {
     display: none;
 }
 
-/* --- Quest Badge --- */
+
+/* ============================================================================
+   [5] BADGE DE QUEST CONCLUÍDA
+   Substituição visual do botão de quest quando ela é completada.
+   Aparece com a classe .show (adicionada via JS).
+
+   .quest-done-badge      → oculto por padrão
+   .quest-done-badge.show → exibido após conclusão
+   .quest-completed-text  → texto da quest riscado e esmaecido após concluir
+   ============================================================================ */
+
 .quest-done-badge {
     display: none;
     font-size: var(--fs-xs);
@@ -148,17 +215,25 @@
     text-transform: uppercase;
 }
 
+/* Exibido via JS ao concluir a quest */
 .quest-done-badge.show {
     display: inline-block;
 }
 
+/* Texto da quest riscado e esmaecido */
 .quest-completed-text {
     text-decoration: line-through;
     opacity: 0.4;
     transition: all 0.5s ease;
 }
 
-/* --- Delete Button --- */
+
+/* ============================================================================
+   [6] BOTÃO DE DELETAR — pequeno, ícone de lixeira
+   Botão compacto (24×24px) que aparece em cada registro da lista.
+   Hover: dourado vibrante com brilho e escala aumentada.
+   ============================================================================ */
+
 .delete-log-btn {
     background: rgba(218, 165, 32, 0.1);
     border: 1px solid rgba(218, 165, 32, 0.3);
@@ -182,7 +257,13 @@
     box-shadow: 0 0 10px rgba(218, 165, 32, 0.4);
 }
 
-/* Delete Button Large (Modal) */
+
+/* ============================================================================
+   [7] BOTÃO DE DELETAR GRANDE — dentro do #detailsModal
+   Versão expandida do botão de deletar, usada no modal de detalhes do log.
+   Tem tamanho automático, padding generoso e alinhamento à direita.
+   ============================================================================ */
+
 #detailsModal .delete-log-btn {
     width: auto;
     height: auto;
@@ -204,25 +285,25 @@
     transform: translateY(-2px) scale(1.01);
 }
 
-/* --- Modal Quest Button --- */
+
+/* ============================================================================
+   [8] BOTÃO DE QUEST DO MODAL — versão expandida
+   Variante do .quest-btn para uso dentro de modais: largura total, padding
+   maior, tipografia maiúscula com espaçamento, e transição com bounce (cubic-bezier).
+   Os estilos base de cor/borda são herdados da seção [4].
+   ============================================================================ */
+
 .modal-quest-btn {
-    background: linear-gradient(135deg, rgba(88, 28, 135, 0.4), rgba(59, 7, 100, 0.4));
-    border: 1px solid rgba(168, 85, 247, 0.5);
-    color: #d8b4fe;
-    border-radius: 0.3rem;
     padding: 0.8rem;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     font-size: var(--fs-base);
     font-family: var(--font-ui);
-    font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    animation: pulseQuest 2s infinite alternate;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* transição com efeito de bounce */
 }
 
 .modal-quest-btn:hover {
@@ -234,7 +315,14 @@
     animation: none;
 }
 
-/* === TEMA ESPECÍFICO: ECOS SOMBRIOS (DOURADO) === */
+
+/* ============================================================================
+   [9] SOBRESCRITA DE TEMA: ECOS SOMBRIOS — #logModal
+   Ajusta .btn-primary e .btn-secondary dentro do modal de novo registro
+   para tamanhos menores e intensidades douradas específicas desse contexto.
+   ============================================================================ */
+
+/* Versão compacta do botão primário dentro do modal de log */
 #logModal .btn-primary {
     background: linear-gradient(135deg, rgba(218, 165, 32, .3), rgba(15, 15, 15, .8)) !important;
     border: 1px solid rgba(218, 165, 32, .52) !important;
@@ -250,6 +338,7 @@
     box-shadow: 0 0 28px rgba(218, 165, 32, .55) !important;
 }
 
+/* Botão secundário com borda dourada mais fraca dentro do modal */
 #logModal .btn-secondary {
     border: 1.5px solid rgba(218, 165, 32, 0.4) !important;
     background: rgba(218, 165, 32, .05) !important;
@@ -259,7 +348,13 @@
     background: rgba(218, 165, 32, .15) !important;
 }
 
-/* === TEMA ESPECÍFICO: SUSSURRO DO ORÁCULO (ROXO) === */
+
+/* ============================================================================
+   [10] SOBRESCRITA DE TEMA: SUSSURRO DO ORÁCULO — #questModal
+   Garante que o botão de quest dentro do modal de missões use exatamente
+   as cores roxas corretas, sem herdar variações de outros contextos.
+   ============================================================================ */
+
 #questModal .modal-quest-btn {
     background: linear-gradient(135deg, rgba(88, 28, 135, 0.4), rgba(59, 7, 100, 0.4)) !important;
     border: 1px solid rgba(168, 85, 247, 0.5) !important;

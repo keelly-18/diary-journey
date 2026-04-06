@@ -982,7 +982,7 @@ function renderProjectsDashboard() {
     if (projects.length === 0) {
         projectsGrid.innerHTML = `
             <div class="empty-state" style="grid-column: 1/-1; padding: 4rem 2rem;">
-                <p>🔮 Nenhum artefato materializado ainda.</p>
+                <p>Nenhum artefato materializado ainda.</p>
                 <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.6;">
                     A sua galeria das sombras aguarda as suas criações. Registe um acima.
                 </p>
@@ -1009,7 +1009,7 @@ function renderProjectsDashboard() {
                 <div class="artifact-footer">
                     ${project.link 
                         ? `<a href="${project.link}" target="_blank" class="artifact-link">
-                             <span style="font-size: 1rem; filter: hue-rotate(280deg);">🔗</span> Visitar
+                             <span style="font-size: 1rem;">🔗</span> Visitar
                            </a>` 
                         : '<span style="color: rgba(218,165,32,0.3); font-size: 0.75rem; font-style: italic; text-transform: uppercase;">Selo Oculto</span>'
                     }
@@ -1027,7 +1027,7 @@ function deleteProjectById(projectId) {
     if (project && confirm(`Deseja expurgar o artefato "${project.title}"?`)) {
         dailyLog.deleteProject(projectId);
         renderProjectsDashboard();
-        showToast(`🔮 ${project.title} foi removido do registro.`);
+        showToast(`${project.title} foi removido do registro.`);
     }
 }
 function setupSkillsDashboard() {
@@ -1095,46 +1095,55 @@ function renderSkillsDashboard() {
 
     if (skills.length === 0) {
         skillsGrid.innerHTML = `
-            <div class="skills-empty">
-                <p>🔮 Nenhuma habilidade registrada ainda.</p>
-                <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.8;">
-                    Adicione suas tecnologias e habilidades para compilar seu arsenal mágico.
+            <div class="empty-state" style="grid-column: 1/-1; padding: 4rem 2rem;">
+                <p>O seu Tomo de Conhecimento está em branco.</p>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.6;">
+                    Adicione as suas primeiras disciplinas mágicas acima.
                 </p>
             </div>
         `;
+        skillsGrid.className = '';
         return;
     }
+
+    skillsGrid.className = 'skills-grid';
 
     skillsGrid.innerHTML = skills.map(skill => {
         const points = skill.points || 0;
         const percentage = Math.min((points / 100) * 100, 100);
-        const level = Math.ceil(percentage / 20); // 0-5 níveis
+        const level = Math.ceil(percentage / 20) || 1; // 1 a 5 níveis
+
+        // Numeração romana para dar um ar ancestral
+        const romanLevels = ['I', 'II', 'III', 'IV', 'V', 'MÁX'];
+        const levelDisplay = romanLevels[Math.min(level - 1, 5)];
 
         return `
-            <div class="skill-card">
-                <div class="skill-header">
-                    <span class="skill-name">${skill.title}</span>
-                    <button class="skill-btn-delete" onclick="deleteSkillById(${skill.id})" title="Remover">×</button>
+            <div class="rune-card">
+                <div class="rune-header">
+                    <h3 class="rune-title">${skill.title}</h3>
+                    <button class="rune-delete" onclick="deleteSkillById(${skill.id})" title="Expurgar Runa">×</button>
                 </div>
 
-                <div class="skill-level-display">${level > 0 ? '⭐'.repeat(level) : '🔮'}</div>
+                <div class="rune-body">
+                    <div class="rune-circle">
+                        <span class="rune-level-text">GRAU</span>
+                        <span class="rune-level-number">${levelDisplay}</span>
+                    </div>
 
-                <div class="skill-progress-container">
-                    <div class="skill-progress-bar">
-                        <div class="skill-progress-fill" style="width: ${percentage}%">
-                            ${percentage > 15 ? `<span>${points.toFixed(2)}</span>` : ''}
+                    <div class="rune-stats">
+                        <div class="rune-progress-label">
+                            <span>Essência</span>
+                            <span>${points.toFixed(2)} / 100</span>
+                        </div>
+                        <div class="rune-progress-bar">
+                            <div class="rune-progress-fill" style="width: ${percentage}%"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="skill-info">
-                    <span class="skill-points">${points.toFixed(2)}/100</span>
-                    <span class="skill-max">Nível ${level}</span>
-                </div>
-
-                <div class="skill-actions">
-                    <button class="skill-btn" onclick="incrementSkillPoints(${skill.id})">
-                        ⬆️ +0.01
+                <div class="rune-footer">
+                    <button class="rune-btn-infuse" onclick="incrementSkillPoints(${skill.id})">
+                        <span class="infuse-icon">✨</span> Infundir Poder (+0.01)
                     </button>
                 </div>
             </div>
@@ -1161,6 +1170,6 @@ function deleteSkillById(skillId) {
     if (skill && confirm(`Deseja expurgar a habilidade "${skill.title}" do arsenal?`)) {
         dailyLog.deleteSkill(skillId);
         renderSkillsDashboard();
-        showToast(`🔮 ${skill.title} foi expurgada do arsenal.`);
+        showToast(`${skill.title} foi expurgada do arsenal.`);
     }
 }

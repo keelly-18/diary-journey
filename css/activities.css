@@ -1,5 +1,24 @@
 /* ============================================================================
-   ACTIVITIES - TIMELINE E REGISTROS (ECOS SOMBRIOS)
+   ACTIVITIES.CSS — DIÁRIO GÓTICO
+   Estiliza a seção de atividades/registros da página principal.
+   Estrutura:
+     [1] Seção & Cabeçalho Principal
+     [2] Filtros de Área
+     [3] Grid de Cards
+     [4] Cabeçalho de Grupo da Timeline
+     [5] Itens de Log (textos e layout interno)
+     [6] Cores por Tema/Área
+     [7] Painel de Logs (container principal)
+     [8] Lista de Logs com Scroll personalizado
+     [9] Cards de Log individuais dentro do Painel
+   ============================================================================ */
+
+
+/* ============================================================================
+   [1] SEÇÃO & CABEÇALHO PRINCIPAL
+   Container externo da seção de atividades e o título "Ecos Sombrios".
+   O h2 usa ::before e ::after para criar as linhas decorativas douradas
+   que aparecem dos lados do título.
    ============================================================================ */
 
 .activities-section {
@@ -24,6 +43,7 @@
     text-transform: uppercase;
 }
 
+/* Linhas decorativas douradas flanqueando o título */
 .activities-header h2::before,
 .activities-header h2::after {
     content: '';
@@ -31,6 +51,15 @@
     height: 1px;
     background: rgba(218, 165, 32, 0.4);
 }
+
+
+/* ============================================================================
+   [2] FILTROS DE ÁREA
+   Barra de botões que filtra os registros por área (Estágio, Estudo, etc.).
+   .filter-btn        → estado padrão (transparente)
+   .filter-btn:hover  → destaque ao passar o mouse
+   .filter-btn.active → botão do filtro atualmente selecionado
+   ============================================================================ */
 
 .activities-filters {
     display: flex;
@@ -63,9 +92,16 @@
 .filter-btn.active {
     background: rgba(218, 165, 32, 0.15);
     border-color: var(--gold);
-    color: var(--text-accent); 
+    color: var(--text-accent);
     box-shadow: 0 0 15px rgba(218, 165, 32, 0.3);
 }
+
+
+/* ============================================================================
+   [3] GRID DE CARDS
+   Layout responsivo em grade para os cards de atividade.
+   Colunas se ajustam automaticamente com mínimo de 165px cada.
+   ============================================================================ */
 
 .activities-cards-grid {
     display: grid;
@@ -73,7 +109,13 @@
     gap: 1.5rem;
 }
 
-/* --- Timeline Group Header --- */
+
+/* ============================================================================
+   [4] CABEÇALHO DE GRUPO DA TIMELINE
+   Título separador que agrupa os registros por data/período na timeline.
+   O ::before adiciona o símbolo decorativo ✧ antes do texto.
+   ============================================================================ */
+
 .timeline-group-header {
     font-family: var(--font-gothic);
     color: #daa520;
@@ -88,13 +130,26 @@
     gap: 10px;
 }
 
+/* Símbolo ✧ decorativo antes do título de grupo */
 .timeline-group-header::before {
     content: '✧';
     font-size: 0.9rem;
     color: var(--gold);
 }
 
-/* --- Log/Activity Item --- */
+
+/* ============================================================================
+   [5] ITENS DE LOG — TEXTOS E LAYOUT INTERNO
+   Classes usadas dentro de cada registro de atividade individual.
+
+   .log-separator      → separador visual entre informações (ex: " · ")
+   .log-content-left   → coluna esquerda do log (título + meta)
+   .log-content-right  → coluna direita (XP + hora)
+   .log-time-whisper   → texto de hora em estilo discreto/itálico
+   .log-time-highlight → hora em destaque com cor roxa e brilho
+   .log-xp-highlight   → valor de XP ganho em destaque dourado
+   ============================================================================ */
+
 .log-separator {
     color: var(--text-soft);
     margin: 0 0.2rem;
@@ -122,6 +177,7 @@
     font-style: italic;
 }
 
+/* Hora em destaque — cor padrão roxa (sobrescrita pelas classes de tema abaixo) */
 .log-time-highlight {
     color: #c084fc;
     font-weight: 600;
@@ -137,7 +193,20 @@
     text-shadow: 0 0 5px rgba(218, 165, 32, 0.4);
 }
 
-/* --- Area-based Time Color --- */
+
+/* ============================================================================
+   [6] CORES POR TEMA / ÁREA
+   Cada área de estudo tem uma cor diferente aplicada ao .log-time-highlight.
+   A classe de tema é colocada no container do log (ex: .log-tema-estagio)
+   e afeta a cor da hora exibida dentro dele.
+
+   Estágio   → roxo   (#c084fc)
+   Faculdade → azul   (#7dd3fc)
+   Estudo    → verde  (#5eead4)
+   Desafio   → amarelo (#fcd34d)
+   Conquista → rosa   (#fca5a5)
+   ============================================================================ */
+
 .log-tema-estagio .log-time-highlight {
     color: #c084fc;
     text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
@@ -163,7 +232,19 @@
     text-shadow: 0 0 8px rgba(252, 165, 165, 0.4);
 }
 
-/* --- Panel de Logs --- */
+
+/* ============================================================================
+   [7] PAINEL DE LOGS — CONTAINER PRINCIPAL
+   O painel escuro que envolve toda a lista de registros do dia.
+   O ::before cria uma borda interna sutil (efeito de moldura dupla).
+
+   .painel-de-logs        → container principal (fundo escuro #111)
+   .painel-de-logs::before → borda interna decorativa quase invisível
+   .painel-header         → cabeçalho do painel com linha inferior
+   .painel-header h3      → título do painel, mesmo estilo do h2 da seção
+   .painel-header h3::before/after → linhas decorativas dos lados do título
+   ============================================================================ */
+
 .painel-de-logs {
     background: #111111 !important;
     border: 1px solid rgba(218, 165, 32, 0.2) !important;
@@ -175,6 +256,7 @@
     width: 100%;
 }
 
+/* Borda interna sutil — efeito de moldura dupla */
 .painel-de-logs::before {
     content: '';
     position: absolute;
@@ -202,6 +284,7 @@
     text-transform: uppercase;
 }
 
+/* Linhas decorativas douradas flanqueando o título do painel */
 .painel-header h3::before,
 .painel-header h3::after {
     content: '';
@@ -209,6 +292,18 @@
     height: 1px;
     background: rgba(218, 165, 32, 0.4);
 }
+
+
+/* ============================================================================
+   [8] LISTA DE LOGS — SCROLL PERSONALIZADO
+   A lista de registros dentro do painel, com altura máxima e scroll dourado.
+
+   .logs-list                              → lista com scroll vertical
+   .logs-list::-webkit-scrollbar           → largura da barra de scroll
+   .logs-list::-webkit-scrollbar-track     → trilho (fundo) da barra
+   .logs-list::-webkit-scrollbar-thumb     → o "thumb" (parte arrastável)
+   .logs-list::-webkit-scrollbar-thumb:hover → thumb ao passar o mouse
+   ============================================================================ */
 
 .painel-de-logs .logs-list {
     max-height: 200px;
@@ -222,7 +317,7 @@
 }
 
 .painel-de-logs .logs-list::-webkit-scrollbar {
-    width: 10px
+    width: 10px;
 }
 
 .painel-de-logs .logs-list::-webkit-scrollbar-track {
@@ -239,12 +334,24 @@
     background: rgba(218, 165, 32, 0.5);
 }
 
+
+/* ============================================================================
+   [9] CARDS DE LOG INDIVIDUAIS — DENTRO DO PAINEL
+   Cada entrada de registro dentro da lista do painel.
+
+   .log-item        → card do registro (fundo escuro, borda esquerda colorida)
+   .log-item:hover  → efeito de elevação ao passar o mouse
+   .log-title       → título do registro em branco
+   .log-meta        → linha de metadados (hora, área) com borda superior sutil
+   .log-time        → hora do registro em monospace, discreta
+   ============================================================================ */
+
 .painel-de-logs .log-item {
     background: rgba(18, 15, 10, 0.9);
     padding: 0.6rem 0.8rem;
     border-radius: 6px;
     border: 1px solid rgba(218, 165, 32, 0.15);
-    border-left: 3px solid;
+    border-left: 3px solid; /* cor da borda esquerda definida via JS por área */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -257,6 +364,7 @@
     width: calc(100% - 12px);
 }
 
+/* Elevação suave ao passar o mouse */
 .painel-de-logs .log-item:hover {
     transform: translateY(-2px);
     background: rgba(25, 20, 12, 0.95);
@@ -265,14 +373,14 @@
 }
 
 .painel-de-logs .log-title {
-    font-size: 0.8rem; 
+    font-size: 0.8rem;
     white-space: normal;
     line-height: 1.4;
     color: #fff;
     font-weight: 500;
     letter-spacing: 0.3px;
     display: flex;
-    align-items: flex-end; /* Mantém o alinhamento correto com os outros itens */
+    align-items: flex-end;
 }
 
 .painel-de-logs .log-meta {
